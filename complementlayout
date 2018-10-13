@@ -13,6 +13,8 @@ xkb_symbols "basic" {
     key <AD01>  { [               q,               Q,              at,           slash  ]   };
     key <AD02>	{ [               w,               W,        question,        backslash ]   };
     
+     key <AD12> { [            plus,        asterisk,      dead_tilde,      dead_macron ]   };
+    
     
     key <AD07>	{ [               u,               U,            Home,            Home  ]   }; 
     key <AD08>	{ [               i,               I,             End,             End  ]   }; 
