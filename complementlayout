@@ -19,6 +19,7 @@ xkb_symbols "basic" {
     key <AD07>	{ [               u,               U,            Home,            Home  ]   }; 
     key <AD08>	{ [               i,               I,             End,             End  ]   }; 
 
+    key <AC02>	{ [               s,               S,          ssharp,           ssharp ]   };
     key <AC03>	{ [               d,               D,          Delete,           Delete ]   };
     key <AB05>	{ [               b,               B,       BackSpace,        BackSpace ]   };
 
