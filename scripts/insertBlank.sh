@@ -28,4 +28,4 @@ else
 
 fi
 
-#https://stackoverflow.com/a/26647623/8237186
+# adapted from @ucyo from https://stackoverflow.com/a/26647623/8237186
