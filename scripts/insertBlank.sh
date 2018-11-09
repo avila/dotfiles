@@ -1,4 +1,8 @@
 #!/bin/bash
+# requiries:
+# - pdftk
+# - pdfinfo
+# - ps2pdf
 
 if [ $# -ne 1 ]
 then
@@ -6,17 +10,22 @@ then
   exit $E_BADARGS
 else
   NUM=$(pdftk $1 dump_data | grep 'NumberOfPages' | awk '{split($0,a,": "); print a[2]}')
+  PAGEW=$(pdfinfo $1 | grep 'Page size' | awk '{split($0,a," "); print a[3]}')
+  PAGEH=$(pdfinfo $1 | grep 'Page size' | awk '{split($0,a," "); print a[5]}')
+
   COMMSTR=''
 
   for i in $(seq 1 $NUM);
-  do
-    COMMSTR="$COMMSTR A$i B1 " 
-  done
-  $(echo "" | ps2pdf -sPAPERSIZE=a4 - pageblanche.pdf)
-  $(pdftk A=$1 B=pageblanche.pdf cat $COMMSTR output 'mod_'$1)
-  (pdfnup 'mod_'$1 --nup 2x1 --landscape --outfile 'print_'$1)
-  $(rm pageblanche.pdf && rm 'mod_'$1)
+	  do
+    	COMMSTR="$COMMSTR A$i B1 " 
+	  done
+	  
+  $(echo "" | ps2pdf -dDEVICEWIDTHPOINTS=$PAGEW -dDEVICEHEIGHTPOINTS=$PAGEH - /tmp/pageblanche.pdf)
+  $(pdftk A=$1 B=/tmp/pageblanche.pdf cat $COMMSTR output 'mod_'$1)
+  #$(pdfnup 'mod_'$1 --nup 2x2 --landscape --outfile 'print_'$1)
+  $(rm /tmp/pageblanche.pdf)
+  #$(rm 'mod_'$1)
 
 fi
 
-#for f in *.pdf; do ./bashscript.sh $f; done 2> /dev/null
+#https://stackoverflow.com/a/26647623/8237186
