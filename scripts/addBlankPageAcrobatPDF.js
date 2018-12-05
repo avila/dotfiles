@@ -1,3 +1,14 @@
+/*
+Usage:
+  1. copy the whole Main() function
+  2. CTRL+J in Adobe Acrobat Pro to open JS-debugger (first time: accept the dialog)
+  3. paste the Main() function into the console of the JavaScript-Debugger
+  4. CTRL+A to select the whole function in JS-Debugger
+  5. CTRL+ENTER to submit the code. 
+  6. That is it. Print the file or save, or... whatever
+*/
+
+
 Main(); 
 function Main() {
   
