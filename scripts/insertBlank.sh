@@ -6,7 +6,7 @@
 
 if [ $# -ne 1 ]
 then
-  echo "Usage example: ./bashscript src.pdf"
+  echo "Usage example: ./insertBlank src.pdf"
   exit $E_BADARGS
 else
   NUM=$(pdftk $1 dump_data | grep 'NumberOfPages' | awk '{split($0,a,": "); print a[2]}')
