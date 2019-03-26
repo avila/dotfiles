@@ -1,1 +1,0 @@
-/home/avila/.bashrc
