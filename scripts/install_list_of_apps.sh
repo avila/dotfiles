@@ -11,7 +11,7 @@ do
     	case $yn in
    	    	Yes ) apt install $app; break;; # maybe needs sudo apt, or run 
 	        No ) break;;                    # script as sudo
-    	    QUIT ) exit;;
+    	        QUIT ) exit;;
     	esac
 	done
 done
