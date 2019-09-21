@@ -1154,3 +1154,4 @@ partial alphanumeric_keys
     key <AD10> { [ p, P, ediaeresis, Ediaeresis ] };
 
 };
+
