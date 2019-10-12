@@ -117,22 +117,41 @@ partial modifier_keys xkb_symbols "xy_caps_overlay" {
         actions[Group1] = [ SetControls(controls=Overlay1), LockControls(controls=Overlay1) ]
     };
     // Movement Section
-    key <AC06> { overlay1 = <LEFT> };
-    key <AC07> { overlay1 = <DOWN> };
-    key <AC08> { overlay1 = <UP>   };
-    key <AC09> { overlay1 = <RGHT> };
+    key <LatH> { overlay1 = <LEFT> };
+    key <LatJ> { overlay1 = <DOWN> };
+    key <LatK> { overlay1 = <UP>   };
+    key <LatL> { overlay1 = <RGHT> };
 
-    key <TAB> { overlay1 = <TAB> };
+    key <TAB>  { overlay1 = <TAB>  };
+    
     // Editing Section
-    key <AB01> { overlay1 = <UNDO> };
-    key <AB02> { overlay1 = <CUT>  };
-    key <AB03> { overlay1 = <COPY> };
-    key <AB04> { overlay1 = <PAST> };
+    key <LatZ> { overlay1 = <UNDO> };
+        key <UNDO> { [ VoidSymbol ],
+            actions[Group1]=[ RedirectKey(key=<LatY>,modifiers=Control)] 
+        };
+    key <LatY> { overlay1 = <REDO> };
+        key <REDO> { [ VoidSymbol ],
+            actions[Group1]=[ RedirectKey(key=<LatZ>,modifiers=Control)] 
+        };
+    key <LatX> { overlay1 = <CUT>  };
+    key <LatC> { overlay1 = <COPY> };
+    key <LatV> { overlay1 = <PAST> };
 
-    key <AD01> { overlay1 = <ESC>  };
-    key <AD07> { overlay1 = <HOME>  }; 
-    key <AD08> { overlay1 = <END>  }; 
-};
+    key <LatQ> { overlay1 = <ESC>  };
+    key <LatU> { overlay1 = <HOME> }; 
+    key <LatI> { overlay1 = <END>  }; 
+
+    key <Latp> { overlay1 = <PGUP> }; 
+    key <AC10> { overlay1 = <PGDN> };
+
+    key <LatF> { overlay1 = <DELE> }; 
+        key <DELE> { [ Delete, BackSpace ],
+            actions[Group1]=[ NoAction(), RedirectKey(key=<BKSP>,clearmods=Shift)] 
+        };
+        key <BKSP> { [ BackSpace, Delete ],
+            actions[Group1]=[ NoAction(), RedirectKey(key=<DELE>,clearmods=Shift)] 
+        };
+};  
 
 partial modifier_keys xkb_symbols "xy_alt_3rd_level" {         
 
