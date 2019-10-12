@@ -38,7 +38,7 @@ xkb_symbols "basic" {
     key <LSGT>	{ [     less,     greater,                  bar, dead_belowmacron ] };
 
 
-    include "complementlayout"    
+    //include "complementlayout"
 
     include "kpdl(comma)"
 
@@ -136,9 +136,9 @@ xkb_symbols "T3" {
     key <AD12> { [            plus,        asterisk,      asciitilde,        NoSymbol,      dead_tilde,     dead_macron,              at,        NoSymbol ] };
 
     key.type[Group1] = "ONE_LEVEL";
-    key <CAPS>  { [ Caps_Lock	]	};
+    key <CAPS>  { [ ISO_Level5_Lock	]	}; 
     key.type[Group1] = "EIGHT_LEVEL_ALPHABETIC";
-    key <AC01> { [               a,               A,   lessthanequal,        NoSymbol,              ae,              AE,           U0329,        NoSymbol ] };
+    key <AC01> { [               a,               A,   lessthanequal,        NoSymbol,              Up,              AE,           U0329,        NoSymbol ] };
     key <AC02> { [               s,               S, greaterthanequal,       NoSymbol,          ssharp,         section,   dead_belowdot,        NoSymbol ] };
     key <AC03> { [               d,               D,           U2300,        NoSymbol,             eth,             ETH, dead_belowbreve,        NoSymbol ] };
     key <AC04> { [               f,               F,         minutes,        NoSymbol,           U0294,     ordfeminine, dead_belowcircumflex,   NoSymbol ] };
@@ -325,7 +325,7 @@ xkb_symbols "neo_base" {
     // Legend
     // ===============
     // Levels in Xkbmap jargon to be found here in the definitions. 
-    // These are the levels used, and Xorg's translations:
+    // These are the levels used, and Xorgs translations:
     // --------------------------------------------------------------
     // Xorg:       Level1                   Level2                   Level3                   Level4                   Level5                   Level6                   Level7                   Level8                   
     // Neo:        Ebene1                   Ebene2                   Ebene3                   Ebene5                   Ebene4                   Pseudo-Ebene             Ebene6                   ???                      
@@ -1154,4 +1154,5 @@ partial alphanumeric_keys
     key <AD10> { [ p, P, ediaeresis, Ediaeresis ] };
 
 };
+
 

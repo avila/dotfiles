@@ -1,0 +1,15 @@
+Keyboard Layout:
+    I seem to have 3 options
+    1) option 8 level:
+        - figure out how to change to higher levels permanently
+        - figure out how to change to higher levels quickly 
+        - figure out alt tab problem in higher levels
+    2) multiple groups in one:
+        - figure out how to change 
+    3) multiple groups in multiple variants:
+
+    - check xkb_symbols "rctrl_switch" { canada
+    - check what mode_switch does
+
+ALT tab xkb:
+type= "SHIFT+ALT",:

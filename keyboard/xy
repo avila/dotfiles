@@ -1,0 +1,169 @@
+default partial alphanumeric_keys xkb_symbols "basic" {
+
+    name[Group1]= "German XY Vim-Like (3 Levels)";
+        
+    include "de(basic)"
+
+    key <AE08>	{ [               8,       parenleft,      bracketleft,       braceleft ]   };
+    key <AE09>	{ [               9,      parenright,     bracketright,      braceright ]   };
+
+    key <TLDE> {  [ dead_circumflex,      dead_caron,            grave,         notsign ]   };
+    key <AD01>  { [               q,               Q,               at,           slash  ]   };
+    key <AD02>	{ [               w,               W,         question,        backslash ]   };
+    
+    key <AD12> { [            plus,        asterisk,       dead_tilde,      dead_macron ]   };
+    
+    
+    key <AD07>	{ [               u,               U,            Home,            Home  ]   }; 
+    key <AD08>	{ [               i,               I,             End,             End  ]   }; 
+    
+    key <AD10>	{ [               p,               P,         Page_Up,         Prior  ]   }; 
+    key <AC10>	{ [      odiaeresis,      Odiaeresis,       Page_Down,       Page_Down  ]   }; 
+
+    key <AC01>	{ [               a,               A,           U0251,            U0251 ]   };
+    key <AC02>	{ [               s,               S,          ssharp,           ssharp ]   };
+    key <AC03>	{ [               d,               D,           U03B4,            U0394 ]   };
+    key <AC04>	{ [               f,               F,          Delete,           Delete ]   };
+    key <AC05>	{ [               g,               G,           U0263,            U0393 ]   };
+
+    key <AC06>  { type="THREE_LEVEL", [           h,               H,            Left ]     }; 
+    key <AC07>  { type="THREE_LEVEL", [           j,               J,            Down ]     }; 
+    key <AC08>  { type="THREE_LEVEL", [           k,               K,              Up ]     }; 
+    key <AC09>  { type="THREE_LEVEL", [           l,               L,           Right ]     }; 
+
+
+    key <LSGT>	{ [     	   less,     	 greater,             bar,        slash     ]   };
+    key <AB03>	{ [               c,               C,        ccedilla,        Ccedilla 	]   };
+    key <AB04>	{ [               v,               V,           U2193,        U2191 	]   };
+    key <AB05>	{ [               b,               B,           U03B2,        U03B2   	]   };
+    key <AB06>	{ [               n,               N,           U03B7,        U03B2   	]   };
+
+    key <SPCE>  { [           space,           space,        space,         Return   ]   };
+
+    include "shift(both_capslock)"
+    include "level3(caps_switch)"
+    include "level3(ralt_switch)"
+    include "level3(modifier_mapping)"
+};
+
+default partial alphanumeric_keys xkb_symbols "xy5levels" {
+
+    name[Group1]= "German XY Vim-Like (5 Levels)";
+
+    include "de(basic)"
+    include "complementlayout"
+    
+    key.type[Group1] = "EIGHT_LEVEL_SEMIALPHABETIC";
+        key <AC06>  { [ h,       H,      Left,   Left,
+            Left, Left,     Left,   Left  ] }; 
+        key <AC07>  { [  j,  J,  Down, Down, 
+                    Down, Down, Down, Down      ]     }; 
+        key <AC08>  { [  k,  K,  Up, Up, 
+                    Up, Up, Up, Up  ]     }; 
+        key <AC09>  { [  l,  L,  Right, Right, 
+                    Right, Right, Right, Right      ]     }; 
+
+    # key <LFSH> { [ Shift_L, Shift_L, ISO_Level5_Lock, ISO_Level5_Lock,
+    #             ISO_Level5_Lock, ISO_Level5_Lock, ISO_Level5_Lock, ISO_Level5_Lock ] };
+    # key <RTSH> { [ Shift_R, Shift_R, ISO_Level5_Lock, ISO_Level5_Lock,
+    #             ISO_Level5_Lock, ISO_Level5_Lock, ISO_Level5_Lock, ISO_Level5_Lock ] };
+        
+    key <AE01> { [   1,   2,  3,  4 ,  5,  6,  7, 8 ] };
+
+    key <LALT> {
+        type[Group1] = "ONE_LEVEL",
+        symbols[Group1] = [ ALT_L ]
+    };
+
+    key.type[Group1] = "EIGHT_LEVEL_SEMIALPHABETIC";                                               //5
+    key <AD01> { [               q,               Q,              at,        NoSymbol ,           Escape,           Escape,           Escape,        Escape ] };
+    key <AD07>	{ [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,     Home,            Home  ]   }; 
+    key <AD08>	{ [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      End,             End  ]   }; 
+
+    key <AB01> { [               y,               Y, NoSymbol, NoSymbol, 
+                NoSymbol    , NoSymbol       , NoSymbol       , NoSymbol       ] };
+    key <AB02> { [               x,               X, NoSymbol, NoSymbol, 
+                XF86Cut,  XF86Cut , NoSymbol,  NoSymbol ] };
+    key <AB03> { [               c,               C, NoSymbol, NoSymbol, 
+                XF86Cut,  XF86Copy , NoSymbol,  NoSymbol ] };
+    key <AB04> { [               v,               V, NoSymbol, NoSymbol, 
+                XF86Cut,  XF86Paste , NoSymbol,  NoSymbol ] };
+
+
+    key <AD10>	{ [ NoSymbol, NoSymbol, NoSymbol, NoSymbol, Page_Up, Page_Up, NoSymbol, NoSymbol ]   }; 
+    key <AC10>	{ [ NoSymbol, NoSymbol, NoSymbol, NoSymbol, Page_Down, Page_Down, NoSymbol, NoSymbol ]   }; 
+
+    key <AC04>	{ [ NoSymbol, NoSymbol, NoSymbol, NoSymbol, Delete, Delete, NoSymbol, NoSymbol ]   }; 
+
+
+
+    // includes built in
+        include "level5(modifier_mapping)"
+        include "level3(modifier_mapping)"
+        include "shift(both_capslock)"
+
+    // includes custom
+        include "xy(xy_alt_3rd_level)"
+    // choose either caps_overlay or caps_5h_lock 
+        include "xy(xy_caps_5th_level_lock)"
+        include "xy(xy_caps_overlay)" 
+};
+
+partial modifier_keys xkb_symbols "xy_caps_overlay" {
+
+    replace key <CAPS> {
+        type[Group1] = "TWO_LEVEL",
+        symbols[Group1] = [ Overlay1_Enable, Overlay1_Enable ],
+        actions[Group1] = [ SetControls(controls=Overlay1), LockControls(controls=Overlay1) ]
+    };
+    // Movement Section
+    key <AC06> { overlay1 = <LEFT> };
+    key <AC07> { overlay1 = <DOWN> };
+    key <AC08> { overlay1 = <UP>   };
+    key <AC09> { overlay1 = <RGHT> };
+
+    key <TAB> { overlay1 = <TAB> };
+    // Editing Section
+    key <AB01> { overlay1 = <UNDO> };
+    key <AB02> { overlay1 = <CUT>  };
+    key <AB03> { overlay1 = <COPY> };
+    key <AB04> { overlay1 = <PAST> };
+
+    key <AD01> { overlay1 = <ESC>  };
+    key <AD07> { overlay1 = <HOME>  }; 
+    key <AD08> { overlay1 = <END>  }; 
+};
+
+partial modifier_keys xkb_symbols "xy_alt_3rd_level" {         
+
+    // RALT as 3rd Level modifier
+    key <RALT> {
+        type[Group1] ="ONE_LEVEL",
+        symbols[Group1] = [ VoidSymbol ],
+        actions[Group1] = [ SetMods(modifiers=levelThree, clearLocks) ]
+    };
+    modifier_map Mod5 { <RALT> };
+};
+
+partial modifier_keys xkb_symbols "xy_alt_3rd_level_lock" {         
+
+    // RALT as 3rd Level modifier
+    key <RALT> {
+        type[Group1] ="TWO_LEVEL",
+        symbols[Group1] = [ VoidSymbol, VoidSymbol ],
+        actions[Group1] = [ SetMods(modifiers=levelThree, clearLocks), LockMods(modifiers=levelThree, clearLocks=true) ]
+    };
+    modifier_map Mod5 { <RALT> };
+};
+
+partial modifier_keys xkb_symbols "xy_caps_5th_level_lock" {         
+    // CAPS as 5th level mod
+    // CAPS with VoidSymbol does not sent symbols that are otherwise picked 
+    // by some apps (eg google sheets)
+    key <CAPS> { 
+        type[Group1] = "THREE_LEVEL",
+        symbols[Group1] = [ VoidSymbol, VoidSymbol, VoidSymbol ],
+        actions[Group1] = [ SetMods(modifiers=levelFive, clearLocks), LockMods(modifiers=levelFive, clearLocks), SetMods(modifiers=levelFive, clearLocks) ]
+    };
+    //modifier_map Mod5 { <CAPS> };
+};

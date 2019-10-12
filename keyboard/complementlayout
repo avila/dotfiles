@@ -3,9 +3,8 @@
 default  partial alphanumeric_keys
 xkb_symbols "basic" {
 
-    key  <TAB> { type="EIGHT_LEVEL", [ Tab,    ISO_Left_Tab,       Multi_key, ISO_Level5_Lock, ISO_Level5_Lock,          NoSymbol,        NoSymbol, ISO_Level5_Lock ] };
+    name[Group1]= "complement layout";
 
-    key <AE03>	{ [               3,      numbersign,      bracketleft,       braceleft ]   };
     key <AE08>	{ [               8,       parenleft,      bracketleft,       braceleft ]   };
     key <AE09>	{ [               9,      parenright,     bracketright,      braceright ]   };
 
@@ -28,12 +27,10 @@ xkb_symbols "basic" {
     key <AC04>	{ [               f,               F,          Delete,           Delete ]   };
     key <AC05>	{ [               g,               G,           U0263,            U0393 ]   };
 
-
-    key <AC06>  { type="THREE_LEVEL", [               h,               H,            Left ]     }; 
-    key <AC07>  { type="THREE_LEVEL", [               j,               J,            Down ]     }; 
-    key <AC08>  { type="THREE_LEVEL", [               k,               K,              Up ]     }; 
-    key <AC09>  { type="THREE_LEVEL", [               l,               L,           Right ]     }; 
-
+    key <AC06>  { type="THREE_LEVEL", [           h,               H,            Left ]     }; 
+    key <AC07>  { type="THREE_LEVEL", [           j,               J,            Down ]     }; 
+    key <AC08>  { type="THREE_LEVEL", [           k,               K,              Up ]     }; 
+    key <AC09>  { type="THREE_LEVEL", [           l,               L,           Right ]     }; 
 
     key <LSGT>	{ [     	   less,     	 greater,             bar,        slash     ]   };
     key <AB03>	{ [               c,               C,        ccedilla,        Ccedilla 	]   };
@@ -41,14 +38,5 @@ xkb_symbols "basic" {
     key <AB05>	{ [               b,               B,           U03B2,        U03B2   	]   };
     key <AB06>	{ [               n,               N,           U03B7,        U03B2   	]   };
 
-
-    key <SPCE>  { [           space,           space,        Return,         KP_Enter   ]   };
-
-
-
-    include "level3(caps_switch)"
-    include "level3(ralt_switch)"
+    key <SPCE>  { [           space,           space,        space,         Return   ]   };
 };
-
-
-
