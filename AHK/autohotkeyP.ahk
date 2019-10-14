@@ -1,86 +1,58 @@
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-#Warn  ; Enable warnings to assist with detecting common errors.
-
+;#Warn  ; Enable warnings to assist with detecting common errors.
+#SingleInstance force
 SetTitleMatchMode 2
 
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-
-; /############################## INFO ############################################################
-
-; locaction C:\Users\avila\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
-; # win
-; ! Alt
-; ^ Control 
-; + Shift 
-; & an ampersand may be used between any two keys or mouse buttons to combine them into a
-; /############################## remaps ##########################################################
-
+; --- Scroll Shift and Lock Behaviour ------------------------------------------
 SetCapsLockState, AlwaysOff
-Capslock & h::Send {Blind}{Left DownTemp}
-Capslock & h up::Send {Blind}{Left Up}
-
-Capslock & j::Send {Blind}{Down DownTemp}
-Capslock & j up::Send {Blind}{Down Up}
-
-Capslock & k::Send {Blind}{Up DownTemp}
-Capslock & k up::Send {Blind}{Up Up}
-
-Capslock & l::Send {Blind}{Right DownTemp}
-Capslock & l up::Send {Blind}{Right Up}
-
-Capslock & Up::Send,{Blind}{UP 13}{DOWN 3}
-Capslock & Down::Send,{Blind}{DOWN 13}{UP 3}
-CapsLock & Left::SendInput,{Blind}{Left 7}
-CapsLock & Right::SendInput,{Blind}{Right 7}
-
-Capslock & q::SendInput,{Esc DownTemp}
-Capslock & q up::Send {Esc up}
-;SetCapsLockState, off
-
-Capslock & sc016::SendInput,{Blind}{Home}          ; u = Home
-Capslock & sc017::SendInput,{Blind}{End}            ; i = End
-
-Capslock & d::SendInput,{Del}
-Capslock & b::SendInput,{Backspace}
-
-~RAlt & h::Send {Blind}{RAlt Up}{Left DownTemp}          ; AltGr + h = Left
-~RAlt & j::Send {Blind}{RAlt Up}{DOWN DownTemp}          ; AltGr + j = DOWN
-~RAlt & k::Send {Blind}{RAlt Up}{UP DownTemp}			; AltGr + k = UP
-~RAlt & l::Send {Blind}{RAlt Up}{RIGHT DownTemp}         ; AltGr + l = RIGHT
-
-~RAlt & sc019:: ; 
-	if WinActive("Do-file Editor") {			; statas do file editor.
-		SendInput, ^+{TAB}
-	} else {
-	Send {Blind}{RAlt Up}{PgUp DownTemp}      ; AltGr + P = PgUP
++CapsLock::
+	SetScrollLockState % !GetKeyState("ScrollLock", "T")
+	while(getKeyState("ScrollLock","T")){
+		ToolTip, .`nScrollLock`nis`nOn`n .
+		;TODO: make nicer tooltip
+		sleep, 3
 	}
+	ToolTip
 return
 
-~RAlt & sc027::
-	if WinActive("Do-file Editor") {			; statas do file editor.
-		SendInput, ^{TAB}
-	} else {
-	Send {Blind}{RAlt Up}{PgDn DownTemp}      ; AltGr + Ö = PgDn
-	}
-return
+#If (GetKeyState("CapsLock", "P") | GetKeyState("ScrollLock", "T"))
+	*h::SendInput,{Blind}{Left}
+	*j::SendInput,{Blind}{Down}
+	*k::SendInput,{Blind}{Up}
+	*l::SendInput,{Blind}{Right}
+	*d::SendInput,{Blind}{Del}
+	*b::SendInput,{Blind}{Backspace}
+	*u::SendInput,{Blind}{Home}
+	*i::SendInput,{Blind}{End}
+	*p::SendInput,{Blind}{PgUp}
+	*ö::SendInput,{Blind}{PgDn}
+#If
 
-~RAlt & sc016::Send {Blind}{RAlt Up}{Home DownTemp}      ; AltGr + 
-~RAlt & sc017::Send {Blind}{RAlt Up}{End DownTemp}       ; AltGr +
+#if GetKeyState("ScrollLock", "T")
+	q::SetScrollLockState, Off
+	Esc::SetScrollLockState, Off
+	CapsLock::
+		SetScrollLockState, Off
+		ScrollShiftState := 1
+	return
+	CapsLock Up::
+		ScrollShiftState := 0
+	return
+	<+CapsLock::SetScrollLockState % !GetKeyState("ScrollLock", "T")
+#If
 
-<^>!f::SendInput,{Del}                  ; altgr d = delete
-<^>!b::SendInput,{Backspace}            ; altgr b = backspace 
-
-~RAlt & sc029::Send,{``}
+; --- Third layer (AltGr) ------------------------------------------------------
 
 <^>!s::SendInput,{ß}                    ; altGr+s           -> "ß"
 <^>!+s::SendInput,{§}                   ; alt+shift+s       -> "§"
 <^>!w::SendInput,{?}                    ; alt+W             -> "?" 
-<^>!+w::SendInput,{/}                    ; alt+W             -> "?" 
-<^>!+q::SendInput, {\}
-<^>!-::SendInput, {/}
-<^>!+-::SendInput, {\}
+<^>!+w::SendInput,{\}                   ; alt+W             -> "?" 
+<^>!+q::SendInput,{/}
+<^>!-::SendInput,{/}
+<^>!+-::SendInput,{\}
 <^>!c::SendInput,{ç}                    ; alt+c             -> "ç" 
 <^>!+c::SendInput,{Ç}                   ; alt+C             -> "ç" 
 <^>!a::SendInput,{ã}                    ; alt+C             -> "ç" 
@@ -88,9 +60,9 @@ return
 <^>!+8::SendInput,{{}                   ; curly brackets
 <^>!+9::SendInput,{}}                   ; curly brackets
 
-; ############################## /remaps ##########################################################
 
-; /############################## Right Click #######################################################
+
+; /--- Right Click -------------------------------------------------------------
 #IfWinActive
 RButton & s::
 	Sleep, 30
@@ -141,14 +113,14 @@ RButton & l::
 return 
 RButton::Send, {RButton} ; Important -> keey rbutton working
 
-; /############################## Right Click #######################################################
+; --- Right Click --------------------------------------------------------------
 
 
-; /############################## To Delete #######################################################
+; --- To Delete ----------------------------------------------------------------
 
-; /############################## /To Delete ######################################################
+; --- /To Delete ---------------------------------------------------------------
 ;
-; /############################## WORD ############################################################
+; --- WORD ---------------------------------------------------------------------
 
  #IfWinActive ahk_exe WINWORD.EXE
 ; home end on word
@@ -157,8 +129,8 @@ XBUTTON2::SendInput,{End}
 
 #IfWinActive
 
-; /############################# /WORD ###########################################################
-; /############################# Excel ###########################################################
+; /------------------------------------## /WORD --------------------------------
+; /------------------------------------## Excel --------------------------------
 
 #IfWinActive, ahk_class  XLMAIN
 	; horizon scroll in Excel 
@@ -178,8 +150,8 @@ Loop, 45 {
 Return
 #IfWinActive
 
-; /############################# /Excel ###########################################################
-; /############################## Firefox #########################################################
+; /------------------------------------## /Excel -------------------------------
+; --- Firefox ------------------------------------------------------------------
 #IfWinActive
 $^+Y::
    SendInput,{Sleep 10}^c{Sleep 10}             ; sends cntrl x
@@ -218,9 +190,9 @@ return
 
 
 
-; ------------------------------- /Firefox -------------------------------
+; --- /Firefox -----------------------------------------------------------------
 ;
-; ------------------------------- Stata -------------------------------
+; --- Stata --------------------------------------------------------------------
 
 StataWindow := "ahk_class Afx:0000000140000000:0:0000000000000000:0000000000000000:0000000003970829" 
 
@@ -265,15 +237,11 @@ return
 #IfWinActive
 
 
-; ------------------------------- /Stata -------------------------------
-; 
-; ------------------------------- Sublime -------------------------------
+; ------ Sublime ------
 
 
-; ------------------------------- /Sublime -------------------------------
-; ------------------------------- /Sublime -------------------------------
-; 
-; ------------------------------- && -------------------------------
+ 
+; ------ && ------
 
 ~Numpad0 & NumpadDot::SendInput,.{left}{backspace}{right}       ; "0" + "," = "."
 NumpadDot::                       
@@ -296,9 +264,7 @@ return
 ;~( & )::SendInput,{Backspace}(){Left}
 ;~2 & 3::SendInput, {BackSpace}""{Left}
 
-; /############################## /&& #############################################################
-
-; /############################## CapsLock ########################################################
+; --- CapsLock -----------------------------------------------------------------
 
 Capslock & Space::SendInput,{ENTER}
 
@@ -323,17 +289,14 @@ return
 ; saved =                                     
 ; return  
 
-; /############################## /Caps LOck ######################################################
-;
-;
-; /############################## Explorer ########################################################
+; --- Explorer -----------------------------------------------------------------
+
 #IfWinActive, ahk_exe Explorer.EXE
 	^l::f4
 #IfWinActive
-; /############################## /Explorer ######################################################
-;
-;
-; /############################## auto completes ##################################################
+
+
+; --- auto completes -----------------------------------------------------------
 
 
 :?0C*:ddd:: ; 13.09.2019 (18:30)
@@ -352,8 +315,8 @@ return
 ::sgd::Sehr geehrte Damen und Herren,
 ::fr::Für weitere Fragen stehe ich gerne zu Ihrer Verfügung.
 
-; ######################### mathe / equations
-; ---------------------------------------- END OF CAPS LOCK ---------------------
+; --- mathe / equations --------------------------------------------------------
+; --- END OF CAPS LOCK ---------------------------------------------------------
 
 ; zeichen
 ::qqtimes::·
@@ -441,8 +404,8 @@ return
 ; ::eh::é
 ; ::ah::à
 
-; /############################## auto completes ##################################################
-;; /############################## notepad++ #######################################################
+; --- auto completes -----------------------------------------------------------
+;; --- notepad++ ---------------------------------------------------------------
 #IfWinActive ahk_class Notepad++
 q & w::SendInput,{Delete}
 w & q::SendInput,{Backspace}  
@@ -459,9 +422,9 @@ printscreen::
 		Run, snippingtool
 return
 
-; /############################## /notepad ++  ####################################################
+; --- /notepad ++  -------------------------------------------------------------
 ;
-; /############################## Autohotkey ######################################################
+; --- Autohotkey ---------------------------------------------------------------
  
 
 #IfWinActive ahk_class Notepad++
@@ -477,7 +440,7 @@ f6::
 return 
 
 $^s::
-if WinActive("autohotkeyP.ahk")
+if WinActive("AutoHotkeyU64.ahk")
 	{
 		SendInput,^s
 		Sleep,33
@@ -548,7 +511,7 @@ MenuAction:
 Return
 
 
-; ############################## Windows management  ##################################################
+; ---------------------------------------- Windows management  -----------------
 
 #SPACE::  Winset, Alwaysontop, , A
 
@@ -592,15 +555,10 @@ Loop, % List
 WinActivate, % "ahk_id " WinID
 return
 
-; /############################## Windows management  ##################################################
+; --- Windows management  ------------------------------------------------------
 
+; --- Move window with Lwin and Lbutton ---
 
-
-; Move window with Lwin and Lbutton 
-; Note: You can optionally release the ALT key after pressing down the mouse button
-; rather than holding it down the whole time.
-
-Alt & LButton::
 Lwin & LButton::
     CoordMode, Mouse  ; Switch to screen/absolute coordinates.
     MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
