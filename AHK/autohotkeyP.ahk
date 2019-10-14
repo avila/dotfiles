@@ -9,39 +9,39 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; --- Scroll Shift and Lock Behaviour ------------------------------------------
 SetCapsLockState, AlwaysOff
 +CapsLock::
-	SetScrollLockState % !GetKeyState("ScrollLock", "T")
-	while(getKeyState("ScrollLock","T")){
-		ToolTip, .`nScrollLock`nis`nOn`n .
-		;TODO: make nicer tooltip
-		sleep, 3
-	}
-	ToolTip
+    SetScrollLockState % !GetKeyState("ScrollLock", "T")
+    while(getKeyState("ScrollLock","T")){
+        ToolTip, .`nScrollLock`nis`nOn`n .
+        ;TODO: make nicer tooltip
+        sleep, 3
+    }
+    ToolTip
 return
 
 #If (GetKeyState("CapsLock", "P") | GetKeyState("ScrollLock", "T"))
-	*h::SendInput,{Blind}{Left}
-	*j::SendInput,{Blind}{Down}
-	*k::SendInput,{Blind}{Up}
-	*l::SendInput,{Blind}{Right}
-	*d::SendInput,{Blind}{Del}
-	*b::SendInput,{Blind}{Backspace}
-	*u::SendInput,{Blind}{Home}
-	*i::SendInput,{Blind}{End}
-	*p::SendInput,{Blind}{PgUp}
-	*ö::SendInput,{Blind}{PgDn}
+    *h::SendInput,{Blind}{Left}
+    *j::SendInput,{Blind}{Down}
+    *k::SendInput,{Blind}{Up}
+    *l::SendInput,{Blind}{Right}
+    *d::SendInput,{Blind}{Del}
+    *b::SendInput,{Blind}{Backspace}
+    *u::SendInput,{Blind}{Home}
+    *i::SendInput,{Blind}{End}
+    *p::SendInput,{Blind}{PgUp}
+    *ö::SendInput,{Blind}{PgDn}
 #If
 
 #if GetKeyState("ScrollLock", "T")
-	q::SetScrollLockState, Off
-	Esc::SetScrollLockState, Off
-	CapsLock::
-		SetScrollLockState, Off
-		ScrollShiftState := 1
-	return
-	CapsLock Up::
-		ScrollShiftState := 0
-	return
-	<+CapsLock::SetScrollLockState % !GetKeyState("ScrollLock", "T")
+    q::SetScrollLockState, Off
+    Esc::SetScrollLockState, Off
+    CapsLock::
+        SetScrollLockState, Off
+        ScrollShiftState := 1
+    return
+    CapsLock Up::
+        ScrollShiftState := 0
+    return
+    <+CapsLock::SetScrollLockState % !GetKeyState("ScrollLock", "T")
 #If
 
 ; --- Third layer (AltGr) ------------------------------------------------------
@@ -65,51 +65,51 @@ return
 ; /--- Right Click -------------------------------------------------------------
 #IfWinActive
 RButton & s::
-	Sleep, 30
-	SendInput, ^c{Sleep 10}                      ; sends cntrl x
-	WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
-	Sleep, 30
-	ClipWait, 1                                  ; wait for clipboard to be populated   Sleep 30
-	Send, ^t{sleep 30}^l{Sleep 30}
-	SendInput, sp %clipboard%                    ; do the magic
-	SendInput, {Enter}
+    Sleep, 30
+    SendInput, ^c{Sleep 10}                      ; sends cntrl x
+    WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
+    Sleep, 30
+    ClipWait, 1                                  ; wait for clipboard to be populated   Sleep 30
+    Send, ^t{sleep 30}^l{Sleep 30}
+    SendInput, sp %clipboard%                    ; do the magic
+    SendInput, {Enter}
 return
 
 RButton & w::
-	Sleep, 30
-	SendInput, ^c{Sleep 10}              		; sends cntrl x
-	Sleep, 30
-	ClipWait                                     ; wait for clipboard to be populated
-	WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
-	Sleep 30
-	Send, ^t{sleep 30}^l{Sleep 30}
-	SendInput, wikipedia %clipboard%				; do the magic
-	SendInput, {Enter}
+    Sleep, 30
+    SendInput, ^c{Sleep 10}              		; sends cntrl x
+    Sleep, 30
+    ClipWait                                     ; wait for clipboard to be populated
+    WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
+    Sleep 30
+    Send, ^t{sleep 30}^l{Sleep 30}
+    SendInput, wikipedia %clipboard%				; do the magic
+    SendInput, {Enter}
 return
-	
+    
 #If !WinActive("ahk_class AcrobatSDIWindow")
 RButton & g::
-	Sleep, 30
-	SendInput, ^c{Sleep 30}                      ; sends cntrl x
-	ClipWait                                     ; wait for clipboard to be populated
-	Sleep, 30
-	WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
-	Sleep 30
-	Send, ^t{sleep 30}
-	SendInput, gt {Space} %clipboard%            ; do the magic
-	SendInput, {Enter}
+    Sleep, 30
+    SendInput, ^c{Sleep 30}                      ; sends cntrl x
+    ClipWait                                     ; wait for clipboard to be populated
+    Sleep, 30
+    WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
+    Sleep 30
+    Send, ^t{sleep 30}
+    SendInput, gt {Space} %clipboard%            ; do the magic
+    SendInput, {Enter}
 return 
 
 RButton & l::
-	Sleep, 30
-	SendInput, ^c{Sleep 30}                      ; sends cntrl x
-	ClipWait                                     ; wait for clipboard to be populated
-	Sleep, 30
-	WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
-	Sleep 30
-	Send, ^t{sleep 30}
-	SendInput, leo {Space} %clipboard%           ; do the magic
-	SendInput, {Enter}
+    Sleep, 30
+    SendInput, ^c{Sleep 30}                      ; sends cntrl x
+    ClipWait                                     ; wait for clipboard to be populated
+    Sleep, 30
+    WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
+    Sleep 30
+    Send, ^t{sleep 30}
+    SendInput, leo {Space} %clipboard%           ; do the magic
+    SendInput, {Enter}
 return 
 RButton::Send, {RButton} ; Important -> keey rbutton working
 
@@ -133,41 +133,36 @@ XBUTTON2::SendInput,{End}
 ; /------------------------------------## Excel --------------------------------
 
 #IfWinActive, ahk_class  XLMAIN
-	; horizon scroll in Excel 
-	LShift & WheelUp::ComObjActive("Excel.Application").ActiveWindow.SmallScroll(0,0,0,3)
-	LShift & WheelDown::ComObjActive("Excel.Application").ActiveWindow.SmallScroll(0,0,3)
+    ; Horizon Scroll In Excel With Shift + Scroll Wheel
+    LShift & WheelUp::ComObjActive("Excel.Application").ActiveWindow.SmallScroll(0,0,0,3)
+    LShift & WheelDown::ComObjActive("Excel.Application").ActiveWindow.SmallScroll(0,0,3)
 
-	; cycle through worksheet
-	LAlt & WheelUp::Send, ^{PgUp}
-	LAlt & WheelDown::Send, ^{PgDn}
+    ; Cycle Through Worksheet with Left ALt + Scroll Wheel
+    LAlt & WheelUp::Send, ^{PgUp}
+    LAlt & WheelDown::Send, ^{PgDn}
 
+    NumpadDot::.
 
-Numpad5::SendInput, !r{Sleep 33}fo{LEFT}{Sleep 33}
-Numpad6::
-Loop, 45 {
-	SendInput, !r{Sleep 33}fo{LEFT}{Sleep 33}
-}
-Return
 #IfWinActive
 
-; /------------------------------------## /Excel -------------------------------
+
 ; --- Firefox ------------------------------------------------------------------
 #IfWinActive
 $^+Y::
-   SendInput,{Sleep 10}^c{Sleep 10}             ; sends cntrl x
-   ClipWait                                     ; wait for clipboard to be populated
-   WinActivate, ahk_class MozillaWindowClass    
-   Sleep 13
-   Send, ^t{sleep 13}^l{Sleep 13}
-   Send, g {Space}
-   SendInput, %clipboard%                   	; do the magic
-   SendInput,{Enter}
+    SendInput,{Sleep 10}^c{Sleep 10}
+    ClipWait
+    WinActivate, ahk_class MozillaWindowClass
+    Sleep 13
+    Send, ^t{sleep 13}^l{Sleep 13}
+    Send, g {Space}
+    SendInput, %clipboard%
+    SendInput,{Enter}
 return 
 
 #IfWinActive, ahk_exe firefox.exe
 ; google sites
 Capslock & s::
-	SendInput,{Home}site:{CtrlDown}{ShiftDown}{Right}{CtrlUp}{ShiftUp}{Del}{End}
+    SendInput,{Home}site:{CtrlDown}{ShiftDown}{Right}{CtrlUp}{ShiftUp}{Del}{End}
 return
 
 
@@ -190,92 +185,72 @@ return
 
 
 
-; --- /Firefox -----------------------------------------------------------------
-;
 ; --- Stata --------------------------------------------------------------------
 
 StataWindow := "ahk_class Afx:0000000140000000:0:0000000000000000:0000000000000000:0000000003970829" 
 
 #IfWinActive ahk_exe sublime_text.exe
 f1::
-	; Send, {Home Down}{Home Up}{ShiftDown}{End}{ShiftUp}
-	Send, ^c
-	ClipWait, 5
-	if WinExist("ahk_class Afx:0000000140000000:0:0000000000000000:0000000000000000:0000000003970829")
-	{
-    	WinActivate ;
-    	Send, ^1
-    	Send, ^v
-	}
-	Else
-	{
-		return
-	}
+    ; Send, {Home Down}{Home Up}{ShiftDown}{End}{ShiftUp}
+    Send, ^c
+    ClipWait, 5
+    if WinExist("ahk_class Afx:0000000140000000:0:0000000000000000:0000000000000000:0000000003970829")
+    {
+        WinActivate ;
+        Send, ^1
+        Send, ^v
+    }
+    Else
+    {
+        return
+    }
 
 return
 #IfWinActive
 
 RButton & t::
-	Sleep, 30
-	SendInput, ^c{Sleep 10}              		 ; sends cntrl x
-	ClipWait, 10                                 ; wait for clipboard to be populated
-	WinActivate, ahk_class ahk_class Afx:0000000140000000:0:0000000000000000:0000000000000000:0000000003970829
-	Sleep 30
-	Send, ^1
-	Sleep 30
-	SendInput, tab %clipboard% ,missing
-	SendInput, {Enter}
+    ; in stata: CTRL+T -> activates main window and aks for tab, m
+    Sleep, 30
+    SendInput, ^c{Sleep 10}
+    ClipWait, 10
+    WinActivate, ahk_class ahk_class Afx:0000000140000000:0:0000000000000000:0000000000000000:0000000003970829
+    Sleep 30
+    Send, ^1
+    Sleep 30
+    SendInput, tab %clipboard% ,missing
+    SendInput, {Enter}
 return 
 
 #IfWinActive, Do-file Editor
-	^w::SendInput, !f{Sleep 33}c
-	^PgUp::SendInput, ^+{TAB}
-	^PgDn::SendInput, ^{TAB}
+    ; define some sane shortcuts for statas editor
+    ^w::SendInput, !f{Sleep 33}c
+    ^PgUp::SendInput, ^+{TAB}
+    ^PgDn::SendInput, ^{TAB}
 
-	LShift & WheelUp::SendInput, {HOME}
-	LShift & WheelDown::SendInput, {END}
+    LShift & WheelUp::SendInput, {HOME}
+    LShift & WheelDown::SendInput, {END}
 #IfWinActive
 
 
 ; ------ Sublime ------
 
-
  
 ; ------ && ------
 
 ~Numpad0 & NumpadDot::SendInput,.{left}{backspace}{right}       ; "0" + "," = "."
-NumpadDot::                       
-	IfWinActive, ahk_exe Excel.exe
-	{
-		SendInput, `.   ; you must escape the comma
-	}
-	Else
-	{
-		SendInput, ,
-	}
-return
-
-; q und w = delete backspace
-~q & w::SendInput,{DEL}{Backspace}
-~w & q::SendInput,{Backspace 2}
-~q & e::SendInput,{Esc}
-
-; Klammer ( ) [] {}
-;~( & )::SendInput,{Backspace}(){Left}
-;~2 & 3::SendInput, {BackSpace}""{Left}
 
 ; --- CapsLock -----------------------------------------------------------------
 
 Capslock & Space::SendInput,{ENTER}
 
 Capslock & 2::
-	SaveThisClip := ClipboardAll                ; saves clipboard into variable
-	clipboard =                                 ; clean clipboard
-	SendInput,{Sleep 10}^x{Sleep 10}            ; sends cntrl x
-	ClipWait                                    ; wait for clipboard to be populated
-	SendInput, {"}%clipboard%{"}                ; do the magic
-	clipboard := SaveThisClip                   ; replace clipboard with variable       
-	SaveThisClip =                          
+    SaveThisClip := ClipboardAll                ; saves clipboard into variable
+    clipboard =                                 ; clean clipboard
+    SendInput,{Sleep 10}^x{Sleep 10}            ; sends cntrl x
+    ClipWait                                    ; wait for clipboard to be populated
+    SendInput, {"}%clipboard%{"}                ; do the magic
+    clipboard := SaveThisClip                   ; replace clipboard with variable       
+    SaveThisClip =                          
 return 
 
 ; Klammer Clam Parentesis and 8 (TO FIX!!!) (TODO:to fix this)
@@ -292,7 +267,7 @@ return
 ; --- Explorer -----------------------------------------------------------------
 
 #IfWinActive, ahk_exe Explorer.EXE
-	^l::f4
+    ^l::SendInput,{f4}
 #IfWinActive
 
 
@@ -300,8 +275,8 @@ return
 
 
 :?0C*:ddd:: ; 13.09.2019 (18:30)
-	FormatTime, CurrentDateTime,, dd.MM.yyyy (HH:mm)
-	SendInput %CurrentDateTime% 
+    FormatTime, CurrentDateTime,, dd.MM.yyyy (HH:mm)
+    SendInput %CurrentDateTime% 
 return
 
 :R*?:m@::m.rainho.avila@gmail.com 
@@ -316,7 +291,6 @@ return
 ::fr::Für weitere Fragen stehe ich gerne zu Ihrer Verfügung.
 
 ; --- mathe / equations --------------------------------------------------------
-; --- END OF CAPS LOCK ---------------------------------------------------------
 
 ; zeichen
 ::qqtimes::·
@@ -338,46 +312,46 @@ return
 ::qqdown::{U+2193}      ; ↓      
 ::qqdn::{U+2193}        ; ↓ 
 
-; greek letters
-::qalpha::α
-::qbeta::β
-::qgamma::γ
-::qdelta::δ
-::qomega::Ω
-::qlambda::
-::qtheta::θ
-::qsigma::σ
-::qpi::π 
-::qtau::{U+03C4} ; 
-::qepsi::ε
 
+; greek letters α
+:R*?:qa::a
+:R*?:qbeta::β
+:R*?:qgamma::γ
+:R*?:qdelta::δ
+:R*?:qomega::Ω
+:R*?:qlambda::
+:R*?:qtheta::θ
+:R*?:qsigma::σ
+:R*?:qpi::π
+:R*?:qtau::{U+03C4} ; 
+:R*?:qepsi::ε
 ::qforall::{U+2200}
 
 ; superscripts
-::^^1::¹
-::^^2::²
-::^^3::³
-::^^4::⁴
-::^^5::⁵
-::^^6::⁶
-::^^7::⁷
-::^^8::⁸
-::^^9::⁹
-::^^0::⁰
-::^^+::⁺
-::^^-::⁻
-::^^(::⁽
-::^^)::⁾
-::^^x::ˣ
-::^^y::ʸ
-::^^a::ᵃ
-::^^b::ᵇ
-::^^n::ⁿ
-::^^m::ᵐ
-::^^alpha::ᵅ
-::^^beta::ᵝ
+:*:^^1::¹
+:*:^^2::²
+:*:^^3::³
+:*:^^4::⁴
+:*:^^5::⁵
+:*:^^6::⁶
+:*:^^7::⁷
+:*:^^8::⁸
+:*:^^9::⁹
+:*:^^0::⁰
+:*:^^+::⁺
+:*:^^-::⁻
+:*:^^(::⁽
+:*:^^)::⁾
+:*:^^x::ˣ
+:*:^^y::ʸ
+:*:^^a::ᵃ
+:*:^^b::ᵇ
+:*:^^n::ⁿ
+:*:^^m::ᵐ
+:*:^^alpha::ᵅ
+:*:^^beta::ᵝ
 
-; subscript
+; ubscript
 ::sub0::₀
 ::sub1::₁
 ::sub2::₂
@@ -397,61 +371,42 @@ return
 ::subx::ₓ
 ::ampers::&
 
-; ; spelling corrector 
-; ::nao::não
-; ::entao::então
-; ::voce::você
-; ::eh::é
-; ::ah::à
+; --- /Media   -----------------------------------------------------------------
 
-; --- auto completes -----------------------------------------------------------
-;; --- notepad++ ---------------------------------------------------------------
-#IfWinActive ahk_class Notepad++
-q & w::SendInput,{Delete}
-w & q::SendInput,{Backspace}  
-#IfWinActive
-
-printscreen::
-	IfWinExist, ahk_exe SnippingTool.exe
-	{
-		WinActivate, ahk_exe SnippingTool.exe
-		Sleep, 300
-		SendInput,^n
-	}
-	else
-		Run, snippingtool
+; Custom volume buttons
+#NumpadAdd:: Send {Volume_Up} ;shift + numpad plus
+#NumpadSub:: Send {Volume_Down} ;shift + numpad minus
+break::Send {Volume_Mute} ; Break key mutes
 return
 
-; --- /notepad ++  -------------------------------------------------------------
-;
+
 ; --- Autohotkey ---------------------------------------------------------------
  
 
 #IfWinActive ahk_class Notepad++
 f6::
-	SaveThisClip := ClipboardAll                ; saves clipboard into variables 
-	SendInput,{Sleep 10}^x{Sleep 10}
-	Sleep, 30
-	ClipWait
-	SendInput, {{}%clipboard%{}}
-	clipboard := SaveThisClip                   ; replace clipboard with variable       
-	saved =
-	#IfWinActive
+    SaveThisClip := ClipboardAll                ; saves clipboard into variables 
+    SendInput,{Sleep 10}^x{Sleep 10}
+    Sleep, 30
+    ClipWait
+    SendInput, {{}%clipboard%{}}
+    clipboard := SaveThisClip                   ; replace clipboard with variable       
+    saved =
 return 
-
+#IfWinActive
 $^s::
 if WinActive("AutoHotkeyU64.ahk")
-	{
-		SendInput,^s
-		Sleep,33
-		SplashTextOn, 300, 50, AHK, Updating the script.
-		Sleep, 678
-		SplashTextOff
-		Reload 
-	}
+    {
+        SendInput,^s
+        Sleep,33
+        SplashTextOn, 300, 50, AHK, Updating the script.
+        Sleep, 678
+        SplashTextOff
+        Reload 
+    }
 Else 
 {
-	SendInput, ^s
+    SendInput, ^s
 }
 return
 
@@ -469,24 +424,24 @@ Return
 
 DateFormats(Date)
 {
-	FormatTime, OutputVar , %Date%, HH:mm  ;
-	global List := "1. " . OutputVar
-	
-	FormatTime, OutputVar , %Date%, ShortDate ;
-	global List := List . "|2. " . OutputVar
-	
-	FormatTime, OutputVar , %Date%, dd.MM.yyyy HH:mm ;
-	global List := List . "|3. " . OutputVar
-	
-	FormatTime, OutputVar , %Date%, MMM. d, yyyy
-	global List := List . "|4. " . OutputVar
-	
-	FormatTime, OutputVar , %Date%, MMMM d, yyyy
-	global List := List . "|q. " . OutputVar
-	
-	FormatTime, OutputVar , %Date%, LongDate
-	global List := List . "|w. " . OutputVar
-	Return List
+    FormatTime, OutputVar , %Date%, HH:mm  ;
+    global List := "1. " . OutputVar
+    
+    FormatTime, OutputVar , %Date%, ShortDate ;
+    global List := List . "|2. " . OutputVar
+    
+    FormatTime, OutputVar , %Date%, dd.MM.yyyy HH:mm ;
+    global List := List . "|3. " . OutputVar
+    
+    FormatTime, OutputVar , %Date%, MMM. d, yyyy
+    global List := List . "|4. " . OutputVar
+    
+    FormatTime, OutputVar , %Date%, MMMM d, yyyy
+    global List := List . "|q. " . OutputVar
+    
+    FormatTime, OutputVar , %Date%, LongDate
+    global List := List . "|w. " . OutputVar
+    Return List
 }
  
 TextMenuDate(TextOptions)
@@ -555,7 +510,17 @@ Loop, % List
 WinActivate, % "ahk_id " WinID
 return
 
-; --- Windows management  ------------------------------------------------------
+; --- Print Screen  ---
+printscreen::
+    IfWinExist, ahk_exe SnippingTool.exe
+    {
+        WinActivate, ahk_exe SnippingTool.exe
+        Sleep, 300
+        SendInput,^n
+    }
+    else
+        Run, snippingtool
+return
 
 ; --- Move window with Lwin and Lbutton ---
 
