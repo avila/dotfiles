@@ -22,8 +22,8 @@ default partial alphanumeric_keys xkb_symbols "basic" {
 
     key <AC01>	{ [               a,               A,           U0251,            U0251 ]   };
     key <AC02>	{ [               s,               S,          ssharp,           ssharp ]   };
-//  key <AC03>	{ [               d,               D,           U03B4,            U0394 ]   };
-    key <LatD>	{ [               d,               D,          Delete,           Delete ]   };
+#   key <AC03>	{ [               d,               D,           U03B4,            U0394 ]   };
+    key <LatD>	{ [               d,               D,          Delete,        BackSpace ]   };
     key <AC05>	{ [               g,               G,           U0263,            U0393 ]   };
 
     key <AC06>  { type="THREE_LEVEL", [           h,               H,            Left   ]   }; 
@@ -39,18 +39,18 @@ default partial alphanumeric_keys xkb_symbols "basic" {
 
     key <SPCE>  { [           space,           space,        space,         Return   ]   };
 
-    include "shift(both_capslock)"
-    include "level3(caps_switch)"
-    include "level3(ralt_switch)"
-    include "level3(modifier_mapping)"
+    # include "shift(both_capslock)"
+    # include "level3(caps_switch)"
+    # include "level3(ralt_switch)"
+    # include "level3(modifier_mapping)"
 };
 
 default partial alphanumeric_keys xkb_symbols "xy5levels" {
 
     name[Group1]= "German XY Vim-Like (5 Levels)";
 
-    include "de(basic)"
-    include "complementlayout"
+    include "xy(basic)"
+    #include "complementlayout"
     
     key.type[Group1] = "EIGHT_LEVEL_SEMIALPHABETIC";
         key <AC06>  { [ h,       H,      Left,   Left,
@@ -121,7 +121,8 @@ partial modifier_keys xkb_symbols "xy_caps_overlay" {
     key <LatK> { overlay1 = <UP>   };
     key <LatL> { overlay1 = <RGHT> };
 
-    key <TAB>  { overlay1 = <TAB>  };
+    key <TAB>  { overlay1 = <TAB>  }; //maybe not necessary
+    key <SPCE> { overlay1 = <RTRN> };
     
     // Editing Section
     key <LatZ> { overlay1 = <UNDO> };
@@ -143,17 +144,16 @@ partial modifier_keys xkb_symbols "xy_caps_overlay" {
     key <LatP> { overlay1 = <PGUP> }; 
     key <AC10> { overlay1 = <PGDN> };
 
-    key <LatF> { overlay1 = <DELE> }; 
-        key <DELE> { [ Delete, BackSpace ],
-            actions[Group1]=[ NoAction(), RedirectKey(key=<BKSP>,clearmods=Shift)] 
+    key <LatD> { overlay1 = <I147> }; 
+        key <I147> { [ Delete, BackSpace ],
+            actions[Group1]=[ RedirectKey(key=<DELE>,clearmods=Shift),
+                              RedirectKey(key=<BKSP>,clearmods=Shift)] 
         };
-        key <BKSP> { [ BackSpace, Delete ],
-            actions[Group1]=[ NoAction(), RedirectKey(key=<DELE>,clearmods=Shift)] 
-        };
-
-    key <SPCE> { overlay1 = <RTRN> };
-
+        # key <BKSP> { [ BackSpace, Delete ],
+        #     actions[Group1]=[ NoAction(), RedirectKey(key=<DELE>,clearmods=Shift)] 
+        # };
 };
+# TODO: try https://unix.stackexchange.com/questions/144374/declare-a-new-modifier-key-with-xkb
 
 partial modifier_keys xkb_symbols "xy_alt_3rd_level" {         
 
