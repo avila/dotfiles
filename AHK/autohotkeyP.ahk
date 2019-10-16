@@ -19,9 +19,6 @@ SetCapsLockState, AlwaysOff
     ToolTip
 return
 
-!CapsLock::SetScrollLockState % !GetKeyState("ScrollLock", "T")
-
-
 #If (GetKeyState("CapsLock", "P") | GetKeyState("ScrollLock", "T"))
     *h::SendInput,{Blind}{Left}
     *j::SendInput,{Blind}{Down}
