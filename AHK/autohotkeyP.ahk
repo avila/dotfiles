@@ -395,7 +395,7 @@ f6::
     saved =
 return 
 #IfWinActive
-$^s::
+^s::
 if WinActive("AutoHotkeyP.ahk")
     {
         SendInput,^s
