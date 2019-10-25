@@ -51,7 +51,7 @@ default partial alphanumeric_keys xkb_symbols "xy5levels" {
     name[Group1]= "German XY Vim-Like (5 Levels)";
 
     include "de(basic)"
-    include "complementlayout"
+    # include "complementlayout"
     
     key.type[Group1] = "EIGHT_LEVEL_SEMIALPHABETIC";
         key <AC06>  { [ h,       H,      Left,   Left,
@@ -107,6 +107,8 @@ default partial alphanumeric_keys xkb_symbols "xy5levels" {
     // choose either caps_overlay or caps_5h_lock 
         include "xy(xy_caps_5th_level_lock)"
         include "xy(xy_caps_overlay)" 
+
+        include "shift(both_capslock_cancel)"
 };
 
 partial modifier_keys xkb_symbols "xy_caps_overlay" {
@@ -117,37 +119,39 @@ partial modifier_keys xkb_symbols "xy_caps_overlay" {
         actions[Group1] = [ SetControls(controls=Overlay1), LockControls(controls=Overlay1) ]
     };
     // Movement Section
-    key <LatH> { overlay1 = <LEFT> };
-    key <LatJ> { overlay1 = <DOWN> };
-    key <LatK> { overlay1 = <UP>   };
-    key <LatL> { overlay1 = <RGHT> };
+    key <LatH> { Overlay1 = <LEFT> };
+    key <LatJ> { Overlay1 = <DOWN> };
+    key <LatK> { Overlay1 = <UP>   };
+    key <LatL> { Overlay1 = <RGHT> };
 
-    key <TAB>  { overlay1 = <TAB>  };
+    key <TAB>  { Overlay1 = <TAB>  };
     
     // Editing Section
-    key <LatZ> { overlay1 = <UNDO> };
+    key <LatQ> { Overlay1= <Esc>    };
+
+    key <LatZ> { Overlay1 = <UNDO> };
         key <UNDO> { [ VoidSymbol ],
             actions[Group1]=[ RedirectKey(key=<LatY>,modifiers=Control)] 
         };
-    key <LatY> { overlay1 = <REDO> };
+    key <LatY> { Overlay1 = <REDO> };
         key <REDO> { [ VoidSymbol ],
             actions[Group1]=[ RedirectKey(key=<LatZ>,modifiers=Control)] 
         };
-    key <LatX> { overlay1 = <CUT>  };
-    key <LatC> { overlay1 = <COPY> };
-    key <LatV> { overlay1 = <PAST> };
+    key <LatX> { Overlay1 = <CUT>  };
+    key <LatC> { Overlay1 = <COPY> };
+    key <LatV> { Overlay1 = <PAST> };
 
-    key <LatQ> { overlay1 = <ESC>  };
-    key <LatU> { overlay1 = <HOME> }; 
-    key <LatI> { overlay1 = <END>  }; 
+    key <LatQ> { Overlay1 = <ESC>  };
+    key <LatU> { Overlay1 = <HOME> }; 
+    key <LatI> { Overlay1 = <END>  }; 
 
-    key <LatP> { overlay1 = <PGUP> }; 
-    key <AC10> { overlay1 = <PGDN> };
+    key <LatP> { Overlay1 = <PGUP> }; 
+    key <AC10> { Overlay1 = <PGDN> };
 
-    key <LatD> { overlay1 = <DELE> };
-    key <LatB> { overlay1 = <BKSP> };
+    key <LatD> { Overlay1 = <DELE> };
+    key <LatB> { Overlay1 = <BKSP> };
     
-    key <SPCE>  { overlay1 = <RTRN>  };
+    key <SPCE>  { Overlay1 = <RTRN>  };
 
 };  
 
@@ -187,6 +191,42 @@ partial modifier_keys xkb_symbols "xy_caps_5th_level_lock" {
 };
 
 // ----------------------------------------------------------------------------------
+
+
+partial alphanumeric_keys xkb_symbols "alpha_arrows" {
+    name[Group1]="German1";
+    name[Group2]="German2";
+    include "de(basic)"
+
+    key <AD07> {
+        symbols[Group2]= [            Home ]  # u
+    };
+    key <AD08> {
+        symbols[Group2]= [              Up ]  # i
+    };
+    key <AD09> {
+        symbols[Group2]= [             End ]  # o
+    };
+    key <AD10> {
+        symbols[Group2]= [           Prior ]  # p
+    };
+    key <AC07> {
+        symbols[Group2]= [            Left ]  # j
+    };
+    key <AC08> {
+        symbols[Group2]= [            Down ]  # k
+    };
+    key <AC09> {
+        symbols[Group2]= [           Right ]  # l
+    };
+    key <AC10> {
+        symbols[Group2]= [            Next ]  # ;
+    };
+    key <AB06> {
+        symbols[Group2]= [          Delete ]  # n
+    };
+};
+
 
 partial alphanumeric_keys xkb_symbols "test1" {
 
