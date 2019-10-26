@@ -1,4 +1,4 @@
-#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ;#Warn  ; Enable warnings to assist with detecting common errors.
 #SingleInstance force
 SetTitleMatchMode 2
@@ -8,6 +8,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 ; --- Scroll Shift and Lock Behaviour ------------------------------------------
 SetCapsLockState, AlwaysOff
+
 +CapsLock::
     SetScrollLockState % !GetKeyState("ScrollLock", "T")
     while(getKeyState("ScrollLock","T")){
@@ -41,7 +42,7 @@ return
     CapsLock Up::
         ScrollShiftState := 0
     return
-    <+CapsLock::SetScrollLockState % !GetKeyState("ScrollLock", "T")
+    +CapsLock::SetScrollLockState % !GetKeyState("ScrollLock", "T")
 #If
 
 ; --- Third layer (AltGr) ------------------------------------------------------
@@ -394,15 +395,15 @@ f6::
     saved =
 return 
 #IfWinActive
-$^s::
-if WinActive("AutoHotkeyU64.ahk")
+^s::
+if WinActive("AutoHotkeyP.ahk")
     {
         SendInput,^s
         Sleep,33
         SplashTextOn, 300, 50, AHK, Updating the script.
         Sleep, 678
         SplashTextOff
-        Reload 
+        Reload
     }
 Else 
 {
