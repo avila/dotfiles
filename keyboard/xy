@@ -1,15 +1,14 @@
 default partial alphanumeric_keys xkb_symbols "basic" {
 
     name[Group1]= "German XY Vim-Like (3 Levels)";
-        
     include "de(basic)"
 
     key <AE08>	{ [               8,       parenleft,      bracketleft,       braceleft ]   };
     key <AE09>	{ [               9,      parenright,     bracketright,      braceright ]   };
 
     key <TLDE> {  [ dead_circumflex,      dead_caron,            grave,         notsign ]   };
-    key <AD01>  { [               q,               Q,               at,           slash  ]   };
-    key <AD02>	{ [               w,               W,         question,        backslash ]   };
+    key <AD01>  { [               q,               Q,               at,          slash  ]   };
+    key <AD02>	{ [               w,               W,         question,       backslash ]   };
     
     key <AD12> { [            plus,        asterisk,       dead_tilde,      dead_macron ]   };
     
@@ -17,20 +16,19 @@ default partial alphanumeric_keys xkb_symbols "basic" {
     key <AD07>	{ [               u,               U,            Home,            Home  ]   }; 
     key <AD08>	{ [               i,               I,             End,             End  ]   }; 
     
-    key <AD10>	{ [               p,               P,         Page_Up,         Prior  ]   }; 
+    key <AD10>	{ [               p,               P,         Page_Up,           Prior  ]   }; 
     key <AC10>	{ [      odiaeresis,      Odiaeresis,       Page_Down,       Page_Down  ]   }; 
 
     key <AC01>	{ [               a,               A,           U0251,            U0251 ]   };
     key <AC02>	{ [               s,               S,          ssharp,           ssharp ]   };
-    key <AC03>	{ [               d,               D,           U03B4,            U0394 ]   };
-    key <AC04>	{ [               f,               F,          Delete,           Delete ]   };
+#   key <AC03>	{ [               d,               D,           U03B4,            U0394 ]   };
+    key <LatD>	{ [               d,               D,          Delete,        BackSpace ]   };
     key <AC05>	{ [               g,               G,           U0263,            U0393 ]   };
 
-    key <AC06>  { type="THREE_LEVEL", [           h,               H,            Left ]     }; 
-    key <AC07>  { type="THREE_LEVEL", [           j,               J,            Down ]     }; 
-    key <AC08>  { type="THREE_LEVEL", [           k,               K,              Up ]     }; 
-    key <AC09>  { type="THREE_LEVEL", [           l,               L,           Right ]     }; 
-
+    key <AC06>  { type="THREE_LEVEL", [           h,               H,            Left   ]   }; 
+    key <AC07>  { type="THREE_LEVEL", [           j,               J,            Down   ]   }; 
+    key <AC08>  { type="THREE_LEVEL", [           k,               K,              Up   ]   }; 
+    key <AC09>  { type="THREE_LEVEL", [           l,               L,           Right   ]   }; 
 
     key <LSGT>	{ [     	   less,     	 greater,             bar,        slash     ]   };
     key <AB03>	{ [               c,               C,        ccedilla,        Ccedilla 	]   };
@@ -40,10 +38,10 @@ default partial alphanumeric_keys xkb_symbols "basic" {
 
     key <SPCE>  { [           space,           space,        space,         Return   ]   };
 
-    include "shift(both_capslock)"
-    include "level3(caps_switch)"
-    include "level3(ralt_switch)"
-    include "level3(modifier_mapping)"
+    # include "shift(both_capslock)"
+    # include "level3(caps_switch)"
+    # include "level3(ralt_switch)"
+    # include "level3(modifier_mapping)"
 };
 
 default partial alphanumeric_keys xkb_symbols "xy5levels" {
@@ -175,7 +173,7 @@ partial modifier_keys xkb_symbols "xy_greek_lvl2" {
             symbols[Group1] = [ NoSymbol, NoSymbol, VoidSymbol, VoidSymbol ], 
             actions[Group1] = [ NoAction(), NoAction(), LatchGroup(group=3) ]
     };
-
+    
     // test
     key <SPCE>  { symbols[Group2] = [           a,           b,        c,         d   ]   };    
     key <SPCE>  { symbols[Group3] = [           e,           f,        g,         h   ]   };    
