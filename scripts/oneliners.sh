@@ -4,4 +4,4 @@
 #	https://unix.stackexchange.com/questions/50612/
 # here: 
 #	copies all .log and .do files from current directory into /mavila/git_genesis
-$ find . -name '*.log' -o -name '*.do' -exec cp --parents '{}' /mavila/git_genesis \;
+find \( -name '*.log' -o -name '*.do' \) -exec cp -v --parents '{}' //hume/soep-data/STUD/mavila/git_genesis \;
