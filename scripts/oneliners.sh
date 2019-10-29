@@ -7,4 +7,4 @@
 find \( -name '*.log' -o -name '*.do' \) -exec cp -v --parents '{}' //hume/soep-data/STUD/mavila/git_genesis \;
 
 # same as abobe but in only in matching folders (*pgen*)
-find -path '*pgen*' \( -name '*.log' -o -name 'bd**.do' \) -exec cp -v --parents '{}' //hume/soep-data/STUD/mavila/git_genesis \;
+find -path '*pgen*' \( -name '*.log' -o -name '*.do' \) -exec cp -v --parents '{}' //hume/soep-data/STUD/mavila/git_genesis \;
