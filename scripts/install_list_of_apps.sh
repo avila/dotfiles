@@ -9,9 +9,9 @@ do
 	select yn in "Yes" "No" "QUIT"; 
 	do
     	case $yn in
-   	    	Yes  ) apt install $app; break;; # maybe needs sudo apt, or run 
-	        No   ) break;;                    # script as sudo
-    	        QUIT ) exit;;
+   	    	Yes ) apt install $app; break;; # maybe needs sudo apt, or run 
+	        No ) break;;                    # script as sudo
+    	    QUIT ) exit;;
     	esac
 	done
 done
