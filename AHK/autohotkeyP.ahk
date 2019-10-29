@@ -65,7 +65,7 @@ return
 
 ; /--- Right Click -------------------------------------------------------------
 #IfWinActive
-RButton & s::
+RButton & s:: ; google search keyword
     Sleep, 30
     SendInput, ^c{Sleep 10}                      ; sends cntrl x
     WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
@@ -73,6 +73,18 @@ RButton & s::
     ClipWait, 1                                  ; wait for clipboard to be populated   Sleep 30
     Send, ^t{sleep 30}^l{Sleep 30}
     SendInput, sp %clipboard%                    ; do the magic
+    SendInput, {Enter}
+return
+
+#IfWinActive
+RButton & g:: ; code gitlab search keyword
+    Sleep, 30
+    SendInput, ^c{Sleep 10}                      ; sends cntrl x
+    WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
+    Sleep, 30
+    ClipWait, 1                                  ; wait for clipboard to be populated   Sleep 30
+    Send, ^t{sleep 30}^l{Sleep 30}
+    SendInput, gl %clipboard%                    ; do the magic
     SendInput, {Enter}
 return
 
@@ -89,7 +101,7 @@ RButton & w::
 return
     
 #If !WinActive("ahk_class AcrobatSDIWindow")
-RButton & g::
+RButton & t::
     Sleep, 30
     SendInput, ^c{Sleep 30}                      ; sends cntrl x
     ClipWait                                     ; wait for clipboard to be populated
@@ -101,17 +113,6 @@ RButton & g::
     SendInput, {Enter}
 return 
 
-RButton & l::
-    Sleep, 30
-    SendInput, ^c{Sleep 30}                      ; sends cntrl x
-    ClipWait                                     ; wait for clipboard to be populated
-    Sleep, 30
-    WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
-    Sleep 30
-    Send, ^t{sleep 30}
-    SendInput, leo {Space} %clipboard%           ; do the magic
-    SendInput, {Enter}
-return 
 RButton::Send, {RButton} ; Important -> keey rbutton working
 
 ; --- Right Click --------------------------------------------------------------
@@ -207,7 +208,6 @@ f1::
     }
 
 return
-#IfWinActive
 
 RButton & t::
     ; in stata: CTRL+T -> activates main window and aks for tab, m
@@ -230,6 +230,27 @@ return
 
     LShift & WheelUp::SendInput, {HOME}
     LShift & WheelDown::SendInput, {END}
+#IfWinActive
+
+#IfWinActive, Data Editor (Browse)
+    ; changes Behaviour of Stata Browser scrollwheel
+    +WheelDown::SendInput, +{Right}
+    +WheelUp::SendInput, +{Left}
+
+    ^+WheelDown::SendInput, +{Right 5}
+    ^+WheelUp::SendInput, +{Left 5}
+
+    ^WheelDown::SendInput, {WheelDown 5}
+    ^WheelUp::SendInput, {WheelUp 5}
+#IfWinActive
+
+#IfWinActive, Data Editor (Browse)
+    ; changes Behaviour of Stata Browser arrows
+    !Right::SendInput, {Right 5}
+    +!Right::SendInput, +{Right 5}
+
+    !Left::SendInput, {Left 5}
+    +!Left::SendInput, +{Left 5}
 #IfWinActive
 
 
@@ -281,15 +302,6 @@ return
 return
 
 :R*?:m@::m.rainho.avila@gmail.com 
-
-::lig::Liebe Grüße
-::mfg::Mit freundlichen Grüßen
-::lf::Liebe Frau
-::lh::Lieber Herr
-::sgh::Sehr geehrter Herr
-::sgf::Sehr geehrte Frau
-::sgd::Sehr geehrte Damen und Herren,
-::fr::Für weitere Fragen stehe ich gerne zu Ihrer Verfügung.
 
 ; --- mathe / equations --------------------------------------------------------
 
@@ -395,13 +407,13 @@ f6::
     saved =
 return 
 #IfWinActive
-^s::
+$^s::
 if WinActive("AutoHotkeyP.ahk")
     {
         SendInput,^s
         Sleep,33
         SplashTextOn, 300, 50, AHK, Updating the script.
-        Sleep, 678
+        Sleep, 666
         SplashTextOff
         Reload
     }
