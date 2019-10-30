@@ -97,9 +97,10 @@ Public Sub ApplyCondFormatToRange()
         celltxt = Cells(lRow, 1).Text
         If InStr(1, celltxt, "Total") Then
             MsgBox "Found 'total' row. Subtract one from Last Col" & vbNewLine & _
-                    "Last Row: " & lRow & vbNewLine & _
-                    "Last Column: " & lCol & "-1"
-            lCol = lCol - 1
+                    "Last Column: " & lCol & "-1" & vbNewLine & _
+                    "Last Row: " & lRow - 1
+                    
+            lRow = lRow - 1
         Else
             MsgBox "No 'Total' Found" & vbNewLine & _
                     "Last Row: " & lRow & vbNewLine & _
