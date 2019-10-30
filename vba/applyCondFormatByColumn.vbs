@@ -83,16 +83,28 @@ Public Sub ApplyCondFormatToRange()
     Dim ColNr As Integer
     
         
-        'Find the last non-blank cell in row 2
-        lCol = Cells(2, Columns.Count).End(xlToLeft).Column
+        'Find the last non-blank cell in column A(1) (checking from col A)
+        ' how? from cell A1 -> two times ctrl+down. then get row number
+        lRow = Cells(1, 1).End(xlDown).End(xlDown).Row
         
-        'Find the last non-blank cell in column A(1)
-        lRow = Cells(Rows.Count, 1).End(xlUp).Row
+        'Find the last non-blank cell in row 2 (checking from 6th rown)
+        ' from last row once ctrl+right to get last col
+        lCol = Cells(lRow, 1).End(xlToRight).Column
         
+        'Find the last non-blank cell in column A(1) [- 1 cuz total row] (checking from col A)
+        'lRow = Cells(Rows.Count, 1).End(xlUp).Row - 1
         
-        'MsgBox "Last Row: " & lRow & vbNewLine & _
-        '        "Last Column: " & lCol
-        
+        celltxt = Cells(lRow, 1).Text
+        If InStr(1, celltxt, "Total") Then
+            MsgBox "Found 'total' row. Subtract one from Last Col" & vbNewLine & _
+                    "Last Row: " & lRow & vbNewLine & _
+                    "Last Column: " & lCol & "-1"
+            lCol = lCol - 1
+        Else
+            MsgBox "No 'Total' Found" & vbNewLine & _
+                    "Last Row: " & lRow & vbNewLine & _
+                    "Last Column: " & lCol
+        End If
         
         'Range("A2").CurrentRegion.ClearFormats
 
@@ -102,7 +114,7 @@ Public Sub ApplyCondFormatToRange()
                 Db.ShowValue = True
                 Db.BarColor.TintAndShade = 0
                 Db.BarFillType = xlDataBarFillSolid
-            
+
             Debug.Print ColNr
         Next ColNr
 End Sub
