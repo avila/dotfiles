@@ -1,5 +1,6 @@
 ﻿; UTF-8 with BOM
 
+; --- Globals ------------------------------------------------------------------
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ;#Warn  ; Enable warnings to assist with detecting common errors.
 #SingleInstance force
@@ -7,32 +8,33 @@ SetTitleMatchMode RegEx
 
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+SetCapsLockState, AlwaysOff
+global VimMode = 0 
+global win10 := % substr(a_osversion, 1, 2) = 10
 
 ; --- Scroll Shift and Lock Behaviour ------------------------------------------
-
-SetCapsLockState, AlwaysOff
-
 LShift & RShift::
-;use LeftShift+RightShift to toggle CAPS LOCK
-if GetKeyState("CapsLock", "T") = 1
-   SetCapsLockState, AlwaysOff
-else if GetKeyState("CapsLock", "F") = 0
-   SetCapsLockState, on
+    ;use LeftShift+RightShift to toggle CAPS LOCK
+    if GetKeyState("CapsLock", "T") = 1
+       SetCapsLockState, AlwaysOff
+    else if GetKeyState("CapsLock", "F") = 0
+       SetCapsLockState, on
 Return
 
 +CapsLock::
-    SetScrollLockState % !GetKeyState("ScrollLock", "T") ; toggle ScrollLock state
+    ;SetScrollLockState % !GetKeyState("ScrollLock", "T") ; toggle ScrollLock state
+    VimMode := 1
     SetTimer, ToolTipTimer, 1
     ToolTipTimer:
-        if(getKeyState("ScrollLock","T")){
-            ToolTip, Editing Mode is ON!
+        if VimMode {
+            ToolTip, Editing Mode is %VimMode%!
         } else {
             ToolTip
         }
-return
+Return
 
 
-#If (GetKeyState("CapsLock", "P") | GetKeyState("ScrollLock", "T"))
+#If (GetKeyState("CapsLock", "P") | VimMode)
     ;moving
     *h::SendInput,{Blind}{Left}
     *j::SendInput,{Blind}{Down}
@@ -51,19 +53,20 @@ return
     *v::SendInput,^v
 
     *m::SendInput, {AppsKey}
+
+    *2::enclose_with("""", """")
+    *8::enclose_with("(" , ")")
+    *(::enclose_with("[" , "]")
+    *7::enclose_with("{" , "}")
+    *[::enclose_with("{" , "}")
 #If
 
-#if GetKeyState("ScrollLock", "T")
-    q::SetScrollLockState, Off
-    Esc::SetScrollLockState, Off
+#if VimMode
+    ; ways of exiting vim mode
+    q:: 
+    Esc::
     CapsLock::
-        SetScrollLockState, Off
-        ScrollShiftState := 1
-    return
-    CapsLock Up::
-        ScrollShiftState := 0
-    return
-    +CapsLock::SetScrollLockState % !GetKeyState("ScrollLock", "T")
+    +CapsLock::VimMode := 0
 #If
 
 *!PgUp::SendInput,{Home}
@@ -89,43 +92,46 @@ return
 <^>!+9::SendInput,{}}                   ; curly brackets
 
 
+Capslock & Space::SendInput,{ENTER}
+
+
+; helper functions 
+enclose_with(bef, aft) {
+    ; gets the selected text and wraps with bef and aft
+    SaveThisClip := ClipboardAll
+    clipboard := ""
+    SendInput, ^x
+    ClipWait
+    SendInput, {%bef%}%clipboard%{%aft%
+    clipboard := SaveThisClip
+    SaveThisClip := ""
+}
+
+
+
+browse_this(keyword="") {
+    if !WinExist("ahk_class MozillaWindowClass") {
+        MsgBox, , Error, Opening Firefox first. Run again, 1000
+        Run, firefox.exe
+    } else {
+        Sleep, 10
+        SendInput, ^c
+        Sleep, 50
+        WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
+        Sleep, 50
+        Send, ^t{sleep 30}^l{Sleep 30}
+        SendInput, %keyword% %clipboard%                    ; do the magic
+        SendInput, {Enter}
+        Return
+    }
+}
 
 ; /--- Right Click -------------------------------------------------------------
-#IfWinActive
-RButton & s:: ; google search keyword
-    Sleep, 30
-    SendInput, ^c{Sleep 10}                      ; sends cntrl x
-    WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
-    Sleep, 30
-    ClipWait, 1                                  ; wait for clipboard to be populated   Sleep 30
-    Send, ^t{sleep 30}^l{Sleep 30}
-    SendInput, sp %clipboard%                    ; do the magic
-    SendInput, {Enter}
-return
+RButton & s::browse_this("sp")
+RButton & g::browse_this("g")
+RButton & t::browse_this("gt")
+RButton & v::browse_this("gt") ;TODO: update gitlab
 
-#IfWinActive
-RButton & g:: ; code gitlab search keyword
-    Sleep, 30
-    SendInput, ^c{Sleep 10}                      ; sends cntrl x
-    WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
-    Sleep, 30
-    ClipWait, 1                                  ; wait for clipboard to be populated   Sleep 30
-    Send, ^t{sleep 30}^l{Sleep 30}
-    SendInput, gl %clipboard%                    ; do the magic
-    SendInput, {Enter}
-return
-
-RButton & w::
-    Sleep, 30
-    SendInput, ^c{Sleep 10}              		; sends cntrl x
-    Sleep, 30
-    ClipWait                                     ; wait for clipboard to be populated
-    WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
-    Sleep 30
-    Send, ^t{sleep 30}^l{Sleep 30}
-    SendInput, wikipedia %clipboard%				; do the magic
-    SendInput, {Enter}
-return
     
 #If !WinActive("ahk_class AcrobatSDIWindow")
 RButton & t::
@@ -286,40 +292,9 @@ return
 ; ------ Sublime ------
 
  
-; ------ && ------
+; ------ Numbers Excel and co  ------
 
 ~Numpad0 & NumpadDot::SendInput,.{left}{backspace}{right}       ; "0" + "," = "."
-
-; --- CapsLock -----------------------------------------------------------------
-
-Capslock & Space::SendInput,{ENTER}
-
-Capslock & 2::
-    SaveThisClip := ClipboardAll                ; saves clipboard into variable
-    clipboard =                                 ; clean clipboard
-    SendInput,{Sleep 10}^x{Sleep 10}            ; sends cntrl x
-    ClipWait                                    ; wait for clipboard to be populated
-    SendInput, {"}%clipboard%{"}                ; do the magic
-    clipboard := SaveThisClip                   ; replace clipboard with variable       
-    SaveThisClip =                          
-return 
-
-; Klammer Clam Parentesis and 8 (TO FIX!!!) (TODO:to fix this)
-; Capslock & 8::
-; SaveThisClip := ClipboardAll                ; saves clipboard into variablea 
-; SendInput,{Sleep 10}^x{Sleep 10}
-; Sleep, 30
-; ClipWait
-; SendInput, {(}%clipboard%{)}
-; clipboard := SaveThisClip                   ; replace clipboard with variable       
-; saved =                                     
-; return  
-
-; --- Explorer -----------------------------------------------------------------
-
-#IfWinActive, ahk_exe Explorer.EXE
-    ^l::SendInput,{f4}
-#IfWinActive
 
 
 ; --- auto completes -----------------------------------------------------------
@@ -478,7 +453,7 @@ DateFormats(Date)
     
     FormatTime, OutputVar , %Date%, LongDate
     global List := List . "|w. " . OutputVar
-    Return List
+    return List
 }
  
 TextMenuDate(TextOptions)
@@ -529,7 +504,7 @@ Loop, % List
     }
 }
 WinActivate, % "ahk_id " WinID
-return
+Return
 
 !+^:: ; Last window
 WinGetClass, ActiveClass, A
@@ -549,7 +524,7 @@ Loop, % List
     }
 }
 WinActivate, % "ahk_id " WinID
-return
+Return
 
 ; --- Print Screen  ---
 printscreen::Run, explorer ms-screenclip:
@@ -564,14 +539,14 @@ Lwin & LButton::
     WinGet, EWD_WinState, MinMax, ahk_id %EWD_MouseWin%
     if EWD_WinState = 0  ; Only if the window isn't maximized
         SetTimer, EWD_WatchMouse, 10 ; Track the mouse as the user drags it.
-return
+Return
 
 EWD_WatchMouse:
     GetKeyState, EWD_LButtonState, LButton, P
     if EWD_LButtonState = U  ; Button has been released, so drag is complete.
     {
         SetTimer, EWD_WatchMouse, off
-        return
+        Return
     }
     
     GetKeyState, EWD_EscapeState, Escape, P
@@ -579,7 +554,7 @@ EWD_WatchMouse:
     {
         SetTimer, EWD_WatchMouse, off
         WinMove, ahk_id %EWD_MouseWin%,, %EWD_OriginalPosX%, %EWD_OriginalPosY%
-        return
+        Return
     }
     
     ; Otherwise, reposition the window to match the change in mouse coordinates
@@ -591,4 +566,12 @@ EWD_WatchMouse:
     WinMove, ahk_id %EWD_MouseWin%,, EWD_WinX + EWD_MouseX - EWD_MouseStartX, EWD_WinY + EWD_MouseY - EWD_MouseStartY
     EWD_MouseStartX := EWD_MouseX  ; Update for the next timer-call to this subroutine.
     EWD_MouseStartY := EWD_MouseY
-return
+Return
+
+
+; --- Windows 7 ----------------------------------------------------------------
+
+#if WinActive("ahk_exe Explorer.EXE") and (!win10) 
+    ;NOTE: in win10 renamed to lower case explorer.exe
+    ^l::SendInput,{f4}
+#if
