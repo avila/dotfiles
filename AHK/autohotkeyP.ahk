@@ -1,25 +1,39 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+﻿; UTF-8 with BOM
+
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ;#Warn  ; Enable warnings to assist with detecting common errors.
 #SingleInstance force
-SetTitleMatchMode 2
+SetTitleMatchMode RegEx
 
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 ; --- Scroll Shift and Lock Behaviour ------------------------------------------
+
 SetCapsLockState, AlwaysOff
 
+LShift & RShift::
+;use LeftShift+RightShift to toggle CAPS LOCK
+if GetKeyState("CapsLock", "T") = 1
+   SetCapsLockState, AlwaysOff
+else if GetKeyState("CapsLock", "F") = 0
+   SetCapsLockState, on
+Return
+
 +CapsLock::
-    SetScrollLockState % !GetKeyState("ScrollLock", "T")
-    while(getKeyState("ScrollLock","T")){
-        ToolTip, .`nScrollLock`nis`nOn`n .
-        ;TODO: make nicer tooltip
-        sleep, 3
-    }
-    ToolTip
+    SetScrollLockState % !GetKeyState("ScrollLock", "T") ; toggle ScrollLock state
+    SetTimer, ToolTipTimer, 1
+    ToolTipTimer:
+        if(getKeyState("ScrollLock","T")){
+            ToolTip, Editing Mode is ON!
+        } else {
+            ToolTip
+        }
 return
 
+
 #If (GetKeyState("CapsLock", "P") | GetKeyState("ScrollLock", "T"))
+    ;moving
     *h::SendInput,{Blind}{Left}
     *j::SendInput,{Blind}{Down}
     *k::SendInput,{Blind}{Up}
@@ -29,7 +43,14 @@ return
     *u::SendInput,{Blind}{Home}
     *i::SendInput,{Blind}{End}
     *p::SendInput,{Blind}{PgUp}
-    *ö::SendInput,{Blind}{PgDn}
+    *SC027::SendInput,{Blind}{PgDn} ; sc027 => ö in de layout, 
+    ; editing
+    *z::SendInput,^z
+    *x::SendInput,^x
+    *c::SendInput,^c
+    *v::SendInput,^v
+
+    *m::SendInput, {AppsKey}
 #If
 
 #if GetKeyState("ScrollLock", "T")
@@ -44,6 +65,12 @@ return
     return
     +CapsLock::SetScrollLockState % !GetKeyState("ScrollLock", "T")
 #If
+
+*!PgUp::SendInput,{Home}
+*!PgDn::SendInput,{End}
+
+*!+PgUp::SendInput,+{Home}
+*!+PgDn::SendInput,+{End}
 
 ; --- Third layer (AltGr) ------------------------------------------------------
 
@@ -222,7 +249,7 @@ RButton & t::
     SendInput, {Enter}
 return 
 
-#IfWinActive, Do-file Editor
+#IfWinActive, ^Do-file Editor
     ; define some sane shortcuts for statas editor
     ^w::SendInput, !f{Sleep 33}c
     ^PgUp::SendInput, ^+{TAB}
@@ -232,7 +259,7 @@ return
     LShift & WheelDown::SendInput, {END}
 #IfWinActive
 
-#IfWinActive, Data Editor (Browse)
+#IfWinActive, ^Data Editor
     ; changes Behaviour of Stata Browser scrollwheel
     +WheelDown::SendInput, +{Right}
     +WheelUp::SendInput, +{Left}
@@ -242,9 +269,7 @@ return
 
     ^WheelDown::SendInput, {WheelDown 5}
     ^WheelUp::SendInput, {WheelUp 5}
-#IfWinActive
 
-#IfWinActive, Data Editor (Browse)
     ; changes Behaviour of Stata Browser arrows
     !Right::SendInput, {Right 5}
     +!Right::SendInput, +{Right 5}
@@ -253,6 +278,10 @@ return
     +!Left::SendInput, +{Left 5}
 #IfWinActive
 
+#IfWinActive, .stmd 
+^+i::SendInput, ````````````{Left 3}{{}s{}}{Enter 2}{Up}
+
+#IfWinActive
 
 ; ------ Sublime ------
 
@@ -406,22 +435,17 @@ f6::
     clipboard := SaveThisClip                   ; replace clipboard with variable       
     saved =
 return 
-#IfWinActive
+
+#IfWinActive, .*\.ahk.*
 $^s::
-if WinActive("AutoHotkeyP.ahk")
-    {
-        SendInput,^s
-        Sleep,33
-        SplashTextOn, 300, 50, AHK, Updating the script.
-        Sleep, 666
-        SplashTextOff
-        Reload
-    }
-Else 
-{
-    SendInput, ^s
-}
-return
+    SendInput,^s
+    Sleep,33
+    SplashTextOn, 300, 50, AHK, Updating the script.
+    Sleep, 666
+    SplashTextOff
+    Reload
+Return
+#IfWinActive
 
 #f12::Run, \\hume\soep-data\STUD\mavila\Apps\AHK\WindowSpy.ahk
 
@@ -481,7 +505,11 @@ Return
 
 ; ---------------------------------------- Windows management  -----------------
 
-#SPACE::  Winset, Alwaysontop, , A
+;^!#SPACE::  Winset, Alwaysontop, Toggle , A
+#SPACE::
+;Winset, Transparent , Off   , A
+WinSet, Style, 0xC00000, A  ; Remove the active window's title bar (WS_CAPTION).
+Return
 
 !^:: ; Next window
 WinGetClass, ActiveClass, A
@@ -524,16 +552,8 @@ WinActivate, % "ahk_id " WinID
 return
 
 ; --- Print Screen  ---
-printscreen::
-    IfWinExist, ahk_exe SnippingTool.exe
-    {
-        WinActivate, ahk_exe SnippingTool.exe
-        Sleep, 300
-        SendInput,^n
-    }
-    else
-        Run, snippingtool
-return
+printscreen::Run, explorer ms-screenclip:
++printscreen::SendInput, {AppsKey}
 
 ; --- Move window with Lwin and Lbutton ---
 
