@@ -9,110 +9,28 @@ SetTitleMatchMode RegEx
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 SetCapsLockState, AlwaysOff
-global VimMode = 0 
+
 global win10 := % substr(a_osversion, 1, 2) = 10
 
-; --- Scroll Shift and Lock Behaviour ------------------------------------------
-LShift & RShift::
-    ;use LeftShift+RightShift to toggle CAPS LOCK
-    if GetKeyState("CapsLock", "T") = 1
-       SetCapsLockState, AlwaysOff
-    else if GetKeyState("CapsLock", "F") = 0
-       SetCapsLockState, on
+
+#Include, %A_ScriptDir%/vim_mode.ahk
+ 
+#Include, %A_ScriptDir%/remaps.ahk
+
+
+#f::
+    if !WinExist("ahk_class MozillaWindowClass") {
+        Run, firefox.exe 
+    }
+    Else {
+        WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
+    }
 Return
-
-+CapsLock::
-    ;SetScrollLockState % !GetKeyState("ScrollLock", "T") ; toggle ScrollLock state
-    VimMode := 1
-    SetTimer, ToolTipTimer, 1
-    ToolTipTimer:
-        if VimMode {
-            ToolTip, Editing Mode is %VimMode%!
-        } else {
-            ToolTip
-        }
-Return
-
-
-#If (GetKeyState("CapsLock", "P") | VimMode)
-    ;moving
-    *h::SendInput,{Blind}{Left}
-    *j::SendInput,{Blind}{Down}
-    *k::SendInput,{Blind}{Up}
-    *l::SendInput,{Blind}{Right}
-    *d::SendInput,{Blind}{Del}
-    *b::SendInput,{Blind}{Backspace}
-    *u::SendInput,{Blind}{Home}
-    *i::SendInput,{Blind}{End}
-    *p::SendInput,{Blind}{PgUp}
-    *SC027::SendInput,{Blind}{PgDn} ; sc027 => ö in de layout, 
-    ; editing
-    *z::SendInput,^z
-    *x::SendInput,^x
-    *c::SendInput,^c
-    *v::SendInput,^v
-
-    *m::SendInput, {AppsKey}
-
-    *2::enclose_with("""", """")
-    *8::enclose_with("(" , ")")
-    *(::enclose_with("[" , "]")
-    *7::enclose_with("{" , "}")
-    *[::enclose_with("{" , "}")
-#If
-
-#if VimMode
-    ; ways of exiting vim mode
-    q:: 
-    Esc::
-    CapsLock::
-    +CapsLock::VimMode := 0
-#If
-
-*!PgUp::SendInput,{Home}
-*!PgDn::SendInput,{End}
-
-*!+PgUp::SendInput,+{Home}
-*!+PgDn::SendInput,+{End}
-
-; --- Third layer (AltGr) ------------------------------------------------------
-
-<^>!s::SendInput,{ß}                    ; altGr+s           -> "ß"
-<^>!+s::SendInput,{§}                   ; alt+shift+s       -> "§"
-<^>!w::SendInput,{?}                    ; alt+W             -> "?" 
-<^>!+w::SendInput,{\}                   ; alt+W             -> "?" 
-<^>!+q::SendInput,{/}
-<^>!-::SendInput,{/}
-<^>!+-::SendInput,{\}
-<^>!c::SendInput,{ç}                    ; alt+c             -> "ç" 
-<^>!+c::SendInput,{Ç}                   ; alt+C             -> "ç" 
-<^>!a::SendInput,{ã}                    ; alt+C             -> "ç" 
-<^>!+A::SendInput,{Ã}                   ; alt+C             -> "ç" 
-<^>!+8::SendInput,{{}                   ; curly brackets
-<^>!+9::SendInput,{}}                   ; curly brackets
-
-
-Capslock & Space::SendInput,{ENTER}
-
-
-; helper functions 
-enclose_with(bef, aft) {
-    ; gets the selected text and wraps with bef and aft
-    SaveThisClip := ClipboardAll
-    clipboard := ""
-    SendInput, ^x
-    ClipWait
-    SendInput, {%bef%}%clipboard%{%aft%
-    clipboard := SaveThisClip
-    SaveThisClip := ""
-}
-
-
+; /--- Right Click -------------------------------------------------------------
 
 browse_this(keyword="") {
     if !WinExist("ahk_class MozillaWindowClass") {
-        MsgBox, , Error, Opening Firefox first. Run again, 1000
-        Run, firefox.exe
+        MsgBox, , Eita, Open Firefox first., 1000
     } else {
         Sleep, 10
         SendInput, ^c
@@ -126,12 +44,10 @@ browse_this(keyword="") {
     }
 }
 
-; /--- Right Click -------------------------------------------------------------
 RButton & s::browse_this("sp")
 RButton & g::browse_this("g")
 RButton & t::browse_this("gt")
 RButton & v::browse_this("gt") ;TODO: update gitlab
-
     
 #If !WinActive("ahk_class AcrobatSDIWindow")
 RButton & t::
@@ -148,16 +64,13 @@ return
 
 RButton::Send, {RButton} ; Important -> keey rbutton working
 
-; --- Right Click --------------------------------------------------------------
-
-
 ; --- To Delete ----------------------------------------------------------------
 
 ; --- /To Delete ---------------------------------------------------------------
 ;
 ; --- WORD ---------------------------------------------------------------------
 
- #IfWinActive ahk_exe WINWORD.EXE
+#IfWinActive ahk_exe WINWORD.EXE
 ; home end on word
 XBUTTON1::SendInput,{Home}
 XBUTTON2::SendInput,{End}
