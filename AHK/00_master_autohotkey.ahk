@@ -17,202 +17,20 @@ global win10 := % substr(a_osversion, 1, 2) = 10
  
 #Include, %A_ScriptDir%/remaps.ahk
 
+#Include, %A_ScriptDir%/office.ahk
 
-#f::
-    if !WinExist("ahk_class MozillaWindowClass") {
-        Run, firefox.exe 
-    }
-    Else {
-        WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
-    }
-Return
-; /--- Right Click -------------------------------------------------------------
+#Include, %A_ScriptDir%/stata.ahk
 
-browse_this(keyword="") {
-    if !WinExist("ahk_class MozillaWindowClass") {
-        MsgBox, , Eita, Open Firefox first., 1000
-    } else {
-        Sleep, 10
-        SendInput, ^c
-        Sleep, 50
-        WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
-        Sleep, 50
-        Send, ^t{sleep 30}^l{Sleep 30}
-        SendInput, %keyword% %clipboard%                    ; do the magic
-        SendInput, {Enter}
-        Return
-    }
-}
+#Include, %A_ScriptDir%/math_latex.ahk
 
-RButton & s::browse_this("sp")
-RButton & g::browse_this("g")
-RButton & t::browse_this("gt")
-RButton & v::browse_this("gt") ;TODO: update gitlab
-    
-#If !WinActive("ahk_class AcrobatSDIWindow")
-RButton & t::
-    Sleep, 30
-    SendInput, ^c{Sleep 30}                      ; sends cntrl x
-    ClipWait                                     ; wait for clipboard to be populated
-    Sleep, 30
-    WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
-    Sleep 30
-    Send, ^t{sleep 30}
-    SendInput, gt {Space} %clipboard%            ; do the magic
-    SendInput, {Enter}
-return 
-
-RButton::Send, {RButton} ; Important -> keey rbutton working
-
-; --- To Delete ----------------------------------------------------------------
-
-; --- /To Delete ---------------------------------------------------------------
-;
-; --- WORD ---------------------------------------------------------------------
-
-#IfWinActive ahk_exe WINWORD.EXE
-; home end on word
-XBUTTON1::SendInput,{Home}
-XBUTTON2::SendInput,{End}
-
-#IfWinActive
-
-; /------------------------------------## /WORD --------------------------------
-; /------------------------------------## Excel --------------------------------
-
-#IfWinActive, ahk_class  XLMAIN
-    ; Horizon Scroll In Excel With Shift + Scroll Wheel
-    LShift & WheelUp::ComObjActive("Excel.Application").ActiveWindow.SmallScroll(0,0,0,3)
-    LShift & WheelDown::ComObjActive("Excel.Application").ActiveWindow.SmallScroll(0,0,3)
-
-    ; Cycle Through Worksheet with Left ALt + Scroll Wheel
-    LAlt & WheelUp::Send, ^{PgUp}
-    LAlt & WheelDown::Send, ^{PgDn}
-
-    NumpadDot::.
-
-#IfWinActive
+#Include, %A_ScriptDir%/browse.ahk
 
 
-; --- Firefox ------------------------------------------------------------------
-#IfWinActive
-$^+Y::
-    SendInput,{Sleep 10}^c{Sleep 10}
-    ClipWait
-    WinActivate, ahk_class MozillaWindowClass
-    Sleep 13
-    Send, ^t{sleep 13}^l{Sleep 13}
-    Send, g {Space}
-    SendInput, %clipboard%
-    SendInput,{Enter}
-return 
-
-#IfWinActive, ahk_exe firefox.exe
-; google sites
-Capslock & s::
-    SendInput,{Home}site:{CtrlDown}{ShiftDown}{Right}{CtrlUp}{ShiftUp}{Del}{End}
-return
-
-
-#IfWinActive, Google Sheets
-~Alt & 1::SendInput, ^{PgUp}
-~Alt & 2::SendInput, ^{PgUp}
-~Alt & 3::SendInput, ^{PgUp}
-~Alt & 4::SendInput, ^{PgUp}
-~Alt & 5::SendInput, ^{PgUp}
-~Alt & 6::SendInput, ^{PgUp}
-#IfWinActive
-
-#IfWinActive ahk_exe firefox.exe
-~Alt & 1::SendInput, ^1
-~Alt & 2::SendInput, ^2
-~Alt & 3::SendInput, ^3
-~Alt & 4::SendInput, ^4
-~Alt & 5::SendInput, ^5
-~Alt & 6::SendInput, ^6
-
-
-
-; --- Stata --------------------------------------------------------------------
-
-StataWindow := "ahk_class Afx:0000000140000000:0:0000000000000000:0000000000000000:0000000003970829" 
-
-#IfWinActive ahk_exe sublime_text.exe
-f1::
-    ; Send, {Home Down}{Home Up}{ShiftDown}{End}{ShiftUp}
-    Send, ^c
-    ClipWait, 5
-    if WinExist("ahk_class Afx:0000000140000000:0:0000000000000000:0000000000000000:0000000003970829")
-    {
-        WinActivate ;
-        Send, ^1
-        Send, ^v
-    }
-    Else
-    {
-        return
-    }
-
-return
-
-RButton & t::
-    ; in stata: CTRL+T -> activates main window and aks for tab, m
-    Sleep, 30
-    SendInput, ^c{Sleep 10}
-    ClipWait, 10
-    WinActivate, ahk_class ahk_class Afx:0000000140000000:0:0000000000000000:0000000000000000:0000000003970829
-    Sleep 30
-    Send, ^1
-    Sleep 30
-    SendInput, tab %clipboard% ,missing
-    SendInput, {Enter}
-return 
-
-#IfWinActive, ^Do-file Editor
-    ; define some sane shortcuts for statas editor
-    ^w::SendInput, !f{Sleep 33}c
-    ^PgUp::SendInput, ^+{TAB}
-    ^PgDn::SendInput, ^{TAB}
-
-    LShift & WheelUp::SendInput, {HOME}
-    LShift & WheelDown::SendInput, {END}
-#IfWinActive
-
-#IfWinActive, ^Data Editor
-    ; changes Behaviour of Stata Browser scrollwheel
-    +WheelDown::SendInput, +{Right}
-    +WheelUp::SendInput, +{Left}
-
-    ^+WheelDown::SendInput, +{Right 5}
-    ^+WheelUp::SendInput, +{Left 5}
-
-    ^WheelDown::SendInput, {WheelDown 5}
-    ^WheelUp::SendInput, {WheelUp 5}
-
-    ; changes Behaviour of Stata Browser arrows
-    !Right::SendInput, {Right 5}
-    +!Right::SendInput, +{Right 5}
-
-    !Left::SendInput, {Left 5}
-    +!Left::SendInput, +{Left 5}
-#IfWinActive
-
-#IfWinActive, .stmd 
-^+i::SendInput, ````````````{Left 3}{{}s{}}{Enter 2}{Up}
-
-#IfWinActive
-
-; ------ Sublime ------
-
- 
-; ------ Numbers Excel and co  ------
-
-~Numpad0 & NumpadDot::SendInput,.{left}{backspace}{right}       ; "0" + "," = "."
 
 
 ; --- auto completes -----------------------------------------------------------
 
-
+#IfWinActive
 :?0C*:ddd:: ; 13.09.2019 (18:30)
     FormatTime, CurrentDateTime,, dd.MM.yyyy (HH:mm)
     SendInput %CurrentDateTime% 
@@ -220,111 +38,11 @@ return
 
 :R*?:m@::m.rainho.avila@gmail.com 
 
-; --- mathe / equations --------------------------------------------------------
 
-; zeichen
-::qqtimes::·
-::qqtime::× 
-::qqd::÷
-::qqpm::±
-::qqkg::≤
-::qqgg::≥
-::pct::%
-::sqrt::√
-::unend::∞
-::qqint::∫
-::qqrechts::⇒ 
-::qqlinks::{U+21d0}     ; 
-::qqrl::⇔
-::qqungf::≈
-::qqung::≠
-::qqup::{U+2191}        ; ↑ 
-::qqdown::{U+2193}      ; ↓      
-::qqdn::{U+2193}        ; ↓ 
-
-
-; greek letters α
-:R*?:qa::a
-:R*?:qbeta::β
-:R*?:qgamma::γ
-:R*?:qdelta::δ
-:R*?:qomega::Ω
-:R*?:qlambda::
-:R*?:qtheta::θ
-:R*?:qsigma::σ
-:R*?:qpi::π
-:R*?:qtau::{U+03C4} ; 
-:R*?:qepsi::ε
-::qforall::{U+2200}
-
-; superscripts
-:*:^^1::¹
-:*:^^2::²
-:*:^^3::³
-:*:^^4::⁴
-:*:^^5::⁵
-:*:^^6::⁶
-:*:^^7::⁷
-:*:^^8::⁸
-:*:^^9::⁹
-:*:^^0::⁰
-:*:^^+::⁺
-:*:^^-::⁻
-:*:^^(::⁽
-:*:^^)::⁾
-:*:^^x::ˣ
-:*:^^y::ʸ
-:*:^^a::ᵃ
-:*:^^b::ᵇ
-:*:^^n::ⁿ
-:*:^^m::ᵐ
-:*:^^alpha::ᵅ
-:*:^^beta::ᵝ
-
-; ubscript
-::sub0::₀
-::sub1::₁
-::sub2::₂
-::sub3::₃
-::sub4::₄
-::sub5::₅
-::sub6::₆
-::sub7::₇
-::sub8::₈
-::sub9::₉
-::sub+::₊
-::sub-::₋
-::sub=::₌
-::sub(::₍
-::sub)::₎
-::suba::ₐ
-::subx::ₓ
-::ampers::&
-
-; --- /Media   -----------------------------------------------------------------
-
-; Custom volume buttons
-#NumpadAdd:: Send {Volume_Up} ;shift + numpad plus
-#NumpadSub:: Send {Volume_Down} ;shift + numpad minus
-break::Send {Volume_Mute} ; Break key mutes
-return
-
-
-; --- Autohotkey ---------------------------------------------------------------
  
 
-#IfWinActive ahk_class Notepad++
-f6::
-    SaveThisClip := ClipboardAll                ; saves clipboard into variables 
-    SendInput,{Sleep 10}^x{Sleep 10}
-    Sleep, 30
-    ClipWait
-    SendInput, {{}%clipboard%{}}
-    clipboard := SaveThisClip                   ; replace clipboard with variable       
-    saved =
-return 
 
-#IfWinActive, .*\.ahk.*
+#IfWinActive, .*autohotkey\.ahk.*
 $^s::
     SendInput,^s
     Sleep,33
@@ -334,61 +52,6 @@ $^s::
     Reload
 Return
 #IfWinActive
-
-#f12::Run, \\hume\soep-data\STUD\mavila\Apps\AHK\WindowSpy.ahk
-
-^+!h::
-:*:date#::
-  ActWin := WinActive("A") ; for tracking original window—also works with  WinGet, ActWin, ID, A
-  ;MsgBox, %ActWin%    ; for testing purposes only
-  ; SendInput {Backspace 5}
-  Date := A_Now
-  List := DateFormats(Date)
-  TextMenuDate(List)
-Return
-
-DateFormats(Date)
-{
-    FormatTime, OutputVar , %Date%, HH:mm  ;
-    global List := "1. " . OutputVar
-    
-    FormatTime, OutputVar , %Date%, ShortDate ;
-    global List := List . "|2. " . OutputVar
-    
-    FormatTime, OutputVar , %Date%, dd.MM.yyyy HH:mm ;
-    global List := List . "|3. " . OutputVar
-    
-    FormatTime, OutputVar , %Date%, MMM. d, yyyy
-    global List := List . "|4. " . OutputVar
-    
-    FormatTime, OutputVar , %Date%, MMMM d, yyyy
-    global List := List . "|q. " . OutputVar
-    
-    FormatTime, OutputVar , %Date%, LongDate
-    global List := List . "|w. " . OutputVar
-    return List
-}
- 
-TextMenuDate(TextOptions)
-{
- StringSplit, MenuItems, TextOptions , |
- Loop %MenuItems0%
-  {
-    Item := MenuItems%A_Index%
-    Menu, MyMenu, add, %Item%, MenuAction
-  }
- Menu, MyMenu, Show
- Menu, MyMenu, DeleteAll
-}
-
-MenuAction:
- Sleep 33
- WinActivate, ahk_id %ActWin%  ;activate original window
- Sleep 33
- StringFinal := SubStr(A_ThisMenuItem, 4)
- Sleep 33
- Send, %StringFinal%
-Return
 
 
 ; ---------------------------------------- Windows management  -----------------
@@ -442,7 +105,7 @@ Return
 ; --- Print Screen  ---
 printscreen::Run, explorer ms-screenclip:
 +printscreen::SendInput, {AppsKey}
-
+CapsLock & PrintScreen::SendInput, {AppsKey}
 ; --- Move window with Lwin and Lbutton ---
 
 Lwin & LButton::
