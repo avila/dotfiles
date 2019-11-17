@@ -1,7 +1,5 @@
 ; UTF-8 with BOM
 
-; --- mathe / equations --------------------------------------------------------
-
 ; zeichen
 ::qqtimes::·
 ::qqtime::× 

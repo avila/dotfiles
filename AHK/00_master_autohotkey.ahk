@@ -22,6 +22,7 @@ global win10 := % substr(a_osversion, 1, 2) = 10
 #Include, %A_ScriptDir%/stata.ahk
 
 #Include, %A_ScriptDir%/math_latex.ahk
+; Work in Progress
 
 #Include, %A_ScriptDir%/browse.ahk
 
@@ -31,18 +32,25 @@ global win10 := % substr(a_osversion, 1, 2) = 10
 ; --- auto completes -----------------------------------------------------------
 
 #IfWinActive
-:?0C*:ddd:: ; 13.09.2019 (18:30)
+:?0C*:dddh:: ; 13.09.2019 (18:30) (h for Human)
+    ; input the date and time in the format defined below
     FormatTime, CurrentDateTime,, dd.MM.yyyy (HH:mm)
     SendInput %CurrentDateTime% 
 return
+:?0C*:dddm:: ; 2019_09_13 (m for Machine, good file names )
+    ; input the date and time in the format defined below
+    FormatTime, CurrentDateTime,, yyyy_mm_dd
+    SendInput %CurrentDateTime% 
+return
 
-:R*?:m@::m.rainho.avila@gmail.com 
-
-
- 
+; text expander with email
+:R*?:m@::m.rainho.avila@gmail.com
 
 
 #IfWinActive, .*autohotkey\.ahk.*
+; if editing the autohotkey file, ctrl+s saves the file and reloads the script
+; the script needs to have a name that will be captured by the regex after
+; the #IfWinActive condtition
 $^s::
     SendInput,^s
     Sleep,33
@@ -54,60 +62,18 @@ Return
 #IfWinActive
 
 
-; ---------------------------------------- Windows management  -----------------
-
-;^!#SPACE::  Winset, Alwaysontop, Toggle , A
-#SPACE::
-;Winset, Transparent , Off   , A
-WinSet, Style, 0xC00000, A  ; Remove the active window's title bar (WS_CAPTION).
-Return
-
-!^:: ; Next window
-WinGetClass, ActiveClass, A
-WinGet, WinClassCount, Count, ahk_class %ActiveClass%
-IF WinClassCount = 1
-    Return
-Else
-WinGet, List, List, % "ahk_class " ActiveClass
-Loop, % List
-{
-    index := List - A_Index + 1
-    WinGet, State, MinMax, % "ahk_id " List%index%
-    if (State <> -1)
-    {
-        WinID := List%index%
-        break
-    }
-}
-WinActivate, % "ahk_id " WinID
-Return
-
-!+^:: ; Last window
-WinGetClass, ActiveClass, A
-WinGet, WinClassCount, Count, ahk_class %ActiveClass%
-IF WinClassCount = 1
-    Return
-Else
-WinGet, List, List, % "ahk_class " ActiveClass
-Loop, % List
-{
-    index := List - A_Index + 1
-    WinGet, State, MinMax, % "ahk_id " List%index%
-    if (State <> -1)
-    {
-        WinID := List%index%
-        break
-    }
-}
-WinActivate, % "ahk_id " WinID
-Return
 
 ; --- Print Screen  ---
+; runs the snip program (windows 10)
 printscreen::Run, explorer ms-screenclip:
+
+; for some thinkpads models where the printscreen is where the Menu Key should be
 +printscreen::SendInput, {AppsKey}
 CapsLock & PrintScreen::SendInput, {AppsKey}
-; --- Move window with Lwin and Lbutton ---
 
+
+
+; --- Move window with Lwin and Lbutton ---
 Lwin & LButton::
     CoordMode, Mouse  ; Switch to screen/absolute coordinates.
     MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin

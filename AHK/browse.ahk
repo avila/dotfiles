@@ -1,11 +1,16 @@
-browse.ahk
 ; UTF-8 with BOM
+; Description: The browse functions make usage of firefox (or chrome) keyword search, 
+;   where the user can set a character or word to perform the required search
+;   Its possible to define everythin in AHK, though.
+; -----------------------------------------------------------------------------------
+RButton & s::browse_this("sp")
+RButton & g::browse_this("g")
+RButton & t::browse_this("gt")
+RButton & v::browse_this("gt") ;TODO: update gitlab
 
-RButton::Send, {RButton} ; Important -> keey rbutton working
+RButton::Send, {RButton} ; Important -> send RButton if pressed alone
 
-
-; /--- Right Click -------------------------------------------------------------
-
+; define browse function
 browse_this(keyword="") {
     if !WinExist("ahk_class MozillaWindowClass") {
         MsgBox, , Eita, Open Firefox first., 1000
@@ -13,19 +18,15 @@ browse_this(keyword="") {
         Sleep, 10
         SendInput, ^c
         Sleep, 50
-        WinActivate, ahk_class MozillaWindowClass    ; activates firefox windows, if program already opened
+        WinActivate, ahk_class MozillaWindowClass
         Sleep, 50
         Send, ^t{sleep 30}^l{Sleep 30}
-        SendInput, %keyword% %clipboard%                    ; do the magic
+        SendInput, %keyword% %clipboard%
         SendInput, {Enter}
         Return
     }
 }
 
-RButton & s::browse_this("sp")
-RButton & g::browse_this("g")
-RButton & t::browse_this("gt")
-RButton & v::browse_this("gt") ;TODO: update gitlab
 
 
 ; keyboard browse 
@@ -33,12 +34,10 @@ $^+Y::browse_this("g ")
 
 
 
-
-
-
 #IfWinActive, ahk_exe firefox.exe
 ; google sites
 Capslock & s::
+    ; searches inside the current website.
     SendInput,{Home}site:{CtrlDown}{ShiftDown}{Right}{CtrlUp}{ShiftUp}{Del}{End}
 return
 
@@ -54,7 +53,6 @@ return
 ~Alt & 8::SendInput, ^{Tab}
 ~Alt & 9::SendInput, ^{Tab}
 ~Alt & 0::SendInput, ^{Tab}
-
 #IfWinActive
 
 #IfWinActive ahk_exe firefox.exe
