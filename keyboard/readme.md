@@ -1,3 +1,6 @@
+## link custom file to xkb folder
+sudo ln -sr ./xy /usr/share/X11/xkb/symbols/xy
+
 ## Modify /usr/share/X11/xkb/rules/evdev.xml
 
 Include the following lines in the evdev.xml file in order to be able to pick this layout 
