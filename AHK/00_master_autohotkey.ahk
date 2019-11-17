@@ -8,9 +8,9 @@ SetTitleMatchMode RegEx
 
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-SetCapsLockState, AlwaysOff
 
-global win10 := % substr(a_osversion, 1, 2) = 10
+SetCapsLockState, AlwaysOff ; disables CAPSLock
+global win10 := % substr(a_osversion, 1, 2) = 10 ; defines a global (1 if win10, 0 otherwise)
 
 
 #Include, %A_ScriptDir%/vim_mode.ahk
