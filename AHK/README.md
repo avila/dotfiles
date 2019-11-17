@@ -10,8 +10,8 @@ The [vim mode](./vim_mode.ahk) scripts changes the bahaviour of the caps lock ke
     - `CAPS` + `d`: Delete
     - `CAPS` + `p`: Page Up, and so forth ...
     - be aware that the image is not 100% consistent with the actual remaps, please check the source file.
-- further, the "vim mode" can be lock with `Shift+CAPS`.
-- vim mode can be exited with `Esc`, `q`, `CAPS` and `Shift+CAPS`
+- further, `vim mode` can be locked with `Shift+CAPS`.
+- `vim mode` can be exited with `Esc`, `q`, `CAPS` and `Shift+CAPS`
 
 ![](./keyboard_layout.png)
 
