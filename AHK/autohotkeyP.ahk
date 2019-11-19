@@ -1,7 +1,7 @@
 ﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ;#Warn  ; Enable warnings to assist with detecting common errors.
 #SingleInstance force
-SetTitleMatchMode 2
+SetTitleMatchMode, RegEx 
 
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
@@ -186,8 +186,33 @@ return
 ~Alt & 6::SendInput, ^6
 
 
-
+#if
 ; --- Stata --------------------------------------------------------------------
+#s::Run, R:\stata15-64\StataSE-64.exe stata_temp.do
+#IfWinActive ahk_exe sublime_text.exe
+
+
+^Enter::
+^r::
+    WinGet, winid
+    if WinExist("Do-file Editor - stata_temp.do") | WinExist("Do-file Editor - Untitled[0-9].do") {
+        SendInput, ^c
+        Sleep, 55
+        stata_do() 
+    }
+    else {
+        MsgBox, , Error, Do-File Editor with stata_temp or Untitled[0-9].do not found
+    }
+Return
+
+stata_do() {
+    WinActivate,
+    Sleep, 55
+    SendInput, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}v{Sleep, 22}d{CtrlUp}{CtrlUp}{Ctrl}
+    Sleep, 55
+    WinActivate, ahk_exe sublime_text.exe
+}
+
 
 StataWindow := "ahk_class Afx:0000000140000000:0:0000000000000000:0000000000000000:0000000003970829" 
 
@@ -253,7 +278,6 @@ return
     +!Left::SendInput, +{Left 5}
 #IfWinActive
 
-
 ; ------ Sublime ------
 
  
@@ -295,11 +319,27 @@ return
 
 ; --- auto completes -----------------------------------------------------------
 
-
-:?0C*:ddd:: ; 13.09.2019 (18:30)
+:?0C*:dddd:: ; 13.09.2019 (18:30)
+    FormatTime, CurrentDateTime,, dd.MM.yyyy
+    SendInput %CurrentDateTime% 
+Return
+:?0C*:ddda:: ; 2019_11_06
+    FormatTime, CurrentDateTime,, yyyy_MM_dd 
+    SendInput %CurrentDateTime% 
+Return
+:?0C*:dddm:: ; 2019_11_06_11_49
+    FormatTime, CurrentDateTime,, yyyy_MM_dd_HH_mm
+    SendInput %CurrentDateTime% 
+Return
+:?0C*:dddh:: ; 06.11.2019 (11:49)
     FormatTime, CurrentDateTime,, dd.MM.yyyy (HH:mm)
     SendInput %CurrentDateTime% 
-return
+Return
+:?0C*:ddde:: ; 06/11/2019 (11:49)
+    FormatTime, CurrentDateTime,, dd/MM/yyyy
+    SendInput %CurrentDateTime% 
+Return
+
 
 :R*?:m@::m.rainho.avila@gmail.com 
 
@@ -482,6 +522,7 @@ Return
 ; ---------------------------------------- Windows management  -----------------
 
 #SPACE::  Winset, Alwaysontop, , A
+;TODO: add indication of AlwaysOnTop (https://www.autohotkey.com/boards/viewtopic.php?t=25520)
 
 !^:: ; Next window
 WinGetClass, ActiveClass, A
@@ -572,3 +613,7 @@ EWD_WatchMouse:
     EWD_MouseStartX := EWD_MouseX  ; Update for the next timer-call to this subroutine.
     EWD_MouseStartY := EWD_MouseY
 return
+
+
+
+
