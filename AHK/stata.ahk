@@ -1,8 +1,29 @@
 ﻿; UTF-8 with BOM
 
-; --- Stata --------------------------------------------------------------------
+; --- sublime stata editor no admin --------------------------------------------------------------------
+#IfWinActive ahk_exe sublime_text.exe
+^Enter::
+^r::
+    WinGet, winid
+    if WinExist("Do-file Editor - stata_temp.do") | WinExist("Do-file Editor - Untitled[0-9].do") {
+        SendInput, ^c
+        Sleep, 55
+        stata_do() 
+    }
+    else {
+        MsgBox, , Error, Do-File Editor with stata_temp or Untitled[0-9].do not found
+    }
+Return
 
-StataWindow := "ahk_class Afx:0000000140000000:0:0000000000000000:0000000000000000:0000000003970829" 
+stata_do() {
+    WinActivate,
+    Sleep, 55
+    SendInput, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}v{Sleep, 22}d{CtrlUp}{CtrlUp}{Ctrl}
+    Sleep, 55
+    WinActivate, ahk_exe sublime_text.exe
+} 
+
+; --- Stata --------------------------------------------------------------------
 
 #IfWinActive, ^Do-file Editor
     ; define some sane shortcuts for statas editor
@@ -33,7 +54,7 @@ StataWindow := "ahk_class Afx:0000000140000000:0:0000000000000000:00000000000000
     +!Left::SendInput, +{Left 5}
 #IfWinActive
 
+; --- Stata Markdown --------------------------------------------------------------------
 #IfWinActive, ^.stmd 
 ^+i::SendInput, ````````````{Left 3}{{}s{}}{Enter 2}{Up}
-
 #IfWinActive
