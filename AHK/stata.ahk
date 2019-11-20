@@ -18,10 +18,11 @@ Return
 stata_do() {
     WinActivate,
     Sleep, 55
-    SendInput, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}v{Sleep, 22}d{CtrlUp}{CtrlUp}{Ctrl}
+    Send, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}v{Sleep, 22}d{CtrlUp}{CtrlUp}{Ctrl}
     Sleep, 55
     WinActivate, ahk_exe sublime_text.exe
-} 
+    WinActivate, ^Stata/SE 15.1
+}
 
 ; --- Stata --------------------------------------------------------------------
 

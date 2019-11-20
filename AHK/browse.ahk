@@ -8,7 +8,7 @@ RButton & g::browse_this("g")
 RButton & t::browse_this("gt")
 RButton & v::browse_this("gt") ;TODO: update gitlab
 
-RButton::Send, {RButton} ; Important -> send RButton if pressed alone
+RButton::SendInput, {RButton} ; Important -> send RButton if pressed alone
 
 ; define browse function
 browse_this(keyword="") {
@@ -20,7 +20,7 @@ browse_this(keyword="") {
         Sleep, 50
         WinActivate, ahk_class MozillaWindowClass
         Sleep, 50
-        Send, ^t{sleep 30}^l{Sleep 30}
+        SendInput, ^t{sleep 30}^l{Sleep 30}
         SendInput, %keyword% %clipboard%
         SendInput, {Enter}
         Return

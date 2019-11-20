@@ -90,3 +90,71 @@ return
 ; for some thinkpads models where the printscreen is where the Menu Key should be
 +printscreen::SendInput, {AppsKey}
 CapsLock & PrintScreen::SendInput, {AppsKey}
+
+
+; --- change windown of the same app
+
+!^:: ; Last window
+    WinGet, ActiveProcess, ProcessName, A
+    WinGet, WinClassCount, Count, ahk_exe %ActiveProcess%
+    IF WinClassCount = 1
+        Return
+    Else
+    WinGet, List, List, % "ahk_exe " ActiveProcess
+    Loop, % List
+    {
+        index := List - A_Index + 1
+        WinGet, State, MinMax, % "ahk_id " List%index%
+        if (State <> -1)
+        {
+            WinID := List%index%
+            break
+        }
+    }
+    WinActivate, % "ahk_id " WinID
+Return
+
+#IfWinActive, ahk_exe StataSE-64.exe 
+
+Return
+!^::
+    WinGet, ActiveProcess, PID, A
+    WinGet, WinClassCount, Count, ahk_pid  %ActiveProcess%
+    IF WinClassCount = 1
+        Return
+    Else
+    WinGet, List, List, % "ahk_pid " ActiveProcess
+    Loop, % List
+    {
+        index := List - A_Index + 1
+        WinGet, State, MinMax, % "ahk_pid " List%index%
+        if (State <> -1)
+        {
+            WinID := List%index%
+            break
+        }
+    }
+    WinActivate, % "ahk_id " WinID
+Return
+
+
+#IfWinActive ahk_class CabinetWClass
+!^:: ; Next window
+WinGetClass, ActiveClass, A
+WinGet, WinClassCount, Count, ahk_class %ActiveClass%
+IF WinClassCount = 1
+    Return
+Else
+WinGet, List, List, % "ahk_class " ActiveClass
+Loop, % List
+{
+    index := List - A_Index + 1
+    WinGet, State, MinMax, % "ahk_id " List%index%
+    if (State <> -1)
+    {
+        WinID := List%index%
+        break
+    }
+}
+WinActivate, % "ahk_id " WinID
+return

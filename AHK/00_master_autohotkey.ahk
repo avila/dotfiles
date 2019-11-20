@@ -6,7 +6,8 @@
 #SingleInstance force
 SetTitleMatchMode RegEx
 
-SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+;SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetKeyDelay, 10, 1
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 SetCapsLockState, AlwaysOff ; disables CAPSLock
