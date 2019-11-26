@@ -42,17 +42,17 @@ Capslock & s::
 return
 
 
-#IfWinActive, Google Sheets
-~Alt & 1::SendInput, ^{Tab}
-~Alt & 2::SendInput, ^{Tab}
-~Alt & 3::SendInput, ^{Tab}
-~Alt & 4::SendInput, ^{Tab}
-~Alt & 5::SendInput, ^{Tab}
-~Alt & 6::SendInput, ^{Tab}
-~Alt & 7::SendInput, ^{Tab}
-~Alt & 8::SendInput, ^{Tab}
-~Alt & 9::SendInput, ^{Tab}
-~Alt & 0::SendInput, ^{Tab}
+#IfWinActive, .*Google Sheets.*
+LAlt & 1::SendInput, ^{Tab}
+LAlt & 2::SendInput, ^{Tab}
+LAlt & 3::SendInput, ^{Tab}
+LAlt & 4::SendInput, ^{Tab}
+LAlt & 5::SendInput, ^{Tab}
+LAlt & 6::SendInput, ^{Tab}
+LAlt & 7::SendInput, ^{Tab}
+LAlt & 8::SendInput, ^{Tab}
+LAlt & 9::SendInput, ^{Tab}
+LAlt & 0::SendInput, ^{Tab}
 #IfWinActive
 
 #IfWinActive ahk_exe firefox.exe

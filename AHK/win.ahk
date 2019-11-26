@@ -158,3 +158,9 @@ Loop, % List
 }
 WinActivate, % "ahk_id " WinID
 return
+
+
+; backward / forward browse 
+#IfWinActive
+~RButton & WheelUp::SendInput, !{Left}
+~RButton & WheelDown::SendInput, !{Right}
