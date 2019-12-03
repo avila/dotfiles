@@ -3,29 +3,31 @@
 ;   where the user can set a character or word to perform the required search
 ;   Its possible to define everythin in AHK, though.
 ; -----------------------------------------------------------------------------------
-RButton & s::browse_this("sp")
-RButton & g::browse_this("g")
-RButton & t::browse_this("gt")
-RButton & v::browse_this("gt") ;TODO: update gitlab
+~RButton & s::browse_this("sp")
+~RButton & g::browse_this("g")
+~RButton & t::browse_this("gt")
+~RButton & v::browse_this("gt") ;TODO: update gitlab
 
-RButton::SendInput, {RButton} ; Important -> send RButton if pressed alone
 
 ; define browse function
 browse_this(keyword="") {
     if !WinExist("ahk_class MozillaWindowClass") {
         MsgBox, , Eita, Open Firefox first., 1000
     } else {
-        Sleep, 10
+        Sleep, 30
         SendInput, ^c
         Sleep, 50
         WinActivate, ahk_class MozillaWindowClass
         Sleep, 50
         SendInput, ^t{sleep 30}^l{Sleep 30}
         SendInput, %keyword% %clipboard%
+        Sleep, 30
         SendInput, {Enter}
         Return
     }
 }
+
+;RButton::SendInput, {RButton} ; Important -> send RButton if pressed alone
 
 
 
