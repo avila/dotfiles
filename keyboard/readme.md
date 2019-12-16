@@ -1,5 +1,12 @@
 ## link custom file to xkb folder
+
+```
+# link xy to system location
 sudo ln -sr ./xy /usr/share/X11/xkb/symbols/xy
+
+# set alredy layout
+setxkbmap xy -variant xy5levels
+```
 
 ## Modify /usr/share/X11/xkb/rules/evdev.xml
 
