@@ -1,31 +1,30 @@
 swipe:
   3:
-    left:
-      command: 'xdotool key alt+Left'
     right:
-      command: 'xdotool key alt+Right'
+      command: 'xdotool key XF86Back'
+    left:
+      command: 'xdotool key XF86Forward'
     up:
-      command: 'xdotool key ctrl+t'
-      threshold: 1.5
+      command:  'qdbus org.kde.kglobalaccel /component/kwin invokeShortcut "ExposeAll"'
+      threshold: 1
     down:
-      command: 'xdotool key ctrl+w'
-      threshold: 1.5
+      command: 'qdbus org.kde.kglobalaccel /component/kwin invokeShortcut "ExposeAll"'
   4:
     left:
-      command: 'xdotool key super+Left'
+      command: 'xdotool --clearmodifiers key alt+Tab'
     right:
-      command: 'xdotool key super+Right'
+      command: 'xdotool --clearmodifiers key super+Right'
     up:
-      command: 'xdotool key super+a'
+      command: 'qdbus org.kde.kglobalaccel /component/kwin invokeShortcut "ExposeAll"'
     down:
-      command: 'xdotool key super+s'
+      command: 'qdbus org.kde.kglobalaccel /component/kwin invokeShortcut "ExposeAll"'
 pinch:
   2:
     in:
-      command: 'xdotool key ctrl+plus'
+      command: 'xdotool --clearmodifiers key ctrl+plus'
       threshold: 0.1
     out:
-      command: 'xdotool key ctrl+minus'
+      command: 'xdotool --clearmodifiers key ctrl+minus'
       threshold: 0.1
 
 threshold:
