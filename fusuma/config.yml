@@ -8,27 +8,27 @@ swipe:
       command:  'qdbus org.kde.kglobalaccel /component/kwin invokeShortcut "ExposeAll"'
       threshold: 1
     down:
-      command: 'qdbus org.kde.kglobalaccel /component/kwin invokeShortcut "ExposeAll"'
+      command: 'xdotool getactivewindow windowminimize'
   4:
     left:
-      command: 'xdotool --clearmodifiers key alt+Tab'
+      command: 'xdotool key alt+Tab'
     right:
-      command: 'xdotool --clearmodifiers key super+Right'
+      command: 'xdotool key super+Right'
     up:
       command: 'qdbus org.kde.kglobalaccel /component/kwin invokeShortcut "ExposeAll"'
     down:
-      command: 'qdbus org.kde.kglobalaccel /component/kwin invokeShortcut "ExposeAll"'
+      command: 'wmctrl -c :ACTIVE:'
 pinch:
   2:
     in:
-      command: 'xdotool --clearmodifiers key ctrl+plus'
+      command: 'xdotool key ctrl+plus'
       threshold: 0.1
     out:
-      command: 'xdotool --clearmodifiers key ctrl+minus'
+      command: 'xdotool key ctrl+minus'
       threshold: 0.1
 
 threshold:
-  swipe: 1
+  swipe: .6
   pinch: 1
 
 interval:
