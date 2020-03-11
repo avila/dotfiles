@@ -11,7 +11,7 @@ LShift & RShift::
        SetCapsLockState, on
 Return
 
-+CapsLock::
+/*+CapsLock::
     ;SetScrollLockState % !GetKeyState("ScrollLock", "T") ; toggle ScrollLock state
     VimMode := 1
     SetTimer, ToolTipTimer, 1
@@ -23,6 +23,7 @@ Return
             SetCapsLockState, AlwaysOff
         }
 Return
+*/
 
 
 #If (GetKeyState("CapsLock", "P") | VimMode)
