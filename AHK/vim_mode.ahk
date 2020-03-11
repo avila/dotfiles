@@ -25,7 +25,6 @@ Return
 Return
 */
 
-
 #If (GetKeyState("CapsLock", "P") | VimMode)
     ;moving
     *h::SendInput,{Blind}{Left}
@@ -45,12 +44,6 @@ Return
     *v::SendInput,^v
 
     *m::SendInput, {AppsKey}
-
-    *2::enclose_with("""", """")
-    *8::enclose_with("(" , ")")
-    *(::enclose_with("[" , "]")
-    *7::enclose_with("{" , "}")
-    *[::enclose_with("{" , "}")
 #If
 
 #if VimMode
@@ -63,17 +56,5 @@ Return
 
 #If (GetKeyState("CapsLock", "P")) ; only if caps physically pressed
 	Space::SendInput,{ENTER}
-
 #If
 
-; helper functions 
-enclose_with(bef, aft) {
-    ; gets the selected text and wraps with bef and aft
-    SaveThisClip := ClipboardAll
-    clipboard := ""
-    SendInput, ^x
-    ClipWait
-    SendInput, {%bef%}%clipboard%{%aft%
-    clipboard := SaveThisClip
-    SaveThisClip := ""
-}
