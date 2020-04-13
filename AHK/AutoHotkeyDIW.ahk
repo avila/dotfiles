@@ -9,16 +9,6 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; --- Scroll Shift and Lock Behaviour ------------------------------------------
 SetCapsLockState, AlwaysOff
 
-+CapsLock::
-    SetScrollLockState % !GetKeyState("ScrollLock", "T")
-    while(getKeyState("ScrollLock","T")){
-        ToolTip, .`nScrollLock`nis`nOn`n .
-        ;TODO: make nicer tooltip
-        sleep, 3
-    }
-    ToolTip
-return
-
 #If (GetKeyState("CapsLock", "P") | GetKeyState("ScrollLock", "T"))
     *h::SendInput,{Blind}{Left}
     *j::SendInput,{Blind}{Down}

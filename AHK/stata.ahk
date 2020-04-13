@@ -2,8 +2,7 @@
 
 ; --- sublime stata editor no admin --------------------------------------------------------------------
 #IfWinActive ahk_exe sublime_text.exe
-^Enter::
-^r::
+^+Enter::
     WinGet, winid
     if WinExist("Do-file Editor - stata_temp.do") | WinExist("Do-file Editor - Untitled[0-9].do") {
         SendInput, ^c
@@ -21,9 +20,9 @@ stata_do() {
     Send, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}v{Sleep, 22}d{CtrlUp}{CtrlUp}{Ctrl}
     Sleep, 55
     WinActivate, ahk_exe sublime_text.exe
-    WinActivate, ^Stata/SE 15.1
+    ;WinActivate, ^Stata/SE 15.1 
 }
-
+#IfWinActive
 ; --- Stata --------------------------------------------------------------------
 
 #IfWinActive, ^Do-file Editor
@@ -36,16 +35,23 @@ stata_do() {
     LShift & WheelDown::SendInput, {END}
 #IfWinActive
 
-#IfWinActive, ^Data Editor
+#IfWinActive, ^Data Editor (Browse)*
+    LShift & WheelUp::SendInput, +{Left 3}
+    LShift & WheelDown::SendInput, +{Right 3}
+    
+    !WheelUp::SendInput, +{Left 5}
+    !WheelDown::SendInput, +{Right 5}
+    
     ; changes Behaviour of Stata Browser scrollwheel
+
     +WheelDown::SendInput, +{Right}
     +WheelUp::SendInput, +{Left}
 
     ^+WheelDown::SendInput, +{Right 5}
     ^+WheelUp::SendInput, +{Left 5}
 
-    ^WheelDown::SendInput, {WheelDown 5}
-    ^WheelUp::SendInput, {WheelUp 5}
+    ^WheelDown::SendInput, {WheelDown 10}
+    ^WheelUp::SendInput, {WheelUp 10}
 
     ; changes Behaviour of Stata Browser arrows
     !Right::SendInput, {Right 5}
@@ -53,6 +59,10 @@ stata_do() {
 
     !Left::SendInput, {Left 5}
     +!Left::SendInput, +{Left 5}
+
+    !Down::SendInput, {Down 10}
+    !Up::SendInput, {Up 10}
+
 #IfWinActive
 
 ; --- Stata Markdown --------------------------------------------------------------------
