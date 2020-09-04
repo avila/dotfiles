@@ -178,7 +178,7 @@ return
 
 #if
 ; --- Stata --------------------------------------------------------------------
-#s::Run, R:\stata15-64\StataSE-64.exe stata_temp.do
+#s::Run, R:\stata16\StataMP-64 stata_temp.do
 #IfWinActive ahk_exe sublime_text.exe
 
 

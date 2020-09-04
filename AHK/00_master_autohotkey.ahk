@@ -64,6 +64,8 @@ Return
 
 ; --- auto completes -----------------------------------------------------------
 :R*?:m@::m.rainho.avila@gmail.com
+; attention sign 
+:R?0C*:attt::<!>
 
 
 #IfWinActive, .*autohotkey\.ahk.*
@@ -72,7 +74,7 @@ Return
 ; the #IfWinActive condtition
 $^s::
     SendInput,^s
-    Sleep,33
+    Sleep, 33
     SplashTextOn, 300, 50, AHK, Updating the script.
     Sleep, 666
     SplashTextOff

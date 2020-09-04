@@ -4,13 +4,26 @@
 #IfWinActive ahk_exe sublime_text.exe
 ^+Enter::
     WinGet, winid
-    if WinExist("Do-file Editor - stata_temp.do") | WinExist("Do-file Editor - Untitled[0-9].do") {
+    if WinExist("Do-file Editor - stata_temp.do") {
         SendInput, ^c
         Sleep, 55
         stata_do() 
     }
     else {
-        MsgBox, , Error, Do-File Editor with stata_temp or Untitled[0-9].do not found
+        MsgBox, , Error, Do-File Editor with stata_temp not found
+    }
+Return
+
+#IfWinActive ahk_exe sublime_text.exe
+^+r:: ;just like above, but runs quietly
+    WinGet, winid
+    if WinExist("Do-file Editor - stata_temp.do") {
+        SendInput, ^c
+        Sleep, 55
+        stata_run() 
+    }
+    else {
+        MsgBox, , Error, Do-File Editor with stata_temp not found
     }
 Return
 
@@ -18,6 +31,15 @@ stata_do() {
     WinActivate,
     Sleep, 55
     Send, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}v{Sleep, 22}d{CtrlUp}{CtrlUp}{Ctrl}
+    Sleep, 55
+    WinActivate, ahk_exe sublime_text.exe
+    ;WinActivate, ^Stata/SE 15.1 
+}
+
+stata_run() {
+    WinActivate,
+    Sleep, 55
+    Send, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}v{Sleep, 22}r{CtrlUp}{CtrlUp}{Ctrl}
     Sleep, 55
     WinActivate, ahk_exe sublime_text.exe
     ;WinActivate, ^Stata/SE 15.1 
