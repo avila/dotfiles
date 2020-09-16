@@ -6,6 +6,9 @@
 #SingleInstance force
 SetTitleMatchMode RegEx
 
+#MaxHotkeysPerInterval 333
+
+
 ;SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetKeyDelay, 10, 1
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
