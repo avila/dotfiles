@@ -127,6 +127,8 @@ return
 ~RButton & WheelUp::SendInput, !{Left}
 ~RButton & WheelDown::SendInput, !{Right}
 
+WheelDown::WheelUp
+WheelUp::WheelDown
 
 ; --- Move window with Lwin and Lbutton ---
 Lwin & LButton::
