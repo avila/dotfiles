@@ -2,7 +2,8 @@
 
 ; --- sublime stata editor no admin --------------------------------------------------------------------
 #IfWinActive ahk_exe sublime_text.exe
-^+Enter::
+!d::
+^Enter::
     WinGet, winid
     if WinExist("Do-file Editor - stata_temp.do") {
         SendInput, ^c
@@ -15,7 +16,9 @@
 Return
 
 #IfWinActive ahk_exe sublime_text.exe
-^+r:: ;just like above, but runs quietly
+!r::
+^r:: ;just like above, but runs quietly
+^+Enter:: ;just like above, but runs quietly
     WinGet, winid
     if WinExist("Do-file Editor - stata_temp.do") {
         SendInput, ^c
