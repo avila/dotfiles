@@ -71,7 +71,8 @@ Return
 :R?0C*:attt::<!>
 
 
-#IfWinActive, .*autohotkey\.ahk.*
+;#IfWinActive, .*autohotkey\.ahk.*
+#IfWinActive, .*\.ahk.*
 ; if editing the autohotkey file, ctrl+s saves the file and reloads the script
 ; the script needs to have a name that will be captured by the regex after
 ; the #IfWinActive condtition

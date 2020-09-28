@@ -11,8 +11,6 @@
     }
 Return
 
-#s::Run, R:\stata16\StataMP-64.exe stata_temp.do
-
 ; --- /Media   -----------------------------------------------------------------
 
 ; Custom volume buttons
