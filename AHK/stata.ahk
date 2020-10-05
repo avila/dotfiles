@@ -6,24 +6,26 @@
 #IfWinActive ahk_exe sublime_text.exe
 !d::
 ^Enter::
+    global call_type := "do"
     Content := Clip() ; will store any selected text in %Var%
     tempfile := A_Temp . "/st_tmp.do"
     file := FileOpen(tempfile, "w")
     file.Write(Content)
     file.Close()
-    stata_do("do")
+    stata_do(call_type)
 Return
 
 !r::
+    global call_type := "run"
     Content := Clip() ; will store any selected text in %Var%
     tempfile := A_Temp . "/st_tmp.do"
     file := FileOpen(tempfile, "w")
     file.Write(Content)
     file.Close()
-    stata_do("run")
+    stata_do(call_type)
 Return
 
-
+; sysuse auto
 ; --- stata functions  --------------------------------------------------------------------
 
 stata_do(type="do") {
@@ -34,11 +36,13 @@ stata_do(type="do") {
         Sleep, 33
         SendInput, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}{CtrlUp}{CtrlUp}
         SendInput, %type% %tempfile% {Enter}
-        Sleep, 33
+        Sleep, 750
         WinActivate, ahk_exe sublime_text.exe
     }
     else {
-        MsgBox, , Error, Stata Window not opened.`rTrying to establish connection to a new instance, 1
+        SplashTextOn , 500 , 100 , StataSend,  Window not opened.`rTrying to establish connection]
+        Sleep, 0666
+        SplashTextOff
         get_stata_id() 
     }
 }
@@ -53,9 +57,13 @@ get_stata_id() {
         ;MsgBox, , StataSend, Stata not opened. Opening new instance,    
         Run, R:\stata16\StataMP-64.exe, , Min, UniqueStataID
     }
-    ;WinWait, Stata/(IC|SE|MP)? 1[0-9]\.[0-9], , 5
+    WinWait, ahk_id %UniqueStataID% 
     WinGetTitle, Title, ahk_id %UniqueStataID%
-    MsgBox, 0 , StataSend, Connecting with %Title% (ID: %UniqueStataID%), 1
+    SplashTextOn , 500 , 100 , StataSend,  Connecting with %Title% (ID: %UniqueStataID%)]
+    Sleep, 0666
+    SplashTextOff
+    sleep, 300
+    stata_do(call_type)
 }
 
 
@@ -112,8 +120,7 @@ get_stata_id() {
 ; Clip() - Send and Retrieve Text Using the Clipboard
 ; by berban - updated February 18, 2019
 ; https://www.autohotkey.com/boards/viewtopic.php?f=6&t=62156
-Clip(Text="", Reselect="")
-{
+Clip(Text="", Reselect="") {
     Static BackUpClip, Stored, LastClip
     If (A_ThisLabel = A_ThisFunc) {
         If (Clipboard == LastClip)
