@@ -15,7 +15,7 @@
     stata_do(call_type)
 Return
 
-!r::
+!+r::
     global call_type := "run"
     Content := Clip() ; will store any selected text in %Var%
     tempfile := A_Temp . "/st_tmp.do"
@@ -36,8 +36,8 @@ stata_do(type="do") {
         Sleep, 33
         SendInput, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}{CtrlUp}{CtrlUp}
         SendInput, %type% %tempfile% {Enter}
-        Sleep, 750
-        WinActivate, ahk_exe sublime_text.exe
+        ; Sleep, 750
+        ; WinActivate, ahk_exe sublime_text.exe
     }
     else {
         SplashTextOn , 500 , 100 , StataSend,  Window not opened.`rTrying to establish connection]
