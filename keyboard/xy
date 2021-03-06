@@ -51,11 +51,6 @@ default partial alphanumeric_keys xkb_symbols "xy5levels" {
     include "de(basic)"
     include "xy(alt_layout)"
     
-    # key <LALT> { // maybe not necessary
-    #     type[Group1] = "ONE_LEVEL",
-    #     symbols[Group1] = [ ALT_L ]
-    # };
-
     // includes built in
         include "level5(modifier_mapping)"
         include "level3(modifier_mapping)"
@@ -63,9 +58,9 @@ default partial alphanumeric_keys xkb_symbols "xy5levels" {
 
     // includes custom
         include "xy(xy_alt_3rd_level)"
+
     // choose either caps_overlay or caps_5h_lock 
         include "xy(xy_caps_overlay)" 
-
         include "shift(both_capslock_cancel)"
         
     // Group 2 (greek)
