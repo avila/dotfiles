@@ -1,0 +1,314 @@
+default partial alphanumeric_keys xkb_symbols "basic" {
+
+    name[Group1]= "German XY Vim-Like (3 Levels)";
+    include "de(basic)"
+
+    key <AE08>	{ [               8,       parenleft,      bracketleft,       braceleft ]   };
+    key <AE09>	{ [               9,      parenright,     bracketright,      braceright ]   };
+
+    key <TLDE> {  [ dead_circumflex,      dead_caron,            grave,         notsign ]   };
+    key <AD01>  { [               q,               Q,               at,          slash  ]   };
+    key <AD02>	{ [               w,               W,         question,       backslash ]   };
+    
+    key <AD12> { [            plus,        asterisk,       dead_tilde,      dead_macron ]   };
+    
+    
+    key <AD07>	{ [               u,               U,            Home,            Home  ]   }; 
+    key <AD08>	{ [               i,               I,             End,             End  ]   }; 
+    
+    key <AD10>	{ [               p,               P,         Page_Up,           Prior  ]   }; 
+    key <AC10>	{ [      odiaeresis,      Odiaeresis,       Page_Down,       Page_Down  ]   }; 
+
+    key <AC01>	{ [               a,               A,           U0251,            U0251 ]   };
+    key <AC02>	{ [               s,               S,          ssharp,           ssharp ]   };
+#   key <AC03>	{ [               d,               D,           U03B4,            U0394 ]   };
+    key <LatD>	{ [               d,               D,          Delete,        BackSpace ]   };
+    key <AC05>	{ [               g,               G,           U0263,            U0393 ]   };
+
+    key <AC06>  { type="THREE_LEVEL", [           h,               H,            Left   ]   }; 
+    key <AC07>  { type="THREE_LEVEL", [           j,               J,            Down   ]   }; 
+    key <AC08>  { type="THREE_LEVEL", [           k,               K,              Up   ]   }; 
+    key <AC09>  { type="THREE_LEVEL", [           l,               L,           Right   ]   }; 
+
+    key <LSGT>	{ [     	   less,     	 greater,             bar,        slash     ]   };
+    key <AB03>	{ [               c,               C,        ccedilla,        Ccedilla 	]   };
+    key <AB04>	{ [               v,               V,           U2193,        U2191 	]   };
+    key <AB05>	{ [               b,               B,           U03B2,        U03B2   	]   };
+    key <AB06>	{ [               n,               N,           U03B7,        U03B2   	]   };
+
+    key <SPCE>  { [           space,           space,        space,         space   ]   };
+
+    # include "shift(both_capslock)"
+    # include "level3(caps_switch)"
+    # include "level3(ralt_switch)"
+    # include "level3(modifier_mapping)"
+};
+
+default partial alphanumeric_keys xkb_symbols "xy5levels" {
+
+    name[Group1]= "German XY Vim-Like (5 Levels)";
+
+    include "de(basic)"
+    include "xy(alt_layout)"
+    
+    // includes built in
+        include "level5(modifier_mapping)"
+        include "level3(modifier_mapping)"
+        include "shift(both_capslock)"
+
+    // includes custom
+        include "xy(xy_alt_3rd_level)"
+
+    // choose either caps_overlay or caps_5h_lock 
+        include "xy(xy_caps_overlay)" 
+        include "shift(both_capslock_cancel)"
+        
+    // Group 2 (greek)
+        include "xy(xy_greek_lvl2)"
+};
+
+partial modifier_keys xkb_symbols "xy_caps_overlay" {
+
+    replace key <CAPS> {
+        type[Group1] = "TWO_LEVEL",
+        symbols[Group1] = [ Overlay1_Enable, Overlay1_Enable ],
+        actions[Group1] = [ SetControls(controls=Overlay1), SetControls(controls=Overlay1) ]
+    };
+    // Movement Section
+    key <LatH> { Overlay1 = <LEFT> };
+    key <LatJ> { Overlay1 = <DOWN> };
+    key <LatK> { Overlay1 = <UP>   };
+    key <LatL> { Overlay1 = <RGHT> };
+
+    key <LatM> { Overlay1 = <MENU> };
+
+    key <TAB>  { Overlay1 = <TAB>  };
+    
+    // Editing Section
+    key <LatQ> { Overlay1= <Esc>    };
+
+    key <LatZ> { Overlay1 = <UNDO> };
+        key <UNDO> { [ VoidSymbol ],
+            actions[Group1]=[ RedirectKey(key=<LatY>,modifiers=Control)] 
+        };
+    key <LatY> { Overlay1 = <REDO> };
+        key <REDO> { [ VoidSymbol ],
+            actions[Group1]=[ RedirectKey(key=<LatZ>,modifiers=Control)] 
+        };
+    key <LatX> { Overlay1 = <CUT>  };
+    key <LatC> { Overlay1 = <COPY> };
+    key <LatV> { Overlay1 = <PAST> };
+
+    key <LatQ> { Overlay1 = <ESC>  };
+    key <LatU> { Overlay1 = <HOME> }; 
+    key <LatI> { Overlay1 = <END>  }; 
+
+    key <LatP> { Overlay1 = <PGUP> }; 
+    key <AC10> { Overlay1 = <PGDN> };
+
+    key <LatD> { Overlay1 = <DELE> };
+    key <LatB> { Overlay1 = <BKSP> };
+    
+    key <SPCE>  { Overlay1 = <RTRN>  };
+};  
+
+partial modifier_keys xkb_symbols "alt_layout" {
+
+    name[Group1]= "Alternative Layout (AltGr)";
+
+    key <AE08>	{ [               8,       parenleft,      bracketleft,       braceleft ]   };
+    key <AE09>	{ [               9,      parenright,     bracketright,      braceright ]   };
+
+    key <TLDE> {  [ dead_circumflex,      dead_caron,            grave,         notsign ]   };
+    key <AD01>  { [               q,               Q,               at,           slash ]   };
+    key <AD02>	{ [               w,               W,         question,       backslash ]   };
+    
+    key <AD12> { [            plus,        asterisk,       dead_tilde,      dead_macron ]   };
+    
+    
+    key <AD07>	{ [               u,               U,            Home,            Home  ]   }; 
+    key <AD08>	{ [               i,               I,             End,             End  ]   }; 
+    
+    key <AD10>	{ [               p,               P,         Page_Up,            Prior ]   }; 
+    key <AC10>	{ [      odiaeresis,      Odiaeresis,       Page_Down,        Page_Down ]   }; 
+
+    key <AC01>	{ [               a,               A,           U0251,            U0251 ]   };
+    key <AC02>	{ [               s,               S,          ssharp,           ssharp ]   };
+    key <AC03>	{ [               d,               D,          Delete,           Delete ]   };
+    # key <AC04>	{ [               f,               F,          Delete,           Delete ]   };
+    key <AC05>	{ [               g,               G,           U0263,            U0393 ]   };
+
+    key <AC06>  { type="THREE_LEVEL", [           h,               H,            Left ]     }; 
+    key <AC07>  { type="THREE_LEVEL", [           j,               J,            Down ]     }; 
+    key <AC08>  { type="THREE_LEVEL", [           k,               K,              Up ]     }; 
+    key <AC09>  { type="THREE_LEVEL", [           l,               L,           Right ]     }; 
+
+    key <LSGT>	{ [     	   less,     	 greater,             bar,        slash     ]   };
+    key <AB03>	{ [               c,               C,        ccedilla,        Ccedilla 	]   };
+    key <AB04>	{ [               v,               V,           U2193,        U2191 	]   };
+    key <AB05>	{ [               b,               B,           U03B2,        U03B2   	]   };
+    key <AB06>	{ [               n,               N,           U03B7,        U03B2   	]   };
+
+};
+
+partial modifier_keys xkb_symbols "xy_greek_lvl2" {
+
+    key <RTSH> { // Use right shift (with shift) while pressed 
+            symbols[Group1] = [ NoSymbol, NoSymbol ], 
+            actions[Group1] = [ SetMods(modifiers=Shift,clearLocks), LatchGroup(group=2) ]
+    };
+    key <AB08> { // use "," for 2nd group (with AltGr) while pressed
+            symbols[Group1] = [ NoSymbol, NoSymbol, VoidSymbol, VoidSymbol ], 
+            actions[Group1] = [ NoAction(), NoAction(), LatchGroup(group=2) ]
+    };
+    key <AB09> { // use "." for 3rd group (with AltGr) while pressed
+            symbols[Group1] = [ NoSymbol, NoSymbol, VoidSymbol, VoidSymbol ], 
+            actions[Group1] = [ NoAction(), NoAction(), LatchGroup(group=3) ]
+    };
+    
+    // test
+    //key <SPCE>  { symbols[Group2] = [           a,           b,        c,         d   ]   };    
+    //key <SPCE>  { symbols[Group3] = [           e,           f,        g,         h   ]   };    
+        
+    // real shit
+    key <LatA> { symbols[Group2] = [ U0251 , U0251 ] }; # alpha
+    key <LatB> { symbols[Group2] = [ U03B2 , U03B2 ] }; # beta
+    key <LatD> { symbols[Group2] = [ U1E9F , U0394 ] }; # delta
+    key <LatE> { symbols[Group2] = [ U03B5 , U03B5 ] }; # epsilon
+    key <LatG> { symbols[Group2] = [ U03B3 , U0393 ] }; # gamma
+    key <AD06> { symbols[Group2] = [ U03B6 , U03B6 ] }; # zeta
+    key <LatN> { symbols[Group2] = [ U03B7 , U03B7 ] }; # eta
+    key <LatO> { symbols[Group2] = [ U03B8 , U03F4 ] }; # theta
+    key <LatI> { symbols[Group2] = [ U03B9 , U0399 ] }; # iota
+    key <LatK> { symbols[Group2] = [ U03BA , U039A ] }; # kappa
+    key <LatL> { symbols[Group2] = [ U03BB , U039B ] }; # lambda
+    key <LatV> { symbols[Group2] = [ U03BD , U039D ] }; # nu
+    key <LatX> { symbols[Group2] = [ U03BE , U039E ] }; # xi
+    key <LatP> { symbols[Group2] = [ U03C0 , U03A0 ] }; # pi
+    key <LatR> { symbols[Group2] = [ U03C1 , U03A1 ] }; # rho
+    key <LatS> { symbols[Group2] = [ U03C3 , U03A3 ] }; # sigma
+    key <LatT> { symbols[Group2] = [ U03C4 , U03C4 ] }; # tau
+
+    // symbols
+    key <UP>   { symbols[Group2] = [ U2191, U21e7 ] }; # arrow
+    key <LEFT> { symbols[Group2] = [ U2190, U21e6 ] }; # arrow
+    key <RGHT> { symbols[Group2] = [ U2192, U21e8 ] }; # arrow
+    key <DOWN> { symbols[Group2] = [ U2193, U21e9 ] }; # arrow
+};
+
+
+partial modifier_keys xkb_symbols "xy_alt_3rd_level" {
+
+    // RALT as 3rd Level modifier
+    key <RALT> {
+        type[Group1] ="ONE_LEVEL",
+        symbols[Group1] = [ VoidSymbol ],
+        actions[Group1] = [ SetMods(modifiers=levelThree, clearLocks) ]
+    };
+    modifier_map Mod5 { <RALT> };
+};
+
+partial modifier_keys xkb_symbols "xy_caps_5th_level_lock" {
+    // CAPS as 5th level mod
+    // CAPS with VoidSymbol does not sent symbols that are otherwise picked 
+    // by some apps (eg google sheets)
+    key <CAPS> { 
+        type[Group1] = "THREE_LEVEL",
+        symbols[Group1] = [ VoidSymbol, VoidSymbol, VoidSymbol ],
+        actions[Group1] = [ SetMods(modifiers=levelFive, clearLocks), SetMods(modifiers=levelFive, clearLocks), SetMods(modifiers=levelFive, clearLocks) ]
+    };
+    //modifier_map Mod5 { <CAPS> };
+};
+
+partial modifier_keys xkb_symbols "swap_menu_rctrl" {
+    key <MENU> {
+        type= "ONE_LEVEL",
+        symbols[Group1]= [ Control_R ]
+    };
+    key <RCTL> {
+        type= "ONE_LEVEL",
+        symbols[Group1]= [ Menu ]
+    };
+};
+
+partial modifier_keys xkb_symbols "swap_menu_rctrl_print" {
+    // for newer thinkpad keyboards with print screen in the wrong place
+    key <PRSC> {
+        type= "TWO_LEVEL",
+        symbols[Group1]= [ Control_R, Menu ]
+    };
+    key <RCTL> {
+        type= "ONE_LEVEL",
+        symbols[Group1]= [ Menu ]
+    };
+};
+
+// ----------------------------------------------------------------------------------
+
+
+partial alphanumeric_keys xkb_symbols "test" {
+    name[Group1]="German1";
+    name[Group2]="German2";
+    include "de(basic)"
+
+    replace key <I156> { [NoSymbol], actions[Group1] = [ LockGroup(group=1) ] };
+    replace key <I157> { [NoSymbol], actions[Group1] = [ SwitchGroup(group=2) ] };
+    replace key <I210> { [NoSymbol], actions[Group1] = [ LockGroup(group=3) ] };
+
+    replace key <RALT> {
+        #symbols[Group1] = [ Super_L ],
+        actions[Group1] = [ SetControls(controls=overlay1)  ]
+    };
+
+    key <AE01> { overlay1 = <I156> };
+    key <AE02> { overlay1 = <I157> };
+    key <AE03> { overlay1 = <I210> };
+
+    key <AD07> {
+        symbols[Group2]= [            Home ]  # u
+    };
+    key <AD08> {
+        symbols[Group2]= [              Up ]  # i
+    };
+    key <AD09> {
+        symbols[Group2]= [             End ]  # o
+    };
+    key <AD10> {
+        symbols[Group2]= [           Prior ]  # p
+    };
+    key <AC07> {
+        symbols[Group2]= [            Left ]  # j
+    };
+    key <AC08> {
+        symbols[Group2]= [            Down ]  # k
+    };
+    key <AC09> {
+        symbols[Group2]= [           Right ]  # l
+    };
+    key <AC10> {
+        symbols[Group2]= [            Next ]  # ;
+    };
+    key <AB06> {
+        symbols[Group2]= [          Delete ]  # n
+    };
+};
+
+
+partial alphanumeric_keys xkb_symbols "test1" {
+
+    include "xy(basic)"
+    name[1]="test1";
+
+    key.type = "ALPHABETIC";
+    key <LatY> {[1, ISO_Next_Group] };
+};
+
+partial alphanumeric_keys xkb_symbols "test2" {
+
+    include "xy(basic)"
+    name[2]="test2";
+
+    key.type = "ALPHABETIC";
+    key <LatY> {[ 3, 4 ]} ;
+    key <LatU> {[ISO_Next_Group, ISO_Next_Group]};
+};
