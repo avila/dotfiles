@@ -1,3 +1,17 @@
+```sh
+setxkbmap -print -verbose 10
+
+xkb_keymap {
+	xkb_keycodes  { include "evdev+aliases(qwertz)"	};
+	xkb_types     { include "complete"	};
+	xkb_compat    { include "complete+caps(caps_lock)+misc(assign_shift_left_action)+level5(level5_lock)"	};
+	xkb_symbols   { include "pc+de(neo_qwertz)+inet(evdev)"	};
+	xkb_geometry  { include "pc(pc105)"	};
+};
+```
+
+## ressources
+
 Updating iomartin's answer from 2012-04-27: The documentation now lives at: https://www.charvolant.org/doug/xkb/html/node5.html
 
 It is part of the "An Unreliable Guide to XKB Configuration" by Doug Palmer: https://www.charvolant.org/doug/xkb/html/xkb.html
