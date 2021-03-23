@@ -39,23 +39,23 @@ default xkb_symbols "basic" {
 
 default partial alphanumeric_keys xkb_symbols "caps_overlay" {
     // meta info
-        name[Group1]= "German Vim-Like (caps_overlay)";
+    name[Group1]= "German Vim-Like (caps_overlay)";
     
     // basic and alt layouts 
-        include "de(basic)"
-        include "xy(alt_layout)"
+    include "de(basic)"
+    include "xy(alt_layout)"
     
     // includes built in
-        include "level5(modifier_mapping)"
-        include "level3(modifier_mapping)"
-        include "shift(both_capslock)"
+    include "level5(modifier_mapping)"
+    include "level3(modifier_mapping)"
+    include "shift(both_capslock)"
 
     // includes custom
-        include "xy(alt_3rd_level_void)"
+    include "xy(alt_3rd_level_void)"
     // choose either caps_overlay or caps_5h_lock 
-        include "xy(caps_overlay_base)" 
+    include "xy(caps_overlay_base)" 
 
-        include "shift(both_capslock_cancel)"
+    //include "shift(both_capslock_cancel)"
         
     // Group 2 (greek)
         include "xy(xy_greek_lvl2)"
@@ -65,8 +65,8 @@ partial modifier_keys xkb_symbols "caps_overlay_base" {
 
     replace key <CAPS> {
         type[Group1] = "THREE_LEVEL",
-        symbols[Group1] = [ Overlay1_Enable, Overlay1_Enable ], // also possible with VoidSymbol
-        actions[Group1] = [ SetControls(controls=Overlay1), SetControls(controls=Overlay1), LockControls(controls=Overlay1) ] // Lock Overlay 1 with Shift+Control
+        symbols[Group1] = [ Overlay1_Enable, Overlay1_Enable, Overlay1_Enable ], // also possible with VoidSymbol
+        actions[Group1] = [ SetControls(controls=Overlay1), SetControls(controls=Overlay1), LockControls(controls=Overlay1) ]
     };
     // Movement Section
     key <LatH> { Overlay1 = <LEFT> };
@@ -84,10 +84,10 @@ partial modifier_keys xkb_symbols "caps_overlay_base" {
         key <UNDO> { [ VoidSymbol ],
             actions[Group1]=[ RedirectKey(key=<LatY>,modifiers=Control)] 
         };
-    key <LatY> { Overlay1 = <REDO> };
-        key <REDO> { [ VoidSymbol ],
+    key <LatY> { Overlay1 = <AGAI> };
+        key <AGAI> { [ VoidSymbol ],
             actions[Group1]=[ RedirectKey(key=<LatZ>,modifiers=Control)] 
-        };
+        }; 
     key <LatX> { Overlay1 = <CUT>  };
     key <LatC> { Overlay1 = <COPY> };
     key <LatV> { Overlay1 = <PAST> };
@@ -100,9 +100,17 @@ partial modifier_keys xkb_symbols "caps_overlay_base" {
     key <AC10> { Overlay1 = <PGDN> };
 
     key <LatD> { Overlay1 = <DELE> };
-    key <LatB> { Overlay1 = <BKSP> };
-    
-    key <SPCE>  { Overlay1 = <RTRN>  };
+    // key <LatB> { Overlay1 = <BKSP> };
+
+    key <LatW> { Overlay1 = <FK13> }; // [w]ord forward 
+            key <FK13> { [ VoidSymbol ],
+                actions[Group1]=[ RedirectKey(key=<RGHT>,modifiers=Control)] 
+            }; 
+    key <LatB> { Overlay1 = <FK14> }; // word [b]ackward
+            key <FK14> { [ VoidSymbol ],
+                actions[Group1]=[ RedirectKey(key=<LEFT>,modifiers=Control)] 
+            }; 
+    key <SPCE>  { Overlay1 = <FK20>  }; // mute mic
 };  
 
 partial modifier_keys xkb_symbols "alt_layout" {
@@ -182,6 +190,18 @@ partial modifier_keys xkb_symbols "xy_greek_lvl2" {
     key <DOWN> { symbols[Group2] = [ U2193, U21e9 ] };    # down arrow 
 };
 
+partial modifier_keys xkb_symbols "alt_3rd_level_void" {
+
+    // RALT as 3rd Level modifier
+    key <RALT> {
+        type[Group1] ="ONE_LEVEL",
+        symbols[Group1] = [ VoidSymbol ],
+        actions[Group1] = [ SetMods(modifiers=levelThree) ]
+    };
+    modifier_map Mod3 { <RALT> };
+    include "level3(modifier_mapping)"
+
+};
 
 partial modifier_keys xkb_symbols "caps_5th_level_lock" {
     // CAPS as 5th level mod

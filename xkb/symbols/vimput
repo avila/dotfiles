@@ -5,12 +5,13 @@ partial alphanumeric_keys modifier_keys keypad_keys xkb_symbols "vimput_base" {
 
     // Alphanumeric-keys
     // ===============
-    key.type[Group1] = "EIGHT_LEVEL_LEVEL_FIVE_LOCK";
 
     // Tab as Multi_key (Compose)
     // ----------- None ------------------- Shift ------------------ 3rd Level -------------- 3rd + Shift ------------ 5th level -------------- 5th + Shift ------------ 7th Level -------------- 7th + Shift ----------------- 
-    key  <TAB> { [ Tab,                     ISO_Left_Tab,            Tab,                     ISO_Level5_Lock,         Tab,                     ISO_Left_Tab,            Tab,                     ISO_Left_Tab             ] };
+    //key  <TAB> { [ Tab,                     ISO_Left_Tab,            Multi_key,               ISO_Level5_Lock,         VoidSymbol,              VoidSymbol,              VoidSymbol,              ISO_Level5_Lock          ] };
+    replace key  <TAB> { type = "TWO_LEVEL", [ Tab,                     ISO_Left_Tab ] };
 
+    key.type[Group1] = "EIGHT_LEVEL_LEVEL_FIVE_LOCK";
     // Number row  None ------------------- Shift ------------------ 3rd Level -------------- 3rd + Shift ------------ 5th level -------------- 5th + Shift ------------ 7th Level -------------- 7th + Shift ----------------- 
     key <TLDE> { [ dead_circumflex,         dead_caron,              U21BB,                   U02DE,                   dead_abovedot,           Pointer_EnableKeys,      dead_belowdot,           NoSymbol                 ] };
 
@@ -21,8 +22,8 @@ partial alphanumeric_keys modifier_keys keypad_keys xkb_symbols "vimput_base" {
     key <AE05> { [ 5,                       NoSymbol,                U2039,                   malesymbol,              periodcentered,          NoSymbol,                U2221,                   NoSymbol                 ] };
     key <AE06> { [ 6,                       NoSymbol,                cent,                    U26A5,                   sterling,                NoSymbol,                U2225,                   NoSymbol                 ] };
 
-    key <AE07> { [ 7,                       NoSymbol,                NoSymbol,                NoSymbol,               currency,                NoSymbol,                rightarrow,              NoSymbol                 ] };
-    key <AE08> { [ 8,                       NoSymbol,                bracketleft,             braceleft,              Tab,                     ISO_Left_Tab,            U221E,                   NoSymbol                 ] };
+    key <AE07> { [ 7,                       NoSymbol,                NoSymbol,                NoSymbol,                currency,                NoSymbol,                rightarrow,              NoSymbol                 ] };
+    key <AE08> { [ 8,                       NoSymbol,                bracketleft,             braceleft,               Tab,                     ISO_Left_Tab,            U221E,                   NoSymbol                 ] };
     key <AE09> { [ 9,                       NoSymbol,                bracketright,            braceright,              KP_Divide,               KP_Divide,               variation,               NoSymbol                 ] };
     key <AE10> { [ 0,                       equal,                   notequal,                approxeq,                KP_Multiply,             emptyset,                NoSymbol,                NoSymbol                 ] };
 
@@ -31,7 +32,7 @@ partial alphanumeric_keys modifier_keys keypad_keys xkb_symbols "vimput_base" {
 
     // Top row --- None ------------------- Shift ------------------ 3rd Level -------------- 3rd + Shift ------------ 5th level -------------- 5th + Shift ------------ 7th Level -------------- 7th + Shift ----------------- 
     key.type[Group1] = "EIGHT_LEVEL_ALPHABETIC_LEVEL_FIVE_LOCK";
-    key <AD01> { [ q,                       NoSymbol,                at,                      slash,                   Escape,                  Prior,                   Greek_XI,                NoSymbol                 ] };
+    key <AD01> { [ q,                       NoSymbol,                at,                      slash,                   Escape,                  Escape,                  Escape,                  Escape                   ] };
     key <AD02> { [ w,                       NoSymbol,                question,                backslash,               BackSpace,               BackSpace,               radical,                 NoSymbol                 ] };
     key <AD03> { [ e,                       NoSymbol,                EuroSign,                U2208,                   sterling,                Up,                      U2208,                   U2209                    ] };
     key <AD04> { [ r,                       NoSymbol,                bracketright,            Greek_chi,               Return,                  Delete,                  U2102,                   NoSymbol                 ] };
@@ -50,9 +51,9 @@ partial alphanumeric_keys modifier_keys keypad_keys xkb_symbols "vimput_base" {
 
     // Middle row  None ------------------- Shift ------------------ 3rd Level -------------- 3rd + Shift ------------ 5th level -------------- 5th + Shift ------------ 7th Level -------------- 7th + Shift ----------------- 
     key.type[Group1] = "EIGHT_LEVEL_ALPHABETIC_LEVEL_FIVE_LOCK";
-    key <AC01> { [ a,                       NoSymbol,                slash,                   NoSymbol,                Home,                    Home,                    includedin,              NoSymbol                 ] };
+    key <AC01> { [ a,                       NoSymbol,                slash,                   NoSymbol,                a,                a,                a,              NoSymbol                 ] };
     key <AC02> { [ s,                       NoSymbol,                slash,                   Greek_iota,              Left,                    Left,                    integral,                NoSymbol                 ] };
-    key <AC03> { [ d,                       NoSymbol,                Delete,               Greek_alpha,             Delete,                  Delete,                    U2200,                   NoSymbol                 ] };
+    key <AC03> { [ d,                       NoSymbol,                Delete,                  BackSpace,               Delete,                  BackSpace,               U2200,                   NoSymbol                 ] };
     key <AC04> { [ f,                       NoSymbol,                braceright,              Greek_epsilon,           Right,                   Right,                   U2203,                   NoSymbol                 ] };
     key <AC05> { [ g,                       NoSymbol,                asterisk,                Greek_omicron,           End,                     End,                     elementof,               NoSymbol                 ] };
     //key.type[Group1] = "THREE_LEVEL";
@@ -63,29 +64,29 @@ partial alphanumeric_keys modifier_keys keypad_keys xkb_symbols "vimput_base" {
     key <AC09> { [ l,                       NoSymbol,                Right,                   Right,                   Right,                   Right,                   Right,                   rightarrow               ] };
     key <AC10> { [ odiaeresis,              NoSymbol,                Next,                    Next,                    Next,                    Next,                    Next,                    NoSymbol                 ] };
     key <AC11> { [ adiaeresis,              NoSymbol,                at,                      Greek_upsilon,           period,                  KP_Decimal,              nabla,                   NoSymbol                 ] };
-    key <BKSL> { [ numbersign,              apostrophe,              registered,              NoSymbol,                schwa,                   SCHWA,                   seconds,                 NoSymbol ] };
+    key <BKSL> { [ numbersign,              apostrophe,              registered,              NoSymbol,                schwa,                   SCHWA,                   seconds,                 NoSymbol                 ] };
 
 
     // Bottom row  None ------------------- Shift ------------------ 3rd Level -------------- 3rd + Shift ------------ 5th level -------------- 5th + Shift ------------ 7th Level -------------- 7th + Shift ----------------- 
     key <LSGT> { [ NoSymbol,                NoSymbol,                NoSymbol,                NoSymbol,                greaterthanequal,        lessthanequal,           union,                   NoSymbol                 ] };
     key <AB01> { [ y,                       NoSymbol,                numbersign,              NoSymbol,                Escape,                  Escape,                  union,                   NoSymbol                 ] };
     key <AB02> { [ x,                       NoSymbol,                dollar,                  U03F5,                   Tab,                     Tab,                     intersection,            NoSymbol                 ] };
-    key <AB03> { [ c,                       NoSymbol,                ccedilla,                Ccedilla,               numbersign,                  Insert,                  U2135,                   NoSymbol                 ] };
+    key <AB03> { [ c,                       NoSymbol,                ccedilla,                Ccedilla,                numbersign,              Insert,                  U2135,                   NoSymbol                 ] };
     key <AB04> { [ v,                       NoSymbol,                asciitilde,              Greek_pi,                Return,                  Return,                  Greek_PI,                NoSymbol                 ] };
-    key <AB05> { [ b,                       NoSymbol,                BackSpace,               Greek_zeta,              BackSpace,               BackSpace,               NoSymbol,                   NoSymbol                 ] };
+    key <AB05> { [ b,                       NoSymbol,                BackSpace,               Greek_zeta,              BackSpace,               BackSpace,               NoSymbol,                NoSymbol                 ] };
 
-    key <AB06> { [ n,                       NoSymbol,                U00F1,                    Greek_beta,              colon,                   NoSymbol,                U21D0,                   NoSymbol                 ] };
+    key <AB06> { [ n,                       NoSymbol,                U00F1,                   Greek_beta,              colon,                   NoSymbol,                U21D0,                   NoSymbol                 ] };
     key <AB07> { [ m,                       NoSymbol,                mu,                      Greek_mu,                Menu,                    KP_1,                    Menu,                    NoSymbol                 ] };
     key.type[Group1] = "EIGHT_LEVEL_LEVEL_FIVE_LOCK";
     key <AB08> { [ comma,                   semicolon,               less,                    lessthanequal,           U227b,                   U227f,                   U21D2,                   NoSymbol                 ] };
-    key <AB09> { [ period,                  colon,                   greater,                 greaterthanequal,        U227a,                   U227e,                    U21A6,                   NoSymbol                 ] };
-    key <AB10> { [ minus,                   NoSymbol,                slash,                   Greek_theta,             slash,                   backslash,                Greek_THETA,             NoSymbol                 ] };
+    key <AB09> { [ period,                  colon,                   greater,                 greaterthanequal,        U227a,                   U227e,                   U21A6,                   NoSymbol                 ] };
+    key <AB10> { [ minus,                   underscore,              slash,                   Greek_theta,             slash,                   backslash,               Greek_THETA,             NoSymbol                 ] };
     key.type[Group1] = "EIGHT_LEVEL_LEVEL_FIVE_LOCK";
 
     // Space key
     // ----------- None ------------------- Shift ------------------ 3rd Level -------------- 3rd + Shift ------------ 5th level -------------- 5th + Shift ------------ 7th Level -------------- 7th + Shift ----------------- 
-    key <SPCE> { [ space,                   space,                   space,                   nobreakspace,            Return,                    KP_0,                    U202F,                   NoSymbol                 ] };
-    
+    key <SPCE> { [ space,                   space,                   space,                   nobreakspace,            XF86AudioMicMute,        XF86AudioMicMute,        U202F,                   NoSymbol                 ] };
+
 };
 
 partial  keypad_keys xkb_symbols "vimput_keypad" {
@@ -136,39 +137,48 @@ partial alphanumeric_keys modifier_keys keypad_keys xkb_symbols "vimput" {
     include "vimput(vimput_base)"
     include "vimput(vimput_keypad)"
     
-    // include "shift(both_capslock)"
-    // include "level3(caps_switch)"
-    // include "level3(bksl_switch)"
-    // include "level5(lsgt_switch_lock)"
-    // include "level5(ralt_switch_lock)"
-
     include "shift(both_capslock)"
 
     include "level5(lock)"
-    // include "level3(ralt_switch)"
-    // include "level3(bksl_switch)"
-    // include "level5(lsgt_switch_lock)"
-    // include "level5(caps_switch)"
 
     include "vimput(vim_greek)" 
     include "vimput(vim_extra)"
     include "vimput(alt_3rd_level_void)"
     include "vimput(caps_5th_level_void)"
+    
+    include "vimput(control)"
+
 };
+
+partial alphanumeric_keys modifier_keys keypad_keys xkb_symbols "vimputneo" {
+    
+    name[Group1]= "German (Vimput)";
+    
+    //include "de(basic)"
+    include "vimput(vimput_base)"
+    include "vimput(vimput_keypad)"
+    
+    // // // //include "shift(both_capslock)"
+    include "level3(caps_switch)"
+    include "level3(bksl_switch)"
+    include "level5(lsgt_switch_lock)"
+    include "level5(ralt_switch_lock)"
+
+
+};
+
 
 partial modifier_keys xkb_symbols "caps_5th_level_void" {
 
     // CAPS as 5TH Level modifier
     key <CAPS> {
         vmods = NumLock,
-        //type[Group1] = "THREE_LEVEL",
-        symbols[Group1] = [ ISO_Level5_Lock, ISO_Level5_Lock, ISO_Level5_Lock ],
-        actions[Group1] = [ SetMods(modifiers=NumLock), 
-                            SetMods(modifiers=NumLock, clearLocks), 
-                            lockMods(modifiers=NumLock) ] 
+        type[Group1] = "THREE_LEVEL",
+        symbols[Group1] = [ VoidSymbol,                  VoidSymbol,                  VoidSymbol ],
+        actions[Group1] = [ SetMods(modifiers=NumLock),  SetMods(modifiers=NumLock),  lockMods(modifiers=NumLock) ] 
     };
-    modifier_map Mod5 {  <CAPS>  };
-    include "level5(modifier_mapping)"
+    //modifier_map Mod5 {  <CAPS>  };
+    // include "level5(modifier_mapping)"
 };
 
 partial modifier_keys xkb_symbols "alt_3rd_level_void" {
@@ -181,6 +191,16 @@ partial modifier_keys xkb_symbols "alt_3rd_level_void" {
     };
     modifier_map Mod3 { <RALT> };
     include "level3(modifier_mapping)"
+
+};
+
+partial modifier_keys xkb_symbols "control" {
+    // necessary to clear locks when pressing control in while locked in 5th level
+    key <LCTL> {
+        type[Group1] = "ONE_LEVEL",
+        symbols[Group1] = [ Control_L ],
+        actions[Group1] = [ SetMods(modifiers=Control,clearLocks) ] 
+    };
 
 };
 
@@ -223,5 +243,39 @@ partial modifier_keys xkb_symbols "vim_greek" {
 };
 
 partial modifier_keys xkb_symbols "vim_extra" {
-    //key <LatQ> { [NoSymbol, NoSymbol, NoSymbol, NoSymbol,  }; 
+    key.type = "EIGHT_LEVEL_LEVEL_FIVE_LOCK";
+    key <LatQ> { symbols[Group1] = [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,
+                                     Escape, Escape, Escape, Escape ], 
+                actions[Group1]=[ NoAction(),  NoAction(),  NoAction(),  NoAction(), 
+                                  SetMods(modifiers=none,  clearLocks),  SetMods(modifiers=none, clearLocks), 
+                                  SetMods(modifiers=none, clearLocks),  SetMods(modifiers=none, clearLocks)
+            ] 
+    }; 
+    
+    key <LatW> { symbols[Group1] = [ NoSymbol,  NoSymbol,  NoSymbol,  NoSymbol,  VoidSymbol,  VoidSymbol,  VoidSymbol,  VoidSymbol ],
+                actions[Group1]=[ NoAction(),  NoAction(), 
+                                  NoAction(),  NoAction(), 
+                                  RedirectKey(key=<RGHT>,modifiers=Control),  RedirectKey(key=<RGHT>,modifiers=Control), 
+                                  RedirectKey(key=<RGHT>,modifiers=Control),  RedirectKey(key=<RGHT>,modifiers=Control)
+            ] 
+            }; 
+    key <LatB> { symbols[Group1] = [ NoSymbol,  NoSymbol,  NoSymbol,  NoSymbol,  VoidSymbol,  VoidSymbol,  VoidSymbol,  VoidSymbol ],
+                actions[Group1]=[ NoAction(), NoAction(), 
+                                  NoAction(), NoAction(), 
+                                  RedirectKey(key=<LEFT>,modifiers=Control), RedirectKey(key=<LEFT>,modifiers=Control), 
+                                  RedirectKey(key=<LEFT>,modifiers=Control), RedirectKey(key=<LEFT>,modifiers=Control)
+            ] 
+            }; 
+
+};
+
+
+
+partial modifier_keys xkb_symbols "lsgt_switch_lock" {
+  include "level5(lock)"
+  key <LSGT> {
+    type[Group1] = "EIGHT_LEVEL",
+    symbols[Group1] = [ ISO_Level5_Shift, ISO_Level5_Shift, ISO_Level5_Lock, ISO_Level5_Shift,
+                        ISO_Level5_Lock, ISO_Level5_Lock, ISO_Level5_Lock, ISO_Level5_Lock ]
+  };
 };
