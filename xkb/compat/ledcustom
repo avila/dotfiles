@@ -1,0 +1,31 @@
+// Use the Num Lock LED to show either
+// Num Lock, Group, or Shift Lock state.
+
+default partial xkb_compatibility "num_lock" {
+    indicator "Num Lock" {
+	!allowExplicit;
+	whichModState= Locked;
+	modifiers= NumLock;
+	controls = Overlay1;
+	groups=All-group1;
+    };
+};
+
+default partial xkb_compatibility "caps_lock" {
+    indicator "Caps Lock" {
+	!allowExplicit;
+	//whichModState= Locked;
+	controls= Overlay1;
+	groups=All-group1;
+    };
+};
+
+default partial xkb_compatibility "scroll_lock" {
+    indicator "Scroll Lock" {
+	!allowExplicit;
+	whichModState= Locked;
+	modifiers= ScrollLock;
+	controls = Overlay1;
+	groups=All-group1;
+    };
+};

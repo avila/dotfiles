@@ -1,7 +1,4 @@
-// based on a keyboard map from an 'xkb/symbols/de' file
-
-default
-xkb_symbols "basic" {
+default xkb_symbols "basic" {
 
     include "latin(type4)"
 
@@ -37,14 +34,10 @@ xkb_symbols "basic" {
     key <AB10>	{ [     minus, underscore,               endash,     emdash	] };
     key <LSGT>	{ [     less,     greater,                  bar, dead_belowmacron ] };
 
-
-    //include "complementlayout"
-
-    include "kpdl(comma)"
+    //include "kpdl(comma)"
 
     include "level3(ralt_switch)"
 };
-
 partial alphanumeric_keys
 xkb_symbols "deadtilde" {
     // previous standard German layout with tilde as dead key

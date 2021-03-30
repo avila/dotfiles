@@ -1,0 +1,4 @@
+partial alphanumeric_keys modifier_keys keypad_keys xkb_symbols "basic" {
+    include "latin(type4)"
+    name[Group1]="Custom QUERTZ";
+}; 
