@@ -1,9 +1,9 @@
-﻿; UTF-8 with BOM
+; UTF-8 with BOM
 
 global VimMode = 0 
 
 ; --- Scroll Shift and Lock Behaviour ------------------------------------------
-LShift & RShift::
+/*LShift & RShift::
     ;use LeftShift+RightShift to toggle CAPS LOCK
     if GetKeyState("CapsLock", "T") = 1
        SetCapsLockState, AlwaysOff
@@ -11,19 +11,21 @@ LShift & RShift::
        SetCapsLockState, on
 Return
 
-/*+CapsLock::
+*/
+<^>!CapsLock::
     ;SetScrollLockState % !GetKeyState("ScrollLock", "T") ; toggle ScrollLock state
     VimMode := 1
-    SetTimer, ToolTipTimer, 1
-    ToolTipTimer:
-        if VimMode {
-            ToolTip, Editing Mode is %VimMode%!
-        } else {
-            ToolTip
-            SetCapsLockState, AlwaysOff
-        }
+    tooltip_vim()
 Return
-*/
+
+tooltip_vim() {
+    While (vimMode == 1)
+    {
+        ToolTip, "VimMode ON!"
+        Sleep, 5
+    }
+    ToolTip ; turn off ToolTip
+}
 
 #If (GetKeyState("CapsLock", "P") | VimMode)
     ;moving
@@ -32,18 +34,22 @@ Return
     *k::SendInput,{Blind}{Up}
     *l::SendInput,{Blind}{Right}
     *d::SendInput,{Blind}{Del}
-    *b::SendInput,{Blind}{Backspace}
+    
     *u::SendInput,{Blind}{Home}
     *i::SendInput,{Blind}{End}
     *p::SendInput,{Blind}{PgUp}
     *SC027::SendInput,{Blind}{PgDn} ; sc027 => ö in de layout, 
     ; editing
-    *z::SendInput,^z
-    *x::SendInput,^x
-    *c::SendInput,^c
-    *v::SendInput,^v
-
+    ; *z::SendInput,^z
+    ; *x::SendInput,^x
+    ; *c::SendInput,^c
+    ; *v::SendInput,^v
+    
+    *b::SendInput, {Blind}^{Left}
+    *w::SendInput, {Blind}^{Right}
+    
     *m::SendInput, {AppsKey}
+    *q::SendInput, {Esc}
 #If
 
 #if VimMode
@@ -51,7 +57,12 @@ Return
     q:: 
     Esc::
     CapsLock::
-    +CapsLock::VimMode := 0
+    ;<^>!CapsLock::
+    ;+CapsLock::
+        VimMode := 0
+        RemoveToolTip:
+        ToolTip
+    return
 #If
 
 #If (GetKeyState("CapsLock", "P")) ; only if caps physically pressed

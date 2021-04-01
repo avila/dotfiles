@@ -30,9 +30,7 @@ global win10 := % substr(a_osversion, 1, 2) = 10 ; defines a global (1 if win10,
 
 #Include, %A_ScriptDir%/browse.ahk
 
-
 #Include, %A_ScriptDir%/win.ahk
-
 
 
 
@@ -80,8 +78,8 @@ $^s::
     SendInput,^s
     Sleep, 33
     SplashTextOn, 300, 50, AHK, Updating the script.
-    Sleep, 666
-    SplashTextOff
+    sleep 300
     Reload
+    SplashTextOff
 Return
 #IfWinActive

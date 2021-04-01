@@ -20,6 +20,7 @@ break::Send {Volume_Mute} ; Break key mutes
 return
 
 
+
 ; --- Windows 7 ----------------------------------------------------------------
 
 #if WinActive("ahk_exe Explorer.EXE") and (!win10) 
@@ -34,17 +35,15 @@ return
 ; --- Print Screen  ---
 ; runs the snip program (windows 10) and snippingtool in windows 7
 printscreen::
-    If (win10) 
+    If (win10) {
         Run, explorer ms-screenclip:
-    Else 
-        IfWinExist, ahk_exe SnippingTool.exe
-        {
-            WinActivate, ahk_exe SnippingTool.exe
-            Sleep, 300
-            SendInput,^n
-        }
-        else
-            Run, snippingtool
+    } Else If WinExist("Snipping Tool") {
+        WinActivate ; Use the window found by WinExist( )
+        Sleep,  100
+        Send ^n
+    } Else {
+        Run, snippingtool    
+    }
 return
 
 ; for some thinkpads models where the printscreen is where the Menu Key should be
@@ -132,6 +131,14 @@ Return
 $WheelUp::
 SendInput, {WheelDown}
 Return
+
+
+; Window management --------------------------------------------------------------------
+
+; close with Alt+q
+!+q::Send, !{F4}
+; close tab with Alt+w
+#q::Send, ^w
 
 ; --- Move window with Lwin and Lbutton ---
 Lwin & LButton::
