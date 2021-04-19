@@ -103,22 +103,27 @@ partial xkb_symbols "caps_overlay_base" {
     key <LatL> { Overlay1 = <RGHT> }; 
 
     key <LatM> { Overlay1 = <MENU> };
-    //key <TAB>  { Overlay1 = <TAB>  };
-    
+    //key <TAB>  { Overlay1 = <TAB>  }; 
     // Editing Section
     key <LatQ> { Overlay1 = <ESC>  };
 
     // key <LatZ> { Overlay1 = <UNDO> }; key <UNDO> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatZ>,modifiers=Control)]  };
     // key <LatY> { Overlay1 = <AGAI> }; key <AGAI> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatY>,modifiers=Control)]  };
     key <LatX> { Overlay1 = <CUT>  }; 
-    key <LatC> { Overlay1 = <COPY> }; 
+        key <CUT> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatX>, modifiers=Control)]  };
+    key <LatC> { Overlay1 = <COPY> };
+        key <COPY> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatC>, modifiers=Control)]  };
     key <LatV> { Overlay1 = <PAST> }; 
-    
+        key <PAST> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatV>, modifiers=Control)]  };
+
     key <LatU> { Overlay1 = <HOME> }; 
     key <LatI> { Overlay1 = <END>  }; 
 
     key <LatP> { Overlay1 = <PGUP> };
     key <AC10> { Overlay1 = <PGDN> };
+
+    key <LatN> { Overlay1 = <FK19> }; // N as Latching Ctrl!
+        key <FK19> { [ VoidSymbol ], actions[Group1]=[ LatchMods(modifiers=Control)] };
 
     key <LatR> { Overlay1 = <FK16> };
         key <FK16> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatD>, modifiers=Control)] };
