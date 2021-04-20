@@ -1,70 +1,133 @@
 ﻿; UTF-8 with BOM
 
+; run stata or regain connection with stata ID
 #s::get_stata_id()
 
 ; --- sublime stata editor no admin --------------------------------------------------------------------
 #IfWinActive ahk_exe sublime_text.exe
 !d::
 ^Enter::
+
+    ; copy selected content to a temp file 
     global call_type := "do"
     Content := Clip() ; will store any selected text in %Var%
-    tempfile := A_Temp . "/st_tmp.do"
+    tempfile := A_Temp . "\st_tmp.do"
     file := FileOpen(tempfile, "w")
     file.Write(Content)
     file.Close()
+
+    ; if stata not opened or connection not made yet (UniqueStataID undefined)->get id
+    if not WinExist("Stata/(IC|SE|MP)? 1[0-9]\.[0-9]") or (!UniqueStataID) {
+        get_stata_id()
+    }
+
+    ; call stata_do function
     stata_do(call_type)
 Return
 
 !+r::
+    ; run == quietly do
     global call_type := "run"
     Content := Clip() ; will store any selected text in %Var%
-    tempfile := A_Temp . "/st_tmp.do"
+    tempfile := A_Temp . "\st_tmp.do"
     file := FileOpen(tempfile, "w")
     file.Write(Content)
     file.Close()
+
+    ; if stata not opened or connection not made yet (UniqueStataID undefined)->get id
+    if not WinExist("Stata/(IC|SE|MP)? 1[0-9]\.[0-9]") or (!UniqueStataID) {
+        get_stata_id()
+    }
+
     stata_do(call_type)
 Return
+
 
 ; sysuse auto
 ; --- stata functions  --------------------------------------------------------------------
 
-stata_do(type="do") {
+stata_do(call_type="do") {
     global UniqueStataID
     global tempfile
     if WinExist("ahk_id" . UniqueStataID) {
         WinActivate,
         Sleep, 33
         SendInput, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}{CtrlUp}{CtrlUp}
-        SendInput, %type% %tempfile% {Enter}
-        ; Sleep, 750
-        ; WinActivate, ahk_exe sublime_text.exe
+        SendInput, %call_type% %tempfile% {Enter}
+        Sleep, 33
+        WinActivate, ahk_exe sublime_text.exe
     }
     else {
-        SplashTextOn , 500 , 100 , StataSend,  Window not opened.`rTrying to establish connection]
-        Sleep, 0666
-        SplashTextOff
-        get_stata_id() 
+        MsgBox, , StataSend, Failed to find Stata's ID`, try again !, 3
     }
 }
 
 get_stata_id() {
     global UniqueStataID
+    MsgBox, , StataSend, Trying to stablish connection with Stata's Windows, 3
     ; open stata if not running. if running gets id of window for sending code
     if UniqueStataID := WinExist("Stata/(IC|SE|MP)? 1[0-9]\.[0-9]") {
-        ;pass (window exists)
+        MsgBox, , StataSend, Stata connected! (hopefully), 3
     }
     else {
-        ;MsgBox, , StataSend, Stata not opened. Opening new instance,    
+        MsgBox, , StataSend, Stata not opened. Opening new instance on "R:\stata16\StataMP-64.exe",
         Run, R:\stata16\StataMP-64.exe, , Min, UniqueStataID
+        
+        WinWait, "Stata/(IC|SE|MP)? 1[0-9]\.[0-9]", , 3
+        if UniqueStataID := WinExist("Stata/(IC|SE|MP)? 1[0-9]\.[0-9]") {
+            MsgBox, , StataSend, Stata connected! (hopefully)
+        }
     }
-    WinWait, ahk_id %UniqueStataID% 
+    ;UniqueStataID
+    ;WinGet, UniqueStataID, ID , "Stata/(IC|SE|MP)? 1[0-9]\.[0-9]"
+    /*
+    WinWait, ahk_id %UniqueStataID%,,2
     WinGetTitle, Title, ahk_id %UniqueStataID%
     SplashTextOn , 500 , 100 , StataSend,  Connecting with %Title% (ID: %UniqueStataID%)]
     Sleep, 0666
-    SplashTextOff
-    sleep, 300
-    stata_do(call_type)
+    SplashTextOff 
+    */
+
 }
+
+
+stata_call(Command) { 
+    global UniqueStataID
+
+    if WinExist("ahk_id" . UniqueStataID) {
+        WinActivate,
+        ;MsgBox, , Title, %Command%, 
+        Sleep, 33
+        SendInput, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}{CtrlUp}{CtrlUp}
+        SendInput, %Command% {Enter}
+        Sleep, 33
+        WinActivate, ahk_exe sublime_text.exe
+    }
+    else {
+        MsgBox, , StataSend, Failed to find Stata's ID`, try again !, 3
+    }
+}
+
+<^>!f::
+    Sleep, 50
+    SendInput, {F13} ; F13 is mapped in sublime to select word under cursor
+    Sleep, 50
+    Variable := Clip() ; will store any selected text in %Var%
+    
+    Input, IputKey, L1 T1, , ,  ; wait for input: L means Length and T means Timeout
+    switch IputKey {
+        case "f":  
+            full_command = fre %Variable%
+            stata_call(full_command)
+        case "s":  
+            full_command = tab syear %Variable%
+            stata_call(full_command)
+        case "l":  
+            full_command = lookfor %Variable%
+            stata_call(full_command)
+    }
+    return
+return
 
 
 #IfWinActive

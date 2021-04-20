@@ -555,7 +555,7 @@ WinActivate, % "ahk_id " WinID
 return
 
 ; --- Print Screen  ---
-printscreen::
+/*printscreen::
     IfWinExist, ahk_exe SnippingTool.exe
     {
         WinActivate, ahk_exe SnippingTool.exe
@@ -566,6 +566,7 @@ printscreen::
         Run, snippingtool
 return
 
+*/
 ; --- Move window with Lwin and Lbutton ---
 
 Lwin & LButton::
