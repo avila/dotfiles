@@ -113,7 +113,7 @@ partial xkb_symbols "caps_overlay_base" {
     key <LatX> { Overlay1 = <CUT>  };
         key <CUT> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatX>, modifiers=Control)] };
     key <LatC> { Overlay1 = <COPY> };
-        //key <COPY> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatC>, modifiers=Control)] };
+        key <COPY> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatC>, modifiers=Control)] };
     key <LatV> { Overlay1 = <PAST> };
         key <PAST> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatV>, modifiers=Control)] };
 
