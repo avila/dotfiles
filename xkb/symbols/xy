@@ -82,8 +82,10 @@ partial xkb_symbols "caps_overlay" {
     // Group 2 (greek)
     include "xy(xy_greek_lvl2)"
     //include "xy(alt_layout)"
-
-
+    include "xy(disable_left_ctrl)"
+};
+partial xkb_symbols    "disable_left_ctrl" {
+    key <LCTL> { type[Group1] = "THREE_LEVEL", [ VoidSymbol ]};
 };
 
 partial xkb_symbols "caps_overlay_base" {
@@ -102,20 +104,18 @@ partial xkb_symbols "caps_overlay_base" {
     key <LatK> { Overlay1 = <UP>   };
     key <LatL> { Overlay1 = <RGHT> };
 
-    key <LatM> { Overlay1 = <MENU> };
-    
-    // key <TAB>  { Overlay1 = <TAB>  };
     // Editing Section
     key <LatQ> { Overlay1 = <ESC>  };
+    key <LatM> { Overlay1 = <LWIN> };
+    
+    //key <AB08> { Overlay1 = <LWIN> };
+    key <AB09> { Overlay1 = <MENU> };
 
-    // key <LatZ> { Overlay1 = <UNDO> }; key <UNDO> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatZ>,modifiers=Control)]  };
-    // key <LatY> { Overlay1 = <AGAI> }; key <AGAI> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatY>,modifiers=Control)]  };
-    key <LatX> { Overlay1 = <CUT>  };
-        key <CUT> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatX>, modifiers=Control)] };
-    key <LatC> { Overlay1 = <COPY> };
-        key <COPY> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatC>, modifiers=Control)] };
-    key <LatV> { Overlay1 = <PAST> };
-        key <PAST> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatV>, modifiers=Control)] };
+    key <LatZ> { Overlay1 = <UNDO> }; key <UNDO> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatZ>, modifiers=Control)] };
+    key <LatY> { Overlay1 = <AGAI> }; key <AGAI> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatY>, modifiers=Control)] };
+    key <LatX> { Overlay1 = <CUT>  }; key <CUT>  { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatX>, modifiers=Control)] };
+    key <LatC> { Overlay1 = <COPY> }; key <COPY> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatC>, modifiers=Control)] };
+    key <LatV> { Overlay1 = <PAST> }; key <PAST> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatV>, modifiers=Control)] };
 
     key <LatE> { Overlay1 = <RTRN> };
     key <LatU> { Overlay1 = <HOME> };
