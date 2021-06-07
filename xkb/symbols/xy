@@ -83,7 +83,7 @@ partial xkb_symbols "caps_overlay" {
     include "xy(xy_greek_lvl2)"
     //include "xy(control_latch)"
     //include "xy(alt_layout)"
-    include "xy(disable_left_ctrl)"
+    //include "xy(disable_left_ctrl)"
 };
 partial xkb_symbols    "disable_left_ctrl" {
     key <LCTL> { type[Group1] = "THREE_LEVEL", [ VoidSymbol ]};
