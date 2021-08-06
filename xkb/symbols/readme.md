@@ -38,10 +38,15 @@ from the keyboard settings in the settings manager
            <description>XY (German - xy3levels)</description>
           </configItem>
         </variant>
+        <variant>
+          <configItem>
+            <name>caps_overlay</name>
+           <description>XY (German - Caps Overlay)</description>
+          </configItem>
+        </variant>
       </variantList>
     </layout>
-    <!-- End of Custom German Layouts -->
-```
+    <!-- End of Custom German Layouts -->```
 
 It might be neeeded to run `sudo dpkg-reconfigure xkb-data` (or restart) in order to show the custom layout
 

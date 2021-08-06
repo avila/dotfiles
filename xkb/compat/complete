@@ -12,15 +12,15 @@ default xkb_compatibility "complete" {
     augment "ledcustom(caps_lock)"
     augment "ledcustom(scroll_lock)"
 
-    interpret Caps_Lock+AnyOfOrNone(all) {
-       action = SetMods(modifiers=Lock);
-    };
+    // interpret Caps_Lock+AnyOfOrNone(all) {
+    //    action = SetMods(modifiers=Lock);
+    // };
 
-   interpret ISO_Level3_Shift+Any {
-        useModMapMods = level1;
-        virtualModifier = LevelThree;
-        action = SetMods(modifiers=LevelThree);
-    };
+//    interpret ISO_Level3_Shift+Any {
+//         useModMapMods = level1;
+//         virtualModifier = LevelThree;
+//         action = SetMods(modifiers=LevelThree);
+//     };
 
 
 };
