@@ -81,6 +81,7 @@ partial xkb_symbols "caps_overlay" {
 
     // Group 2 (greek)
     include "xy(xy_greek_lvl2)"
+    //include "xy(control_latch)"
     //include "xy(alt_layout)"
     //include "xy(disable_left_ctrl)"
 };
@@ -182,7 +183,10 @@ partial xkb_symbols "caps_overlay_base" {
         key <FK14> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LEFT>, modifiers=Control)] };
     //key <SPCE>  { Overlay1 = <RTRN> }; // mute mic <FK20>
 };
+partial xkb_symbols "control_latch" {
+    key <LCTL> { [ VoidSymbol ], actions[Group1]=[ LatchMods(modifiers=Control)] }; 
 
+};
 partial xkb_symbols "alt_layout" {
     key <CAPS> {
         vmods = Capslock,
