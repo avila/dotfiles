@@ -7,6 +7,7 @@
 ~RButton & g::browse_this("g")
 ~RButton & t::browse_this("gt")
 ~RButton & v::browse_this("gt") ;TODO: update gitlab
+~RButton & p::browse_this("pd") ;TODO: update gitlab
 
 
 ; define browse function

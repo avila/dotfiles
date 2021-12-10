@@ -1,7 +1,7 @@
 ﻿; UTF-8 with BOM
 
 ; run stata or regain connection with stata ID
-#s::get_stata_id()
+#s::get_stata_id() ;#a ä
 
 ; --- sublime stata editor no admin --------------------------------------------------------------------
 #IfWinActive ahk_exe sublime_text.exe
@@ -10,11 +10,7 @@
 
     ; copy selected content to a temp file 
     global call_type := "do"
-    Content := Clip() ; will store any selected text in %Var%
-    tempfile := A_Temp . "\st_tmp.do"
-    file := FileOpen(tempfile, "w")
-    file.Write(Content)
-    file.Close()
+    write_clip_to_temp_file()
 
     ; if stata not opened or connection not made yet (UniqueStataID undefined)->get id
     if not WinExist("Stata/(IC|SE|MP)? 1[0-9]\.[0-9]") or (!UniqueStataID) {
@@ -30,9 +26,7 @@ Return
     global call_type := "run"
     Content := Clip() ; will store any selected text in %Var%
     tempfile := A_Temp . "\st_tmp.do"
-    file := FileOpen(tempfile, "w")
-    file.Write(Content)
-    file.Close()
+    write_clip_to_temp_file()
 
     ; if stata not opened or connection not made yet (UniqueStataID undefined)->get id
     if not WinExist("Stata/(IC|SE|MP)? 1[0-9]\.[0-9]") or (!UniqueStataID) {
@@ -45,6 +39,14 @@ Return
 
 ; sysuse auto
 ; --- stata functions  --------------------------------------------------------------------
+write_clip_to_temp_file() {
+    global tempfile
+    Content := Clip() ; will store any selected text in %Var%
+    tempfile := A_Temp . "\st_tmp.do"
+    file := FileOpen(tempfile, "w", "utf-8-raw") ; ä
+    file.Write(Content)
+    file.Close()
+}
 
 stata_do(call_type="do") {
     global UniqueStataID
@@ -67,16 +69,18 @@ get_stata_id() {
     MsgBox, , StataSend, Trying to stablish connection with Stata's Windows, 3
     ; open stata if not running. if running gets id of window for sending code
     if UniqueStataID := WinExist("Stata/(IC|SE|MP)? 1[0-9]\.[0-9]") {
-        MsgBox, , StataSend, Stata connected! (hopefully), 3
+        MsgBox, , StataSend, Stata connected! (hopefully)
     }
     else {
-        MsgBox, , StataSend, Stata not opened. Opening new instance on "R:\stata16\StataMP-64.exe",
-        Run, R:\stata16\StataMP-64.exe, , Min, UniqueStataID
+        MsgBox, , StataSend, Stata not opened. Opening new instance on "R:\stata17\StataMP-64.exe",
         
-        WinWait, "Stata/(IC|SE|MP)? 1[0-9]\.[0-9]", , 3
+        Run, R:\stata17\StataMP-64.exe, , Min, UniqueStataID       
+        
+        WinWait, "Stata/(IC|SE|MP)? 1[0-9]\.[0-9]", , 4
         if UniqueStataID := WinExist("Stata/(IC|SE|MP)? 1[0-9]\.[0-9]") {
             MsgBox, , StataSend, Stata connected! (hopefully)
         }
+
     }
     ;UniqueStataID
     ;WinGet, UniqueStataID, ID , "Stata/(IC|SE|MP)? 1[0-9]\.[0-9]"
@@ -108,26 +112,26 @@ stata_call(Command) {
     }
 }
 
-<^>!f::
-    Sleep, 50
-    SendInput, {F13} ; F13 is mapped in sublime to select word under cursor
-    Sleep, 50
-    Variable := Clip() ; will store any selected text in %Var%
-    
-    Input, IputKey, L1 T1, , ,  ; wait for input: L means Length and T means Timeout
-    switch IputKey {
-        case "f":  
-            full_command = fre %Variable%
-            stata_call(full_command)
-        case "s":  
-            full_command = tab syear %Variable%
-            stata_call(full_command)
-        case "l":  
-            full_command = lookfor %Variable%
-            stata_call(full_command)
-    }
-    return
-return
+; <^>!f::
+;     Sleep, 50
+;     SendInput, {F13} ; F13 is mapped in sublime to select word under cursor
+;     Sleep, 50
+;     Variable := Clip() ; will store any selected text in %Var%
+    ; 
+;     Input, IputKey, L1 T1, , ,  ; wait for input: L means Length and T means Timeout
+;     switch IputKey {
+;         case "f":  
+;             full_command = fre %Variable%
+;             stata_call(full_command)
+;         case "s":  
+;             full_command = tab syear %Variable%
+;             stata_call(full_command)
+;         case "l":  
+;             full_command = lookfor %Variable%
+;             stata_call(full_command)
+;     }
+;     return
+; return
 
 
 #IfWinActive
