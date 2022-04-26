@@ -64,7 +64,7 @@ partial xkb_symbols "caps_overlay" {
     // meta info
     name[Group1]= "German Vim-Like (caps_overlay)";
     // basic and alt layouts
-    include "de(basic)"
+    // include "de(basic)"
     include "xy(basic)"
     
     // includes built in
@@ -73,14 +73,14 @@ partial xkb_symbols "caps_overlay" {
     include "shift(both_capslock)"
 
     // includes custom
-    include "xy(alt_3rd_level_void)"
+    // include "xy(alt_3rd_level_void)"
     // choose either caps_overlay or caps_5h_lock
     include "xy(caps_overlay_base)"
 
     //include "shift(both_capslock_cancel)"
 
     // Group 2 (greek)
-    include "xy(xy_greek_lvl2)"
+    //include "xy(xy_greek_lvl2)"
     //include "xy(control_latch)"
     //include "xy(alt_layout)"
     //include "xy(disable_left_ctrl)"
@@ -134,19 +134,20 @@ partial xkb_symbols "caps_overlay_base" {
         vmods = Capslock,
 
         type[Group1] = "THREE_LEVEL",
-        symbols[Group1] = [ Overlay1_Enable,                Overlay1_Enable,                Overlay1_Enable                 ], // also possible with VoidSymbol
+        symbols[Group1] = [ VoidSymbol,                VoidSymbol,                VoidSymbol                 ], // also possible with VoidSymbol
         actions[Group1] = [ SetControls(controls=Overlay1), SetControls(controls=Overlay1), LockControls(controls=Overlay1) ]
     };
 
-    
-    // test
-    
-    
-    // Movement Section
     key <LatH> { Overlay1 = <LEFT> };
     key <LatJ> { Overlay1 = <DOWN> };
     key <LatK> { Overlay1 = <UP>   };
     key <LatL> { Overlay1 = <RGHT> };
+
+    key   <UP> { [  Up           ]   };
+    key <LEFT> { [  Left         ]   };
+    key <DOWN> { [  Down         ]   };
+    key <RGHT> { [  Right        ]   };
+
 
     // Editing Section
     key <LatQ> { Overlay1 = <ESC>  };
@@ -170,8 +171,8 @@ partial xkb_symbols "caps_overlay_base" {
 
     key <FK12> { Overlay1 = <FK21> }; // XF86TouchpadToggle
 
-    key <LatN> { Overlay1 = <FK19> }; // N as Latching Ctrl!
-       key <FK19> { [ VoidSymbol ], actions[Group1]=[ LatchMods(modifiers=Control)] };
+    key <LatN> { Overlay1 = <FK15> }; // N as Latching Ctrl!
+       key <FK15> { [ VoidSymbol ], actions[Group1]=[ LatchMods(modifiers=Control)] };
 
     key <LatR> { Overlay1 = <FK16> };
         key <FK16> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatD>, modifiers=Control)] };
