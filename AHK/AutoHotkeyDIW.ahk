@@ -178,7 +178,7 @@ return
 
 #if
 ; --- Stata --------------------------------------------------------------------
-#s::Run, R:\stata16\StataMP-64 stata_temp.do
+#s::Run, R:\stata17\StataMP-64 stata_temp.do
 #IfWinActive ahk_exe sublime_text.exe
 
 
@@ -443,7 +443,7 @@ if WinActive("AutoHotkeyP.ahk")
         SendInput,^s
         Sleep,33
         SplashTextOn, 300, 50, AHK, Updating the script.
-        Sleep, 666
+        Sleep, 333
         SplashTextOff
         Reload
     }

@@ -124,14 +124,14 @@ return
 ~RButton & WheelUp::SendInput, !{Left}
 ~RButton & WheelDown::SendInput, !{Right}
 
-$WheelDown::
+/*$WheelDown::
 SendInput, {WheelUp}
 Return
 
 $WheelUp::
 SendInput, {WheelDown}
 Return
-
+*/
 
 ; Window management --------------------------------------------------------------------
 

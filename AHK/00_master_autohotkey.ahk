@@ -9,13 +9,13 @@ SetTitleMatchMode RegEx
 #MaxHotkeysPerInterval 333
 
 
-;SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetKeyDelay, 10, 1
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 SetCapsLockState, AlwaysOff ; disables CAPSLock
 global win10 := % substr(a_osversion, 1, 2) = 10 ; defines a global (1 if win10, 0 otherwise)
-
+;global win10 := False
 
 #Include, %A_ScriptDir%/vim_mode.ahk
  
@@ -31,7 +31,6 @@ global win10 := % substr(a_osversion, 1, 2) = 10 ; defines a global (1 if win10,
 #Include, %A_ScriptDir%/browse.ahk
 
 #Include, %A_ScriptDir%/win.ahk
-
 
 
 ; --- Dates -----------------------------------------------------------
