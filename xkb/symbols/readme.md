@@ -46,7 +46,7 @@ from the keyboard settings in the settings manager
         </variant>
       </variantList>
     </layout>
-    <!-- End of Custom German Layouts -->```
+    <!-- End of Custom German Layouts -->
 ```
 
 It might be neeeded to run `sudo dpkg-reconfigure xkb-data` (or restart) in order to show the custom layout
