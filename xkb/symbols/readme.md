@@ -50,7 +50,15 @@ from the keyboard settings in the settings manager
 
 It might be neeeded to run `sudo dpkg-reconfigure xkb-data` (or restart) in order to show the custom layout
 
+##  XKB in Wayland 
+
+### Custom keyboard layout in Wayland like Xmodmap in X11
+
+link: https://blog.stigok.com/2020/10/27/from-x11-xmodmap-to-wayland-xkb-custom-keyboard-layout.html
+
+
 ## Optional 
+
 
 ```
 // edit  /usr/share/X11/xkb/compat/ledcaps to use led indicator for overlay1 control mod
