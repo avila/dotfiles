@@ -1,0 +1,14 @@
+partial xkb_symbols "base" {
+
+    name[Group1]= "XY (Movement, group 2)";
+
+    key <LatH> {  Up     };
+    key <LatJ> {  Left   };
+    key <LatK> {  Down   };
+    key <LatL> {  Right  }; 
+
+    // Editing Section
+    key <LatQ> { Escape };
+    key <AB09> { Menu   };
+
+};
