@@ -77,7 +77,7 @@ partial xkb_symbols "caps_overlay" {
     // choose either caps_overlay or caps_5h_lock
     include "xy(caps_overlay_base)" // caps_overlay_base caps_wayland
 
-    include "shift(both_capslock_cancel)"
+    //include "shift(both_capslock_cancel)"
 
     // Group 2 (greek)
     //include "xy(xy_greek_lvl2)"
@@ -227,7 +227,7 @@ partial xkb_symbols "caps_overlay_base" {
     key <CAPS> {
         type[Group1] = "THREE_LEVEL",
         symbols[Group1] = [ Shift_L,                NoSymbol,                NoSymbol                 ], // also possible with VoidSymbol or NoSymbol or Shift_L (for RStudio)
-        actions[Group1] = [ SetControls(controls=Overlay1+MouseKeysAccel), SetControls(controls=Overlay1+MouseKeysAccel), LockControls(controls=Overlay1+MouseKeysAccel) ] // Mousekeys
+        actions[Group1] = [ SetControls(controls=Overlay1), SetControls(controls=Overlay1), LockControls(controls=Overlay1+MouseKeysAccel) ] // Mousekeys
     };
 
     key.repeat = False; // does nothing
@@ -243,10 +243,14 @@ partial xkb_symbols "caps_overlay_base" {
 
     key.repeat = False; // does nothing
     key <LatF> { Overlay1 = <KP1> };
-    key   <KP1> { [  VoidSymbol, VoidSymbol, VoidSymbol ], actions[Group1] = [ PointerButton(button=1), PointerButton(button=1), PointerButton(button=1) ] };
+    key   <KP1> { [  VoidSymbol, VoidSymbol, VoidSymbol ], actions[Group1] = [ LockPointerButton(button=1), LockPointerButton(button=1), LockPointerButton(button=1) ] };
+
+    key <LatA> { Overlay1 = <LFSH> };
+    key <AC10> { Overlay1 = <LFSH> }; // ö
 
     // Editing Section
     key <LatQ> { Overlay1 = <ESC>  };
+      //key <ESC> { [Escape], actions[Group1]=[SetControls(controls=Overlay1)]};
     key <LatM> { Overlay1 = <LWIN> };
     
     //key <AB08> { Overlay1 = <LWIN> };
@@ -260,12 +264,14 @@ partial xkb_symbols "caps_overlay_base" {
 
     key <LatE> { Overlay1 = <RTRN> };
     key <LatU> { Overlay1 = <HOME> };
-     key <HOME> { actions[Group1] = [ NoAction(), NoAction(), PointerButton(button=1) ] };
+     key <HOME> { [Home, Home], actions[Group1] = [ NoAction(), NoAction(), PointerButton(button=1)] };
     key <LatI> { Overlay1 = <END>  };
-     key <END> { actions[Group1] = [ NoAction(), NoAction(), PointerButton(button=3) ] };
+     key <END> { [End, End],    actions[Group1] = [ NoAction(), NoAction(), PointerButton(button=3)] };
+    key <LatO> { type="ONE_LEVEL", Overlay1 = <PGDN> };
+    key <LatP> { type="ONE_LEVEL", Overlay1 = <PGUP> };
 
-    key <LatP> { Overlay1 = <PGUP> };
-    key <AC10> { Overlay1 = <PGDN> };
+    //key <LatP> { Overlay1 = <PGUP> };
+    //key <AC10> { Overlay1 = <PGDN> };
 
     key <FK12> { Overlay1 = <FK21> }; // XF86TouchpadToggle
 
@@ -286,65 +292,6 @@ partial xkb_symbols "caps_overlay_base" {
     key <AB10>	{ Overlay1 = <FK24> }; 
          key <FK24> { [ Multi_key ] };
 
-
-};
-
-
-partial xkb_symbols "caps_overlay_base_bkp" {
-
-    replace key <CAPS> {
-        vmods = Capslock,
-
-        type[Group1] = "THREE_LEVEL",
-        symbols[Group1] = [ NoSymbol,                NoSymbol,                NoSymbol                 ], // also possible with VoidSymbol or NoSymbol
-        actions[Group1] = [ SetControls(controls=Overlay1), SetControls(controls=Overlay1), LockControls(controls=Overlay1) ]
-    };
-    
-    key <LatH> { Overlay1 = <LEFT> };
-    key <LatJ> { Overlay1 = <DOWN> };
-    key <LatK> { Overlay1 = <UP>   };
-    key <LatL> { Overlay1 = <RGHT> };
-
-    key   <UP> { [  Up           ]   };
-    key <LEFT> { [  Left         ]   };
-    key <DOWN> { [  Down         ]   };
-    key <RGHT> { [  Right        ]   };
-
-
-    // Editing Section
-    key <LatQ> { Overlay1 = <ESC>  };
-    key <LatM> { Overlay1 = <LWIN> };
-
-    //key <AB08> { Overlay1 = <LWIN> };
-    key <AB09> { Overlay1 = <MENU> };
-
-    key <LatZ> { Overlay1 = <UNDO> }; key <UNDO> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatZ>, modifiers=Control)] };
-    key <LatY> { Overlay1 = <AGAI> }; key <AGAI> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatY>, modifiers=Control)] };
-    key <LatX> { Overlay1 = <CUT>  }; key <CUT>  { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatX>, modifiers=Control)] };
-    key <LatC> { Overlay1 = <COPY> }; key <COPY> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatC>, modifiers=Control)] };
-    key <LatV> { Overlay1 = <PAST> }; key <PAST> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatV>, modifiers=Control)] };
-
-    key <LatE> { Overlay1 = <RTRN> };
-    key <LatU> { Overlay1 = <HOME> };
-    key <LatI> { Overlay1 = <END>  };
-
-    key <LatP> { Overlay1 = <PGUP> };
-    key <AC10> { Overlay1 = <PGDN> };
-
-    key <FK12> { Overlay1 = <FK21> }; // XF86TouchpadToggle
-
-    key <LatN> { Overlay1 = <FK15> }; // N as Latching Ctrl!
-    key <FK15> { [ VoidSymbol ], actions[Group1]=[ LatchMods(modifiers=Control)] };
-
-    key <LatR> { Overlay1 = <FK16> };
-        key <FK16> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatD>, modifiers=Control)] };
-    key <LatD> { Overlay1 = <DELE> }; // [w]ord forward
-
-    key <LatW> { Overlay1 = <FK13> }; // [w]ord forward
-        key <FK13> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<RGHT>, modifiers=Control)] };
-    key <LatB> { Overlay1 = <FK14> }; // word [b]ackward
-        key <FK14> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LEFT>, modifiers=Control)] };
-    //key <SPCE>  { Overlay1 = <RTRN> }; // mute mic <FK20
 
 };
 
