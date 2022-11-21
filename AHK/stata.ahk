@@ -53,6 +53,11 @@ stata_do(call_type="do") {
     global tempfile
     if WinExist("ahk_id" . UniqueStataID) {
         WinActivate,
+        WinWaitActive, Stata,, 2
+        if ErrorLevel {
+            MsgBox, WinWait timed out, Probably Stata is busy. Try Again :)
+            return
+        }
         Sleep, 99
         SendInput, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}{CtrlUp}{CtrlUp}
         SendInput, %call_type% %tempfile% {Enter}
