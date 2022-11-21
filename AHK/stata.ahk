@@ -53,11 +53,12 @@ stata_do(call_type="do") {
     global tempfile
     if WinExist("ahk_id" . UniqueStataID) {
         WinActivate,
-        Sleep, 33
+        Sleep, 99
         SendInput, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}{CtrlUp}{CtrlUp}
         SendInput, %call_type% %tempfile% {Enter}
-        Sleep, 33
+        Sleep, 99
         WinActivate, ahk_exe sublime_text.exe
+        SendInput, {Ctrl Up}
     }
     else {
         MsgBox, , StataSend, Failed to find Stata's ID`, try again !, 3
@@ -101,11 +102,12 @@ stata_call(Command) {
     if WinExist("ahk_id" . UniqueStataID) {
         WinActivate,
         ;MsgBox, , Title, %Command%, 
-        Sleep, 33
+        Sleep, 99
         SendInput, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}{CtrlUp}{CtrlUp}
         SendInput, %Command% {Enter}
-        Sleep, 33
+        Sleep, 99
         WinActivate, ahk_exe sublime_text.exe
+        SendInput, {Ctrl Up}
     }
     else {
         MsgBox, , StataSend, Failed to find Stata's ID`, try again !, 3

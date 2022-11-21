@@ -35,14 +35,14 @@ return
 ; --- Print Screen  ---
 ; runs the snip program (windows 10) and snippingtool in windows 7
 printscreen::
-    If (win10) {
-        Run, explorer ms-screenclip:
-    } Else If WinExist("Snipping Tool") {
+    If WinExist("Snipping Tool") {
         WinActivate ; Use the window found by WinExist( )
         Sleep,  100
-        Send ^n
+        Send ^n ; grab new screenshot with `ctrl+n`
     } Else {
         Run, snippingtool    
+        Sleep,  100
+        Send ^n ; grab new screenshot with `ctrl+n`
     }
 return
 
