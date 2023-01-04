@@ -4,8 +4,9 @@
 # link xy to system location
 sudo ln -sr ./xy /usr/share/X11/xkb/symbols/xy
 
-# set alredy layout
-setxkbmap xy -variant xy5levels
+# set layout
+setxkbmap xy -variant caps_overlay -v
+# reverts to default after reboot/suspend
 ```
 
 ## Modify /usr/share/X11/xkb/rules/evdev.xml
