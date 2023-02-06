@@ -4,8 +4,9 @@
 # link xy to system location
 sudo ln -sr ./xy /usr/share/X11/xkb/symbols/xy
 
-# set alredy layout
-setxkbmap xy -variant xy5levels
+# set layout
+setxkbmap xy -variant caps_overlay -v
+# reverts to default after reboot/suspend
 ```
 
 ## Modify /usr/share/X11/xkb/rules/evdev.xml
@@ -46,14 +47,24 @@ from the keyboard settings in the settings manager
         </variant>
       </variantList>
     </layout>
-    <!-- End of Custom German Layouts -->```
+    <!-- End of Custom German Layouts -->
+```
 
 It might be neeeded to run `sudo dpkg-reconfigure xkb-data` (or restart) in order to show the custom layout
 
+##  XKB in Wayland 
+
+### Custom keyboard layout in Wayland like Xmodmap in X11
+
+link: https://blog.stigok.com/2020/10/27/from-x11-xmodmap-to-wayland-xkb-custom-keyboard-layout.html
+
+
 ## Optional 
+
 
 ```
 // edit  /usr/share/X11/xkb/compat/ledcaps to use led indicator for overlay1 control mod
+
 default partial xkb_compatibility "caps_lock" {
     indicator "Caps Lock" {
 	!allowExplicit;
@@ -62,4 +73,5 @@ default partial xkb_compatibility "caps_lock" {
 	controls=Overlay1;
     };
 };
+
 ```
