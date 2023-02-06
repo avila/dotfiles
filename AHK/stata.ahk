@@ -1,6 +1,7 @@
 ﻿; UTF-8 with BOM
 
-; run stata or regain connection with stata ID
+
+ ; run stata or regain connection with stata ID
 #s::get_stata_id() ;#a ä
 
 ; --- sublime stata editor no admin --------------------------------------------------------------------
@@ -25,7 +26,7 @@ Return
     ; run == quietly do
     global call_type := "run"
     Content := Clip() ; will store any selected text in %Var%
-    tempfile := A_Temp . "\st_tmp.do"
+    tempfile := A_Temp . "\st_tmp" . %counter% . ".do"
     write_clip_to_temp_file()
 
     ; if stata not opened or connection not made yet (UniqueStataID undefined)->get id
@@ -37,12 +38,16 @@ Return
 Return
 
 
+global counter := 0
 ; sysuse auto
 ; --- stata functions  --------------------------------------------------------------------
 write_clip_to_temp_file() {
     global tempfile
+    
+    counter++
+
     Content := Clip() ; will store any selected text in %Var%
-    tempfile := A_Temp . "\st_tmp.do"
+    tempfile := A_Temp  "\st_tmp_"  Format("{:04}", counter) ".do"
     file := FileOpen(tempfile, "w", "utf-8-raw") ; ä
     file.Write(Content)
     file.Close()
@@ -51,6 +56,7 @@ write_clip_to_temp_file() {
 stata_do(call_type="do") {
     global UniqueStataID
     global tempfile
+    global counter
     if WinExist("ahk_id" . UniqueStataID) {
         WinActivate,
         WinWaitActive, Stata,, 2

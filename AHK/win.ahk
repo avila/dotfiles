@@ -34,7 +34,7 @@ return
 
 ; --- Print Screen  ---
 ; runs the snip program (windows 10) and snippingtool in windows 7
-printscreen::
+/*printscreen::
     If WinExist("Snipping Tool") {
         WinActivate ; Use the window found by WinExist( )
         Sleep,  100
@@ -45,10 +45,11 @@ printscreen::
         Send ^n ; grab new screenshot with `ctrl+n`
     }
 return
+*/
 
 ; for some thinkpads models where the printscreen is where the Menu Key should be
-+printscreen::SendInput, {AppsKey}
-CapsLock & PrintScreen::SendInput, {AppsKey}
+;+printscreen::SendInput, {AppsKey}
+;CapsLock & PrintScreen::SendInput, {AppsKey}
 
 
 ; --- change windown of the same app
