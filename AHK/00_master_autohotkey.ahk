@@ -32,6 +32,8 @@ global win10 := % substr(a_osversion, 1, 2) = 10 ; defines a global (1 if win10,
 
 #Include, %A_ScriptDir%/win.ahk
 
+#Include, %A_ScriptDir%/automatize.ahk
+
 
 ; --- Dates -----------------------------------------------------------
 

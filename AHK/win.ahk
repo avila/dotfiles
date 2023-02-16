@@ -19,6 +19,8 @@ Return
 break::Send {Volume_Mute} ; Break key mutes
 return
 
+#IfWinActive
+#SPACE::  Winset, Alwaysontop, , A
 
 
 ; --- Windows 7 ----------------------------------------------------------------

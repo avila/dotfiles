@@ -59,7 +59,7 @@ stata_do(call_type="do") {
     global counter
     if WinExist("ahk_id" . UniqueStataID) {
         WinActivate,
-        WinWaitActive, Stata,, 2
+        WinWaitActive, Stata,, 3
         if ErrorLevel {
             MsgBox, WinWait timed out, Probably Stata is busy. Try Again :)
             return
