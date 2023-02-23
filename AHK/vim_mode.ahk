@@ -34,7 +34,7 @@ tooltip_vim() {
     *k::SendInput,{Blind}{Up}
     *l::SendInput,{Blind}{Right}
     *d::SendInput,{Blind}{Del}
-    
+
     *u::SendInput,{Blind}{Home}
     *i::SendInput,{Blind}{End}
     *p::SendInput,{Blind}{PgUp}
@@ -42,14 +42,17 @@ tooltip_vim() {
     ; editing
     ; *z::SendInput,^z
     ; *x::SendInput,^x
-    ; *c::SendInput,^c
-    ; *v::SendInput,^v
-    
+    *c::SendInput,^c
+    *v::SendInput,^v
+
     *b::SendInput, {Blind}^{Left}
     *w::SendInput, {Blind}^{Right}
     
     *m::SendInput, {AppsKey}
     *q::SendInput, {Esc}
+
+    *n::SendInput, {Ctrl Down}
+    ~*n UP::SendInput, {Ctrl Up} 
 #If
 
 #if VimMode
