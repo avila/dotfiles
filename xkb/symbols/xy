@@ -1,4 +1,4 @@
-default xkb_symbols "basic" {
+default partial xkb_symbols "basic" {
     include "de(basic)"
 
     name[Group1]= "German XY Vim-Like (Basic)";
@@ -39,20 +39,20 @@ default xkb_symbols "basic" {
 
     key <AC05> { [ g,                 G,                 U0263,             U0393              ] };
 
-    key <AC06> { type="THREE_LEVEL",
-                symbols[Group1]= [           h,      NoSymbol,   Left  ],
+    key <AC06> { type="FOUR_LEVEL",
+                symbols[Group1]= [           h,      NoSymbol,   Left, Left  ],
                 actions[Group1]= [  NoAction(),    NoAction(),   RedirectKey(keycode=<LEFT>, clearmods=levelThree) ]
     };
-    key <AC07> { type="THREE_LEVEL",
-                symbols[Group1]= [           j,      NoSymbol,   Down  ],
+    key <AC07> { type="FOUR_LEVEL",
+                symbols[Group1]= [           j,      NoSymbol,   Down,  Down ],
                 actions[Group1]= [  NoAction(),    NoAction(),   RedirectKey(keycode=<DOWN>, clearmods=levelThree) ]
     };
-    key <AC08> { type="THREE_LEVEL",
-                symbols[Group1]= [           k,      NoSymbol,   Up    ],
+    key <AC08> { type="FOUR_LEVEL",
+                symbols[Group1]= [           k,      NoSymbol,   Up,    Up ],
                 actions[Group1]= [  NoAction(),    NoAction(),   RedirectKey(keycode=<UP>, clearmods=levelThree) ]
     };
-    key <AC09> { type="THREE_LEVEL",
-                symbols[Group1]= [           l,      NoSymbol,   Right ],
+    key <AC09> { type="FOUR_LEVEL",
+                symbols[Group1]= [           l,      NoSymbol,   Right, Right ],
                 actions[Group1]= [  NoAction(),    NoAction(),   RedirectKey(keycode=<RGHT>, clearmods=levelThree) ]
     };
 
@@ -74,157 +74,22 @@ partial xkb_symbols "caps_overlay" {
     include "xy(basic)"
     
     // includes built in
-    include "level5(modifier_mapping)"
-    include "level3(modifier_mapping)"
-    // </AB06>include "shift(both_capslock)"
+    //include "level5(modifier_mapping)" // 2023: giving error
+    //include "level3(modifier_mapping)" // 2023: giving error
+    include "shift(both_capslock_cancel)"
 
     // includes custom
     include "xy(alt_3rd_level_void)"
     // choose either caps_overlay or caps_5h_lock
     include "xy(caps_overlay_base)" // caps_overlay_base caps_wayland
 
-    include "shift(both_capslock_cancel)"
 
     // Group 2 (greek)
     //include "xy(xy_greek_lvl2)"
     //include "xy(control_latch)"
     //include "xy(alt_layout)"
-    //include "xy(disable_left_ctrl)"
-
-    //include "xy(caps_groups)"  // for wayland
-    //include "xy(group2)"  // for wayland
-};
-partial xkb_symbols    "disable_left_ctrl" {
-    key <LCTL> { type[Group1] = "THREE_LEVEL", [ VoidSymbol ]};
 };
 
-partial xkb_symbols "caps_groups" {
-  
-    key <CAPS> {
-        type[Group1] = "THREE_LEVEL",
-        symbols[Group1] = [ ISO_Next_Group, ISO_Next_Group, Shift_L ], // also possible with VoidSymbol or NoSymbol or Shift_L (for RStudio)
-        actions[Group1] = [ SetGroup(group=2), SetGroup(group=2), LockGroup(group=2) ] // lockgroup not working 
-    };
-    key <CAPS> {
-        type[Group1] = "THREE_LEVEL",
-        symbols[Group2] = [ ISO_Next_Group, ISO_Next_Group, Shift_L ], // also possible with VoidSymbol or NoSymbol or Shift_L (for RStudio)
-        actions[Group2] = [ SetGroup(group=1), SetGroup(group=1), LockGroup(group=1) ] // lockgroup not working 
-    };
-
-};
-partial xkb_symbols "group2" {
-
-    name[Group1]= "XY (Group2 - Movement)";
-
-    key.type[Group1] = "ONE_LEVEL";
-    key <LatH> { symbols[group2] = [ Left,   Left   ] };
-    key <LatJ> { symbols[group2] = [ Down,   Down   ] };
-    key <LatK> { symbols[group2] = [ Up,     Up     ] };
-    key <LatL> { symbols[group2] = [ Right,  Right  ] }; 
-
-    // Editing Section
-    key <LatQ> { symbols[Group2] = [ Escape  ], actions[Group2]=[ RedirectKey(key=<ESC>, modifiers=none)] };
-    key <AB09> { symbols[group2] = [ Menu   ] };
-
-    // Special
-    key <LatN> { symbols[group2] = [ Ctrl    ], actions[Group2]=[ LatchMods(modifiers=Control)] };
-    key <LatM> { symbols[group2] = [ Super_L ], actions[Group2]=[ SetMods(modifiers=Super)] };
-
-};
-
-
-partial xkb_symbols "group3" {
-
-    name[Group1]= "XY (Group3 - Special)";
-
-};
-
-
-partial xkb_symbols "test" {
-    include "de(basic)" 
- 
-    key <LEFT> {
-        type[Group1]="PC_SUPER_LEVEL2",
-        symbols[Group1] = [ Left, Home ]
-    };
-    key <RGHT> {
-        type[Group1]="PC_SUPER_LEVEL2",
-        symbols[Group1] = [ Right, End ]
-    };
-
-    // looses the upper case H
-    key <LatH> {
-        type[Group1]="PC_SUPER_LEVEL2",
-        symbols[Group1] = [ h, Home ]
-    };
-    // key <CAPS> {
-    //     repeat=no,
-    //     type[group1]="ALPHABETIC",
-    //     symbols[group1]=[ Caps_Lock, Caps_Lock ],
-    //     actions[group1]=[ LockMods(modifiers=Lock), Private(type=3,data[0]=1,data[1]=3,data[2]=3) ]
-    // };
-
-    include "xy(caps_lock_unlock_patch)"
-};
-
-partial xkb_symbols "caps_lock_unlock_patch" {  
-    key <CAPS> {
-        repeat=no,
-        type[group1]="ALPHABETIC",
-        symbols[group1]=[ Caps_Lock, Caps_Lock ],
-        actions[group1]=[ LockMods(modifiers=Lock), Private(type=3,data[0]=1,data[1]=3,data[2]=3) ]
-    };
-};
-
-partial xkb_symbols "caps_wayland" {
-  
-    key <CAPS> {
-        type[Group1] = "THREE_LEVEL",
-        symbols[Group1] = [ Shift_L, Shift_L, Shift_L ], // also possible with VoidSymbol or NoSymbol or Shift_L (for RStudio)
-        actions[Group1] = [ SetGroup(group=2), LockGroup(group=2), LockGroup(group=2) ] // lockgroup not working 
-    };
-    key <CAPS> {
-        type[Group1] = "THREE_LEVEL",
-        symbols[Group2] = [ Shift_L, Shift_L, Shift_L ], // also possible with VoidSymbol or NoSymbol or Shift_L (for RStudio)
-        actions[Group2] = [ SetGroup(group=1), SetGroup(group=1), LockGroup(group=1) ] // lockgroup not working 
-    };
-   
-    // test 
-    //key <SPCE>  { symbols[Group1] = [          a,        b,        c,         d   ]   };
-
-    //key <SPCE>  { symbols[Group2] = [          Up,        Down,        c,         d   ]   };
-
-    key <LatH> { symbols[Group2] = [ VoidSymbol ], actions[Group2]=[ RedirectKey( key=<LEFT> )] };
-    key <LatJ> { symbols[Group2] = [ VoidSymbol ], actions[Group2]=[ RedirectKey( key=<DOWN> )] };
-    key <LatK> { symbols[Group2] = [ VoidSymbol ], actions[Group2]=[ RedirectKey( key=<UP>   )] };
-    key <LatL> { symbols[Group2] = [ VoidSymbol ], actions[Group2]=[ RedirectKey( key=<RGHT> )] };
-
-    // Navi/Window Section
-    key <LatQ> { symbols[Group2] = [ Escape  ], actions[Group2]=[ RedirectKey(key=<ESC>, modifiers=none)] };
-    key <LatM> { symbols[Group2] = [ Super_R ], actions[Group2]=[ RedirectKey(key=<LWIN>)] }; // necessary to RedirectKey fsr
-
-    key <AB09> { symbols[Group2] = [ Menu ] };
-    key <LatN> { symbols[Group2] = [ VoidSymbol ], actions[Group2]=[ LatchMods(modifiers=Control)] };
-
-    // Editing Section
-    key <LatZ> { symbols[Group2] = [ VoidSymbol ], actions[Group2]=[ RedirectKey(key=<LatZ>, modifiers=Control)] };
-    key <LatY> { symbols[Group2] = [ VoidSymbol ], actions[Group2]=[ RedirectKey(key=<LatY>, modifiers=Control)] };
-    key <LatX> { symbols[Group2] = [ VoidSymbol ], actions[Group2]=[ RedirectKey(key=<LatX>, modifiers=Control)] };
-    key <LatC> { symbols[Group2] = [ VoidSymbol ], actions[Group2]=[ RedirectKey(key=<LatC>, modifiers=Control)] };
-    key <LatV> { symbols[Group2] = [ VoidSymbol ], actions[Group2]=[ RedirectKey(key=<LatV>, modifiers=Control)] };
-    
-    key <LatD> { symbols[Group2] = [ Delete ] }; 
-
-    key <LatE> { symbols[Group2] = [ Return ] };
-    key <LatU> { symbols[Group2] = [ Home ] };
-    key <LatI> { symbols[Group2] = [ End ] };
-    key <LatP> { symbols[Group2] = [ Prior ] };
-    key <AC10> { symbols[Group2] = [ Next ] };
-
-    key <LatW> { symbols[Group2] = [ VoidSymbol ], actions[Group2]=[ RedirectKey(key=<RGHT>, modifiers=Control)] };
-    key <LatB> { symbols[Group2] = [ VoidSymbol ], actions[Group2]=[ RedirectKey(key=<LEFT>, modifiers=Control)] };
-
-};
 
 partial xkb_symbols "caps_overlay_base" {
 
@@ -236,7 +101,7 @@ partial xkb_symbols "caps_overlay_base" {
         actions[Group1] = [ SetControls(controls=Overlay1+MouseKeys), SetControls(controls=Overlay1), LockControls(controls=Overlay1+MouseKeys) ] // Mousekeys
     };
 
-    key.repeat = False; // does nothing
+    // key.repeat = False; // does nothing
     key <LatH> { Overlay1 = <LEFT> };
     key <LatJ> { Overlay1 = <DOWN> };
     key <LatK> { Overlay1 = <UP>   };
@@ -247,7 +112,7 @@ partial xkb_symbols "caps_overlay_base" {
     key <DOWN> { [  Down,   Down,   Down  ], actions[Group1] = [ NoAction(), NoAction(), MovePtr(x= +0,  y= +5) ] };
     key <RGHT> { [  Right,  Right,  Right ], actions[Group1] = [ NoAction(), NoAction(), MovePtr(x= +5,  y= +0) ] };
 
-    key.repeat = False; // does nothing
+    // key.repeat = False; // does nothing
     key <LatF> { Overlay1 = <KP1> };
     key   <KP1> { [  VoidSymbol, VoidSymbol, VoidSymbol ], actions[Group1] = [ LockPointerButton(button=1), LockPointerButton(button=1), LockPointerButton(button=1) ] };
 
@@ -302,10 +167,75 @@ partial xkb_symbols "caps_overlay_base" {
 };
 
 
-partial xkb_symbols "control_latch" {
-    key <LCTL> { [ VoidSymbol ], actions[Group1]=[ LatchMods(modifiers=Control)] }; 
 
+partial xkb_symbols "wayland" {
+    // meta info
+    name[Group1]= "German Vim-Like (Wayland)";
+    // basic and alt layouts
+    include "xy(basic)"
+    
+    // includes built in
+    include "shift(both_capslock_cancel)"
+
+    // includes custom
+    include "xy(caps_wayland)"
+    include "xy(switch)"
 };
+
+
+partial xkb_symbols "caps_wayland" {
+
+    // CAPS as 5rd Level modifier
+    include "level5(lock)"
+    key <CAPS> {[  ISO_Level5_Shift, ISO_Level5_Shift, ISO_Level5_Shift, ISO_Level5_Shift,
+                   ISO_Level5_Lock,  ISO_Level5_Lock,  ISO_Level5_Lock,  ISO_Level5_Lock  ],
+                   type[group1] = "EIGHT_LEVEL_WITH_LEVEL5_LOCK" };
+
+
+
+    key.type[Group1] = "EIGHT_LEVEL";
+
+    key <LatQ> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Escape,         Escape          ] }; // Q
+    key <LatE> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Return,         Return          ] }; // E
+    key <LatH> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Left,           Left            ] }; // H
+    key <LatJ> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Down,           Down            ] }; // J
+    key <LatK> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Up,             Up              ] }; // K
+    key <LatL> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Right,          Right           ] }; // L
+    key <LatB> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      BackSpace,      BackSpace       ] }; // L
+
+    
+
+    key <AB05> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      BackSpace,      BackSpace       ] }; // b
+    key <AB07> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Super_L,        Super_L         ] }; // M
+    key <AB09> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Menu,           Menu            ] }; // . period
+    
+    key <AD07> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Home,           Home            ] }; // U
+    key <AD08> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      End,            End             ] }; // I
+    key <AD10> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Page_Up,        Prior           ] }; // P
+    key <AC03> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Delete,         Delete          ] }; // Q
+    key <AC10> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Page_Down,      Page_Down       ] }; // D
+
+    //key <LatD> { [ a, b, c, d], actions[Group1] = [ RedirectKey(key=<RGHT>)] };
+};
+
+partial modifier_keys xkb_symbols "switch" {
+	key <AC10> { [ Control_R, odiaeresis, VoidSymbol, VoidSymbol, Page_Down,      Page_Down    ]  };
+    key <AC11> { type[Group1] = "ONE_LEVEL", symbols[Group1] = [ dead_diaeresis ]};
+    modifier_map Control { <AC10>  };
+
+    include "ctrl(menu_rctrl)"
+};
+
+
+
+    
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 partial xkb_symbols "alt_layout" {
     key <CAPS> {
         vmods = Capslock,
@@ -328,7 +258,7 @@ partial xkb_symbols "alt_layout" {
     };
 
 };
-                 
+
 partial xkb_symbols "alt_3rd_level_void" {
     // RALT as 3rd Level modifier
     key <RALT> {
@@ -351,7 +281,7 @@ partial xkb_symbols "caps_5th_level_lock" {
         actions[Group1] = [ SetMods(modifiers=levelFive+NumLock, clearLocks), SetMods(modifiers=levelFive+NumLock, clearLocks), SetMods(modifiers=levelFive+NumLock, clearLocks) ]
     };
     modifier_map Mod2 { <CAPS> };
-};
+}; 
 
 partial xkb_symbols "swap_menu_rctrl" {
     key <MENU> {
