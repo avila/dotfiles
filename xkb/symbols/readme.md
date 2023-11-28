@@ -45,6 +45,12 @@ from the keyboard settings in the settings manager
            <description>XY (German - Caps Overlay)</description>
           </configItem>
         </variant>
+        <variant>
+          <configItem>
+            <name>Wayland</name>
+           <description>XY (German - Wayland)</description>
+          </configItem>
+        </variant>
       </variantList>
     </layout>
     <!-- End of Custom German Layouts -->

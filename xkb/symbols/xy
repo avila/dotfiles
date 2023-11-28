@@ -2,6 +2,8 @@ default partial xkb_symbols "basic" {
     include "de(basic)"
 
     name[Group1]= "German XY Vim-Like (Basic)";
+    key.type[Group1] = "EIGHT_LEVEL_WITH_LEVEL5_LOCK";
+
 
     // number      1st -- -- -- -- -- 2nd -- -- -- -- -- 3rd -- -- -- -- -- 4th -- -- -- -- --
     key <TLDE> { [ dead_circumflex,   dead_caron,        asciicircum,       notsign            ] };
@@ -11,8 +13,8 @@ default partial xkb_symbols "basic" {
 
 
     // qwert      1st -- -- -- -- -- 2nd -- -- -- -- -- 3rd -- -- -- -- -- 4th -- -- -- -- --
-    key  <TAB> {    type = "THREE_LEVEL",
-                            symbols[Group1] = [        Tab,     ISO_Left_Tab,   Tab  ],
+    key  <TAB> {    type = "EIGHT_LEVEL_WITH_LEVEL5_LOCK",
+                            symbols[Group1] = [        Tab,     ISO_Left_Tab,        Tab,     ISO_Left_Tab,        Tab,     ISO_Left_Tab,        Tab,     ISO_Left_Tab  ],
                             actions[Group1] = [ NoAction(),       NoAction(),   RedirectKey(keycode=<TAB>, modifiers=Mod1, clearmods=LevelThree)  ]
     };
 
@@ -65,6 +67,65 @@ default partial xkb_symbols "basic" {
     key <AB07> { [ m,                 M,                 dead_greek,        dead_greek         ] };
 
 };
+
+partial xkb_symbols "wayland" {
+    // meta info
+    name[Group1]= "German Vim-Like (Wayland)";
+    // basic and alt layouts
+    include "xy(basic)"
+    
+    // includes built in
+    include "shift(both_capslock_cancel)"
+
+    // includes custom
+    include "xy(caps_wayland)"
+    include "xy(switch)"
+
+    include "ctrl(menu_rctrl)" // test
+};
+
+partial xkb_symbols "caps_wayland" {
+
+    // CAPS as 5rd Level modifier
+    include "level5(lock)"
+    key <CAPS> {[  ISO_Level5_Shift, ISO_Level5_Shift, ISO_Level5_Lock,  ISO_Level5_Shift,
+                   ISO_Level5_Lock, ISO_Level5_Lock, ISO_Level5_Shift, ISO_Level5_Lock ],
+                   type[group1] = "EIGHT_LEVEL_WITH_LEVEL5_LOCK" };
+
+    key.type[Group1] = "EIGHT_LEVEL";
+
+    key <LatQ> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Escape,         Escape          ] }; // Q
+    key <LatE> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Return,         Return          ] }; // E
+    key <LatH> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Left,           Left            ] }; // H
+    key <LatJ> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Down,           Down            ] }; // J
+    key <LatK> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Up,             Up              ] }; // K
+    key <LatL> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Right,          Right           ] }; // L
+
+    
+    key <LatB> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      BackSpace,      BackSpace       ] }; // b
+    key <LatN> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Control_L,        Control_L     ] }; // N
+    key <AB07> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Super_L,        Super_L         ] }; // M
+    key <AB09> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Menu,           Menu            ] }; // . period
+    
+    key <AD07> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Home,           Home            ] }; // U
+    key <AD08> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      End,            End             ] }; // I
+    key <AD10> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Page_Up,        Prior           ] }; // P
+    key <AC03> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Delete,         Delete          ] }; // Q
+    key <AC10> { [ dead_diaeresis, dead_diaeresis, NoSymbol, NoSymbol, Page_Down, Page_Down     ] }; // Odiaresis
+
+    //key <LatD> { [ a, b, c, d], actions[Group1] = [ RedirectKey(key=<RGHT>)] };
+};
+
+partial modifier_keys xkb_symbols "switch" {
+	// replace key <AC10> {
+    //     symbols[Group1] = [ Control_R, VoidSymbol, VoidSymbol, VoidSymbol, Page_Down,      Page_Down    ], 
+    //     type[group1] = "EIGHT_LEVEL_WITH_LEVEL5_LOCK" };
+
+    replace key <AC11> { type[Group1] = "FOUR_LEVEL", symbols[Group1] = [ Control_L, Control_R, Control_L, Control_R ]};
+    modifier_map Control    { <AC11>,  Control_L, Control_R   }; 
+    modifier_map Mod1       { Alt_L     };
+};
+
 
 partial xkb_symbols "caps_overlay" {
     // meta info
@@ -166,65 +227,6 @@ partial xkb_symbols "caps_overlay_base" {
 
 };
 
-
-
-partial xkb_symbols "wayland" {
-    // meta info
-    name[Group1]= "German Vim-Like (Wayland)";
-    // basic and alt layouts
-    include "xy(basic)"
-    
-    // includes built in
-    include "shift(both_capslock_cancel)"
-
-    // includes custom
-    include "xy(caps_wayland)"
-    include "xy(switch)"
-};
-
-
-partial xkb_symbols "caps_wayland" {
-
-    // CAPS as 5rd Level modifier
-    include "level5(lock)"
-    key <CAPS> {[  ISO_Level5_Shift, ISO_Level5_Shift, ISO_Level5_Shift, ISO_Level5_Shift,
-                   ISO_Level5_Lock,  ISO_Level5_Lock,  ISO_Level5_Lock,  ISO_Level5_Lock  ],
-                   type[group1] = "EIGHT_LEVEL_WITH_LEVEL5_LOCK" };
-
-
-
-    key.type[Group1] = "EIGHT_LEVEL";
-
-    key <LatQ> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Escape,         Escape          ] }; // Q
-    key <LatE> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Return,         Return          ] }; // E
-    key <LatH> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Left,           Left            ] }; // H
-    key <LatJ> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Down,           Down            ] }; // J
-    key <LatK> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Up,             Up              ] }; // K
-    key <LatL> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Right,          Right           ] }; // L
-    key <LatB> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      BackSpace,      BackSpace       ] }; // L
-
-    
-
-    key <AB05> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      BackSpace,      BackSpace       ] }; // b
-    key <AB07> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Super_L,        Super_L         ] }; // M
-    key <AB09> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Menu,           Menu            ] }; // . period
-    
-    key <AD07> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Home,           Home            ] }; // U
-    key <AD08> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      End,            End             ] }; // I
-    key <AD10> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Page_Up,        Prior           ] }; // P
-    key <AC03> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Delete,         Delete          ] }; // Q
-    key <AC10> { [ NoSymbol, NoSymbol, NoSymbol, NoSymbol,      Page_Down,      Page_Down       ] }; // D
-
-    //key <LatD> { [ a, b, c, d], actions[Group1] = [ RedirectKey(key=<RGHT>)] };
-};
-
-partial modifier_keys xkb_symbols "switch" {
-	key <AC10> { [ Control_R, odiaeresis, VoidSymbol, VoidSymbol, Page_Down,      Page_Down    ]  };
-    key <AC11> { type[Group1] = "ONE_LEVEL", symbols[Group1] = [ dead_diaeresis ]};
-    modifier_map Control { <AC10>  };
-
-    include "ctrl(menu_rctrl)"
-};
 
 
 
