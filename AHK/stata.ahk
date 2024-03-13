@@ -23,6 +23,7 @@
 Return
 
 !+r::
+^+Enter::
     ; run == quietly do
     global call_type := "run"
     Content := Clip() ; will store any selected text in %Var%
@@ -150,7 +151,7 @@ stata_call(Command) {
 #IfWinActive
 ; --- Stata Editor --------------------------------------------------------------------
 
-#IfWinActive, ^Do-file Editor
+#IfWinActive, Do-file Editor
     ; define some sane shortcuts for statas editor
     ^w::SendInput, !f{Sleep 33}c
     ^PgUp::SendInput, ^+{TAB}
@@ -161,7 +162,7 @@ stata_call(Command) {
 #IfWinActive
 
 ; --- Stata Browse --------------------------------------------------------------------
-#IfWinActive, ^Data Editor (Browse)*
+#IfWinActive, Data Editor (Browse)*
     LShift & WheelUp::SendInput, +{Left 3}
     LShift & WheelDown::SendInput, +{Right 3}
     

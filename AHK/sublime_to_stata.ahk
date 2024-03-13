@@ -44,6 +44,7 @@ global win10 := % substr(a_osversion, 1, 2) = 10 ; defines a global (1 if win10,
 Return
 
 !+r::
+^+Enter::
     ; run == quietly do
     global call_type := "run"
     Content := Clip() ; will store any selected text in %Var%

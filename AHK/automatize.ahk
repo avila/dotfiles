@@ -40,4 +40,29 @@
 
 #IfWinActive
 
-Numpad8::SendInput, fre psample if inrange(^v{Backspace}, 0, 999)
+#IfWinActive ahk_exe sublime_text.exe
+    Numpad1::
+        SendInput, ^d
+        SendInput, ^c
+        if WinExist("ahk_id" . UniqueStataID) {
+            WinActivate,
+            ;MsgBox, , Title, %Command%, 
+            Sleep, 99
+            SendInput, {CtrlDown}{Sleep, 22}{a}{Sleep, 22}{CtrlUp}{CtrlUp}
+            SendInput, desc {Space}
+            Sleep, 99
+            SendInput, ^v
+            Sleep, 99
+            SendInput, {Up}{End}{Delete}{Space}{Up}{End}{Delete}{Space}{Up}{End}{Delete}{Space}{Up}{End}{Delete}{Space}{Up}{End}{Delete}{Space}{Up}{End}{Delete}{Space}{Up}{End}{Delete}{Space}{Up}{End}{Delete}{Space}{Up}{End}{Delete}{Space}{Enter}
+            Sleep, 99
+            ;WinActivate, ahk_exe sublime_text.exe
+            ;SendInput, {Ctrl Up}
+            WinActivate, ahk_exe sublime_text.exe
+        }
+        else {
+            MsgBox, , StataSend, Failed to find Stata's ID`, try again !, 3
+        }
+    Return
+
+
+#IfWinActive

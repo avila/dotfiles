@@ -54,6 +54,7 @@ tooltip_vim() {
     *n::SendInput, {Ctrl Down}
     ~*n UP::SendInput, {Ctrl Up} 
 #If
+~*n UP::SendInput, {Ctrl Up} 
 
 #if VimMode
     ; ways of exiting vim mode

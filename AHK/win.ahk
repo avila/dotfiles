@@ -127,15 +127,6 @@ return
 ~RButton & WheelUp::SendInput, !{Left}
 ~RButton & WheelDown::SendInput, !{Right}
 
-/*$WheelDown::
-SendInput, {WheelUp}
-Return
-
-$WheelUp::
-SendInput, {WheelDown}
-Return
-*/
-
 ; Window management --------------------------------------------------------------------
 
 ; close with Alt+q
@@ -147,6 +138,14 @@ Return
 Lwin & LButton::
     CoordMode, Mouse  ; Switch to screen/absolute coordinates.
     MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
+    
+    ; abord if the target "window" is the deskop
+    WinGetClass Class, ahk_id %EWD_MouseWin%
+    if Class = WorkerW
+    {
+        Return
+    }
+
     WinGetPos, EWD_OriginalPosX, EWD_OriginalPosY,,, ahk_id %EWD_MouseWin%
     WinGet, EWD_WinState, MinMax, ahk_id %EWD_MouseWin%
     if EWD_WinState != 0  ; If Window maximized, restore first 
@@ -161,17 +160,6 @@ EWD_WatchMouse:
         SetTimer, EWD_WatchMouse, off
         Return
     }
-    
-    GetKeyState, EWD_EscapeState, Escape, P
-    if EWD_EscapeState = D  ; Escape has been pressed, so drag is cancelled.
-    {
-        SetTimer, EWD_WatchMouse, off
-        WinMove, ahk_id %EWD_MouseWin%,, %EWD_OriginalPosX%, %EWD_OriginalPosY%
-        Return
-    }
-    
-    ; Otherwise, reposition the window to match the change in mouse coordinates
-    ; caused by the user having dragged the mouse:
     CoordMode, Mouse
     MouseGetPos, EWD_MouseX, EWD_MouseY
     WinGetPos, EWD_WinX, EWD_WinY,,, ahk_id %EWD_MouseWin%
@@ -179,6 +167,16 @@ EWD_WatchMouse:
     WinMove, ahk_id %EWD_MouseWin%,, EWD_WinX + EWD_MouseX - EWD_MouseStartX, EWD_WinY + EWD_MouseY - EWD_MouseStartY
     EWD_MouseStartX := EWD_MouseX  ; Update for the next timer-call to this subroutine.
     EWD_MouseStartY := EWD_MouseY
+
+    if EWD_MouseY <= 5 ; EWD_MouseY
+    {   
+        WinMove, ahk_id %EWD_MouseWin%,, EWD_WinX + EWD_MouseX - EWD_MouseStartX, 0
+        WinMaximize, ahk_id %EWD_MouseWin%
+
+        SetTimer, EWD_WatchMouse, off
+
+        Return
+    }
 Return
 
 ; --- Move window with Lwin and RButton ---
@@ -187,7 +185,13 @@ Lwin & RButton::
     MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
     WinGetPos, EWD_OriginalPosX, EWD_OriginalPosY,,, ahk_id %EWD_MouseWin%
     WinGet, EWD_WinState, MinMax, ahk_id %EWD_MouseWin%
-
+    
+    ; abord if the target "window" is the deskop
+    WinGetClass Class, ahk_id %EWD_MouseWin%
+    if Class = WorkerW
+    {
+        Return
+    }
 
     If (EWD_MouseStartX < EWD_WinX + EWD_WinW / 2)
         EWD_WinLeft := 1
@@ -258,3 +262,4 @@ LWin & MButton::
     MouseGetPos,,,KDE_id
     WinClose,ahk_id %KDE_id%
 Return
+
