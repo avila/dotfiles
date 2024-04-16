@@ -144,9 +144,9 @@ partial xkb_symbols "caps_overlay" {
     // choose either caps_overlay or caps_5h_lock
     include "xy(caps_overlay_base)" // caps_overlay_base caps_wayland
 
-
+    //include "ctrl(menu_rctrl)" // test
     // Group 2 (greek)
-    //include "xy(xy_greek_lvl2)"
+    include "xy(xy_greek_lvl2)"
     //include "xy(control_latch)"
     //include "xy(alt_layout)"
 };
@@ -198,9 +198,10 @@ partial xkb_symbols "caps_overlay_base" {
     key <LatU> { Overlay1 = <HOME> };
      key <HOME> { [Home, Home], actions[Group1] = [ NoAction(), NoAction(), PointerButton(button=1)] };
     key <LatI> { Overlay1 = <END>  };
-     key <END> { [End, End],    actions[Group1] = [ NoAction(), NoAction(), PointerButton(button=3)] };
-    key <LatO> { type="TWO_LEVEL", Overlay1 = <PGDN> };
+    key <END>  { [End, End],    actions[Group1] = [ NoAction(), NoAction(), PointerButton(button=3)] };
+    
     key <LatP> { type="TWO_LEVEL", Overlay1 = <PGUP> };
+    key <AC10> { type="TWO_LEVEL", Overlay1 = <PGDN> };
 
     //key <LatP> { Overlay1 = <PGUP> };
     //key <AC10> { Overlay1 = <PGDN> };
@@ -311,8 +312,9 @@ partial xkb_symbols "swap_menu_rctrl_print" {
 partial xkb_symbols "xy_greek_lvl2" {
 
     key <RTSH> { // Use right shift (after pressing left shift) while pressed
-            symbols[Group1] = [ NoSymbol, NoSymbol ],
-            actions[Group1] = [ LatchGroup(group=3), SetMods(modifiers=Shift,clearLocks) ]
+        type="THREE_LEVEL",
+            symbols[Group1] = [ Shift_R, Shift_R, NoSymbol ],
+            actions[Group1] = [ SetMods(modifiers=Shift), LatchGroup(group=3), LatchGroup(group=3) ]
     };
 
     // test
