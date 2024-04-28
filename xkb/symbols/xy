@@ -135,8 +135,6 @@ partial xkb_symbols "caps_overlay" {
     include "xy(basic)"
     
     // includes built in
-    //include "level5(modifier_mapping)" // 2023: giving error
-    //include "level3(modifier_mapping)" // 2023: giving error
     include "shift(both_capslock_cancel)"
 
     // includes custom
@@ -144,11 +142,8 @@ partial xkb_symbols "caps_overlay" {
     // choose either caps_overlay or caps_5h_lock
     include "xy(caps_overlay_base)" // caps_overlay_base caps_wayland
 
-    //include "ctrl(menu_rctrl)" // test
     // Group 2 (greek)
     include "xy(xy_greek_lvl2)"
-    //include "xy(control_latch)"
-    //include "xy(alt_layout)"
 };
 
 
