@@ -180,7 +180,12 @@ partial xkb_symbols "caps_overlay_base" {
       //key <ESC> { [Escape], actions[Group1]=[SetControls(controls=Overlay1)]};
     key <LatM> { Overlay1 = <LWIN> };
     
-    //key <AB08> { Overlay1 = <LWIN> };
+    key <LatN> { Overlay1 = <FK15> }; // N as Latching Ctrl!
+       key <FK15> { [ VoidSymbol ], actions[Group1]=[ LatchMods(modifiers=Control)] };
+
+    key <AB08> { Overlay1 = <FK18> }; 
+       key <FK18> { [ VoidSymbol ], actions[Group1]=[ LatchMods(modifiers=Mod1)] };
+
     key <AB09> { Overlay1 = <MENU> };
 
     key <LatZ> { Overlay1 = <UNDO> }; key <UNDO> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatZ>, modifiers=Control)] };
@@ -202,9 +207,6 @@ partial xkb_symbols "caps_overlay_base" {
     //key <AC10> { Overlay1 = <PGDN> };
 
     key <FK12> { Overlay1 = <FK21> }; // XF86TouchpadToggle
-
-    key <LatN> { Overlay1 = <FK15> }; // N as Latching Ctrl!
-       key <FK15> { [ VoidSymbol ], actions[Group1]=[ LatchMods(modifiers=Control)] };
 
     key <LatR> { Overlay1 = <FK16> };
         key <FK16> { [ VoidSymbol ], actions[Group1]=[ RedirectKey(key=<LatD>, modifiers=Control)] };
