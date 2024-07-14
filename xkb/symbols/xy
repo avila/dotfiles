@@ -257,7 +257,7 @@ partial xkb_symbols "alt_3rd_level_void" {
     // RALT as 3rd Level modifier
     key <RALT> {
         type[Group1] ="TWO_LEVEL",
-        symbols[Group1] = [ VoidSymbol, VoidSymbol ],
+        symbols[Group1] = [ NoSymbol, NoSymbol ],
         actions[Group1] = [ SetMods(modifiers=levelThree), SetMods(modifiers=levelThree) ]
     };
     modifier_map Mod3 { <RALT> };
