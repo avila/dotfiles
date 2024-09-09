@@ -1,7 +1,7 @@
 default partial xkb_symbols "basic" {
     include "de(basic)"
 
-    name[Group1]= "German XY Vim-Like (Basic)";
+    name[Group1]= "German XY Vim-Like (Basic 1)";
     key.type[Group1] = "EIGHT_LEVEL_WITH_LEVEL5_LOCK";
 
 
